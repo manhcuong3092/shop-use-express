@@ -1,0 +1,197 @@
+extends ./common/layout
+block content
+  // Header Section Begin
+  header.header-section
+    .header-top
+      .container
+        .ht-left
+          .mail-service
+            i.fa.fa-envelope
+            |                         hello.colorlib@gmail.com
+          .phone-service
+            i.fa.fa-phone
+            |                         +65 11.188.888
+        .ht-right
+          a.login-panel(href='#')
+            i.fa.fa-user
+            | Login
+          .lan-selector
+            select#countries.language_drop(name='countries' style='width:300px;')
+              option(value='yt' data-image='img/flag.jpg' data-imagecss='flag yt' data-title='English') English
+              option(value='yu' data-image='img/flag.jpg' data-imagecss='flag yu' data-title='Bangladesh') Bangla
+              option(value='yt' data-image='img/flag.jpg' data-imagecss='flag yt' data-title='English') English
+              option(value='yu' data-image='img/flag.jpg' data-imagecss='flag yu' data-title='Bangladesh') Bangla
+          .top-social
+            a(href='#')
+              i.ti-facebook
+            a(href='#')
+              i.ti-twitter-alt
+            a(href='#')
+              i.ti-linkedin
+            a(href='#')
+              i.ti-pinterest
+    .container
+      .inner-header
+        .row
+          .col-lg-2.col-md-2
+            .logo
+              a(href='./index.html')
+                img(src='img/logo.png' alt='')
+          .col-lg-7.col-md-7
+            .advanced-search
+              button.category-btn(type='button') All Categories
+              form.input-group(action='#')
+                input(type='text' placeholder='What do you need?')
+                button(type='button')
+                  i.ti-search
+          .col-lg-3.text-right.col-md-3
+            ul.nav-right
+              li.heart-icon
+                a(href='#')
+                  i.icon_heart_alt
+                  span 1
+              li.cart-icon
+                a(href='#')
+                  i.icon_bag_alt
+                  span 3
+                .cart-hover
+                  .select-items
+                    table
+                      tbody
+                        tr
+                          td.si-pic
+                            img(src='img/select-product-1.jpg' alt='')
+                          td.si-text
+                            .product-selected
+                              p $60.00 x 1
+                              h6 Kabino Bedside Table
+                          td.si-close
+                            i.ti-close
+                        tr
+                          td.si-pic
+                            img(src='img/select-product-2.jpg' alt='')
+                          td.si-text
+                            .product-selected
+                              p $60.00 x 1
+                              h6 Kabino Bedside Table
+                          td.si-close
+                            i.ti-close
+                  .select-total
+                    span total:
+                    h5 $120.00
+                  .select-button
+                    a.primary-btn.view-card(href='#') VIEW CARD
+                    a.primary-btn.checkout-btn(href='#') CHECK OUT
+              li.cart-price $150.00
+    .nav-item
+      .container
+        .nav-depart
+          .depart-btn
+            i.ti-menu
+            span All departments
+            ul.depart-hover
+              li.active
+                a(href='#') Women&rsquo;s Clothing
+              li
+                a(href='#') Men&rsquo;s Clothing
+              li
+                a(href='#') Underwear
+              li
+                a(href='#') Kid&apos;s Clothing
+              li
+                a(href='#') Brand Fashion
+              li
+                a(href='#') Accessories/Shoes
+              li
+                a(href='#') Luxury Brands
+              li
+                a(href='#') Brand Outdoor Apparel
+        nav.nav-menu.mobile-menu
+          ul
+            li
+              a(href='./index.html') Home
+            li
+              a(href='./shop.html') Shop
+            li
+              a(href='#') Collection
+              ul.dropdown
+                li
+                  a(href='#') Men&apos;s
+                li
+                  a(href='#') Women&apos;s
+                li
+                  a(href='#') Kid&apos;s
+            li
+              a(href='./blog.html') Blog
+            li
+              a(href='./contact.html') Contact
+            li
+              a(href='#') Pages
+              ul.dropdown
+                li
+                  a(href='./blog-details.html') Blog Details
+                li
+                  a(href='./shopping-cart.html') Shopping Cart
+                li
+                  a(href='./check-out.html') Checkout
+                li
+                  a(href='./faq.html') Faq
+                li
+                  a(href='./register.html') Register
+                li
+                  a(href='./login.html') Login
+        #mobile-menu-wrap
+  // Header End
+  // Breadcrumb Section Begin
+  .breacrumb-section
+    .container
+      .row
+        .col-lg-12
+          .breadcrumb-text
+            a(href='#')
+              i.fa.fa-home
+              |  Home
+            span FAQs
+  // Breadcrumb Section Begin
+  // Faq Section Begin
+  .faq-section.spad
+    .container
+      .row
+        .col-lg-12
+          .faq-accordin
+            #accordionExample.accordion
+              .card
+                .card-heading.active
+                  a.active(data-toggle='collapse' data-target='#collapseOne')
+                    | Is There Anything I Should Bring?
+                #collapseOne.collapse.show(data-parent='#accordionExample')
+                  .card-body
+                    p
+                      | Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+                      | tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+                      | quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+                      | consequat.
+              .card
+                .card-heading
+                  a(data-toggle='collapse' data-target='#collapseTwo')
+                    | Where Can I Find Market Research Reports?
+                #collapseTwo.collapse(data-parent='#accordionExample')
+                  .card-body
+                    p
+                      | Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+                      | tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+                      | quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+                      | consequat.
+              .card
+                .card-heading
+                  a(data-toggle='collapse' data-target='#collapseThree')
+                    | Where Can I Find The Wall Street Journal?
+                #collapseThree.collapse(data-parent='#accordionExample')
+                  .card-body
+                    p
+                      | Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+                      | tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+                      | quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+                      | consequat.
+  // Faq Section End
+  include ./common/footer

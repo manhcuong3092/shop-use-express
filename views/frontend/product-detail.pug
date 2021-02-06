@@ -1,0 +1,550 @@
+extends ./common/layout
+block content
+  // Header Section Begin
+  header.header-section
+    .header-top
+      .container
+        .ht-left
+          .mail-service
+            i.fa.fa-envelope
+            |                         hello.colorlib@gmail.com
+          .phone-service
+            i.fa.fa-phone
+            |                         +65 11.188.888
+        .ht-right
+          a.login-panel(href='#')
+            i.fa.fa-user
+            | Login
+          .lan-selector
+            select#countries.language_drop(name='countries' style='width:300px;')
+              option(value='yt' data-image='img/flag-1.jpg' data-imagecss='flag yt' data-title='English') English
+              option(value='yu' data-image='img/flag-2.jpg' data-imagecss='flag yu' data-title='Bangladesh') German 
+          .top-social
+            a(href='#')
+              i.ti-facebook
+            a(href='#')
+              i.ti-twitter-alt
+            a(href='#')
+              i.ti-linkedin
+            a(href='#')
+              i.ti-pinterest
+    .container
+      .inner-header
+        .row
+          .col-lg-2.col-md-2
+            .logo
+              a(href='./index.html')
+                img(src='img/logo.png' alt='')
+          .col-lg-7.col-md-7
+            .advanced-search
+              button.category-btn(type='button') All Categories
+              form.input-group(action='#')
+                input(type='text' placeholder='What do you need?')
+                button(type='button')
+                  i.ti-search
+          .col-lg-3.text-right.col-md-3
+            ul.nav-right
+              li.heart-icon
+                a(href='#')
+                  i.icon_heart_alt
+                  span 1
+              li.cart-icon
+                a(href='#')
+                  i.icon_bag_alt
+                  span 3
+                .cart-hover
+                  .select-items
+                    table
+                      tbody
+                        tr
+                          td.si-pic
+                            img(src='img/select-product-1.jpg' alt='')
+                          td.si-text
+                            .product-selected
+                              p $60.00 x 1
+                              h6 Kabino Bedside Table
+                          td.si-close
+                            i.ti-close
+                        tr
+                          td.si-pic
+                            img(src='img/select-product-2.jpg' alt='')
+                          td.si-text
+                            .product-selected
+                              p $60.00 x 1
+                              h6 Kabino Bedside Table
+                          td.si-close
+                            i.ti-close
+                  .select-total
+                    span total:
+                    h5 $120.00
+                  .select-button
+                    a.primary-btn.view-card(href='#') VIEW CARD
+                    a.primary-btn.checkout-btn(href='#') CHECK OUT
+              li.cart-price $150.00
+    .nav-item
+      .container
+        .nav-depart
+          .depart-btn
+            i.ti-menu
+            span All departments
+            ul.depart-hover
+              li.active
+                a(href='#') Women&rsquo;s Clothing
+              li
+                a(href='#') Men&rsquo;s Clothing
+              li
+                a(href='#') Underwear
+              li
+                a(href='#') Kid&apos;s Clothing
+              li
+                a(href='#') Brand Fashion
+              li
+                a(href='#') Accessories/Shoes
+              li
+                a(href='#') Luxury Brands
+              li
+                a(href='#') Brand Outdoor Apparel
+        nav.nav-menu.mobile-menu
+          ul
+            li
+              a(href='./index.html') Home
+            li
+              a(href='./shop.html') Shop
+            li
+              a(href='#') Collection
+              ul.dropdown
+                li
+                  a(href='#') Men&apos;s
+                li
+                  a(href='#') Women&apos;s
+                li
+                  a(href='#') Kid&apos;s
+            li
+              a(href='./blog.html') Blog
+            li
+              a(href='./contact.html') Contact
+            li
+              a(href='#') Pages
+              ul.dropdown
+                li
+                  a(href='./blog-details.html') Blog Details
+                li
+                  a(href='./shopping-cart.html') Shopping Cart
+                li
+                  a(href='./check-out.html') Checkout
+                li
+                  a(href='./faq.html') Faq
+                li
+                  a(href='./register.html') Register
+                li
+                  a(href='./login.html') Login
+        #mobile-menu-wrap
+  // Header End
+  // Breadcrumb Section Begin
+  .breacrumb-section
+    .container
+      .row
+        .col-lg-12
+          .breadcrumb-text.product-more
+            a(href='./home.html')
+              i.fa.fa-home
+              |  Home
+            a(href='./shop.html') Shop
+            span Detail
+  // Breadcrumb Section Begin
+  // Product Shop Section Begin
+  section.product-shop.spad.page-details
+    .container
+      .row
+        .col-lg-3
+          .filter-widget
+            h4.fw-title Categories
+            ul.filter-catagories
+              li
+                a(href='#') Men
+              li
+                a(href='#') Women
+              li
+                a(href='#') Kids
+          .filter-widget
+            h4.fw-title Brand
+            .fw-brand-check
+              .bc-item
+                label(for='bc-calvin')
+                  | Calvin Klein
+                  input#bc-calvin(type='checkbox')
+                  span.checkmark
+              .bc-item
+                label(for='bc-diesel')
+                  | Diesel
+                  input#bc-diesel(type='checkbox')
+                  span.checkmark
+              .bc-item
+                label(for='bc-polo')
+                  | Polo
+                  input#bc-polo(type='checkbox')
+                  span.checkmark
+              .bc-item
+                label(for='bc-tommy')
+                  | Tommy Hilfiger
+                  input#bc-tommy(type='checkbox')
+                  span.checkmark
+          .filter-widget
+            h4.fw-title Price
+            .filter-range-wrap
+              .range-slider
+                .price-input
+                  input#minamount(type='text')
+                  input#maxamount(type='text')
+              .price-range.ui-slider.ui-corner-all.ui-slider-horizontal.ui-widget.ui-widget-content(data-min='33' data-max='98')
+                .ui-slider-range.ui-corner-all.ui-widget-header
+                span.ui-slider-handle.ui-corner-all.ui-state-default(tabindex='0')
+                span.ui-slider-handle.ui-corner-all.ui-state-default(tabindex='0')
+            a.filter-btn(href='#') Filter
+          .filter-widget
+            h4.fw-title Color
+            .fw-color-choose
+              .cs-item
+                input#cs-black(type='radio')
+                label.cs-black(for='cs-black') Black
+              .cs-item
+                input#cs-violet(type='radio')
+                label.cs-violet(for='cs-violet') Violet
+              .cs-item
+                input#cs-blue(type='radio')
+                label.cs-blue(for='cs-blue') Blue
+              .cs-item
+                input#cs-yellow(type='radio')
+                label.cs-yellow(for='cs-yellow') Yellow
+              .cs-item
+                input#cs-red(type='radio')
+                label.cs-red(for='cs-red') Red
+              .cs-item
+                input#cs-green(type='radio')
+                label.cs-green(for='cs-green') Green
+          .filter-widget
+            h4.fw-title Size
+            .fw-size-choose
+              .sc-item
+                input#s-size(type='radio')
+                label(for='s-size') s
+              .sc-item
+                input#m-size(type='radio')
+                label(for='m-size') m
+              .sc-item
+                input#l-size(type='radio')
+                label(for='l-size') l
+              .sc-item
+                input#xs-size(type='radio')
+                label(for='xs-size') xs
+          .filter-widget
+            h4.fw-title Tags
+            .fw-tags
+              a(href='#') Towel
+              a(href='#') Shoes
+              a(href='#') Coat
+              a(href='#') Dresses
+              a(href='#') Trousers
+              a(href='#') Men&apos;s hats
+              a(href='#') Backpack
+        .col-lg-9
+          .row
+            .col-lg-6
+              .product-pic-zoom
+                img.product-big-img(src='img/product-single/product-1.jpg' alt='')
+                .zoom-icon
+                  i.fa.fa-search-plus
+              .product-thumbs
+                .product-thumbs-track.ps-slider.owl-carousel
+                  .pt.active(data-imgbigurl='img/product-single/product-1.jpg')
+                    img(src='img/product-single/product-1.jpg' alt='')
+                  .pt(data-imgbigurl='img/product-single/product-2.jpg')
+                    img(src='img/product-single/product-2.jpg' alt='')
+                  .pt(data-imgbigurl='img/product-single/product-3.jpg')
+                    img(src='img/product-single/product-3.jpg' alt='')
+                  .pt(data-imgbigurl='img/product-single/product-3.jpg')
+                    img(src='img/product-single/product-3.jpg' alt='')
+            .col-lg-6
+              .product-details
+                .pd-title
+                  span oranges
+                  h3 Pure Pineapple
+                  a.heart-icon(href='#')
+                    i.icon_heart_alt
+                .pd-rating
+                  i.fa.fa-star
+                  i.fa.fa-star
+                  i.fa.fa-star
+                  i.fa.fa-star
+                  i.fa.fa-star-o
+                  span (5)
+                .pd-desc
+                  p
+                    | Lorem ipsum dolor sit amet, consectetur ing elit, sed do eiusmod tempor sum dolor
+                    | sit amet, consectetur adipisicing elit, sed do mod tempor
+                  h4
+                    | $495.00 
+                    span 629.99
+                .pd-color
+                  h6 Color
+                  .pd-color-choose
+                    .cc-item
+                      input#cc-black(type='radio')
+                      label(for='cc-black')
+                    .cc-item
+                      input#cc-yellow(type='radio')
+                      label.cc-yellow(for='cc-yellow')
+                    .cc-item
+                      input#cc-violet(type='radio')
+                      label.cc-violet(for='cc-violet')
+                .pd-size-choose
+                  .sc-item
+                    input#sm-size(type='radio')
+                    label(for='sm-size') s
+                  .sc-item
+                    input#md-size(type='radio')
+                    label(for='md-size') m
+                  .sc-item
+                    input#lg-size(type='radio')
+                    label(for='lg-size') l
+                  .sc-item
+                    input#xl-size(type='radio')
+                    label(for='xl-size') xs
+                .quantity
+                  .pro-qty
+                    input(type='text' value='1')
+                  a.primary-btn.pd-cart(href='#') Add To Cart
+                ul.pd-tags
+                  li
+                    span CATEGORIES
+                    | : More Accessories, Wallets &amp; Cases
+                  li
+                    span TAGS
+                    | : Clothing, T-shirt, Woman
+                .pd-share
+                  .p-code Sku : 00012
+                  .pd-social
+                    a(href='#')
+                      i.ti-facebook
+                    a(href='#')
+                      i.ti-twitter-alt
+                    a(href='#')
+                      i.ti-linkedin
+          .product-tab
+            .tab-item
+              ul.nav(role='tablist')
+                li
+                  a.active(data-toggle='tab' href='#tab-1' role='tab') DESCRIPTION
+                li
+                  a(data-toggle='tab' href='#tab-2' role='tab') SPECIFICATIONS
+                li
+                  a(data-toggle='tab' href='#tab-3' role='tab') Customer Reviews (02)
+            .tab-item-content
+              .tab-content
+                #tab-1.tab-pane.fade-in.active(role='tabpanel')
+                  .product-content
+                    .row
+                      .col-lg-7
+                        h5 Introduction
+                        p
+                          | Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
+                          | eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
+                          | ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+                          | aliquip ex ea commodo consequat. Duis aute irure dolor in
+                        h5 Features
+                        p
+                          | Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
+                          | eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
+                          | ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+                          | aliquip ex ea commodo consequat. Duis aute irure dolor in
+                      .col-lg-5
+                        img(src='img/product-single/tab-desc.jpg' alt='')
+                #tab-2.tab-pane.fade(role='tabpanel')
+                  .specification-table
+                    table
+                      tr
+                        td.p-catagory Customer Rating
+                        td
+                          .pd-rating
+                            i.fa.fa-star
+                            i.fa.fa-star
+                            i.fa.fa-star
+                            i.fa.fa-star
+                            i.fa.fa-star-o
+                            span (5)
+                      tr
+                        td.p-catagory Price
+                        td
+                          .p-price $495.00
+                      tr
+                        td.p-catagory Add To Cart
+                        td
+                          .cart-add + add to cart
+                      tr
+                        td.p-catagory Availability
+                        td
+                          .p-stock 22 in stock
+                      tr
+                        td.p-catagory Weight
+                        td
+                          .p-weight 1,3kg
+                      tr
+                        td.p-catagory Size
+                        td
+                          .p-size Xxl
+                      tr
+                        td.p-catagory Color
+                        td
+                          span.cs-color
+                      tr
+                        td.p-catagory Sku
+                        td
+                          .p-code 00012
+                #tab-3.tab-pane.fade(role='tabpanel')
+                  .customer-review-option
+                    h4 2 Comments
+                    .comment-option
+                      .co-item
+                        .avatar-pic
+                          img(src='img/product-single/avatar-1.png' alt='')
+                        .avatar-text
+                          .at-rating
+                            i.fa.fa-star
+                            i.fa.fa-star
+                            i.fa.fa-star
+                            i.fa.fa-star
+                            i.fa.fa-star-o
+                          h5
+                            | Brandon Kelley 
+                            span 27 Aug 2019
+                          .at-reply Nice !
+                      .co-item
+                        .avatar-pic
+                          img(src='img/product-single/avatar-2.png' alt='')
+                        .avatar-text
+                          .at-rating
+                            i.fa.fa-star
+                            i.fa.fa-star
+                            i.fa.fa-star
+                            i.fa.fa-star
+                            i.fa.fa-star-o
+                          h5
+                            | Roy Banks 
+                            span 27 Aug 2019
+                          .at-reply Nice !
+                    .personal-rating
+                      h6 Your Ratind
+                      .rating
+                        i.fa.fa-star
+                        i.fa.fa-star
+                        i.fa.fa-star
+                        i.fa.fa-star
+                        i.fa.fa-star-o
+                    .leave-comment
+                      h4 Leave A Comment
+                      form.comment-form(action='#')
+                        .row
+                          .col-lg-6
+                            input(type='text' placeholder='Name')
+                          .col-lg-6
+                            input(type='text' placeholder='Email')
+                          .col-lg-12
+                            textarea(placeholder='Messages')
+                            button.site-btn(type='submit') Send message
+  // Product Shop Section End
+  // Related Products Section End
+  .related-products.spad
+    .container
+      .row
+        .col-lg-12
+          .section-title
+            h2 Related Products
+      .row
+        .col-lg-3.col-sm-6
+          .product-item
+            .pi-pic
+              img(src='img/products/women-1.jpg' alt='')
+              .sale Sale
+              .icon
+                i.icon_heart_alt
+              ul
+                li.w-icon.active
+                  a(href='#')
+                    i.icon_bag_alt
+                li.quick-view
+                  a(href='#') + Quick View
+                li.w-icon
+                  a(href='#')
+                    i.fa.fa-random
+            .pi-text
+              .catagory-name Coat
+              a(href='#')
+                h5 Pure Pineapple
+              .product-price
+                | $14.00
+                span $35.00
+        .col-lg-3.col-sm-6
+          .product-item
+            .pi-pic
+              img(src='img/products/women-2.jpg' alt='')
+              .icon
+                i.icon_heart_alt
+              ul
+                li.w-icon.active
+                  a(href='#')
+                    i.icon_bag_alt
+                li.quick-view
+                  a(href='#') + Quick View
+                li.w-icon
+                  a(href='#')
+                    i.fa.fa-random
+            .pi-text
+              .catagory-name Shoes
+              a(href='#')
+                h5 Guangzhou sweater
+              .product-price
+                | $13.00
+        .col-lg-3.col-sm-6
+          .product-item
+            .pi-pic
+              img(src='img/products/women-3.jpg' alt='')
+              .icon
+                i.icon_heart_alt
+              ul
+                li.w-icon.active
+                  a(href='#')
+                    i.icon_bag_alt
+                li.quick-view
+                  a(href='#') + Quick View
+                li.w-icon
+                  a(href='#')
+                    i.fa.fa-random
+            .pi-text
+              .catagory-name Towel
+              a(href='#')
+                h5 Pure Pineapple
+              .product-price
+                | $34.00
+        .col-lg-3.col-sm-6
+          .product-item
+            .pi-pic
+              img(src='img/products/women-4.jpg' alt='')
+              .icon
+                i.icon_heart_alt
+              ul
+                li.w-icon.active
+                  a(href='#')
+                    i.icon_bag_alt
+                li.quick-view
+                  a(href='#') + Quick View
+                li.w-icon
+                  a(href='#')
+                    i.fa.fa-random
+            .pi-text
+              .catagory-name Towel
+              a(href='#')
+                h5 Converse Shoes
+              .product-price
+                | $34.00
+  // Related Products Section End
+  include ./common/footer
