@@ -1,7 +1,8 @@
-module.exports.index = function(req, res){
-  res.render('frontend/blog/index');
-}
+var Post = require('../models/post.model');
 
-module.exports.post = function(req, res){
-  res.render('frontend/blog/post');
+module.exports.index = async function(req, res){
+  var posts = await Post.find();
+  res.render('frontend/blog/index', {
+    posts: posts
+  });
 }

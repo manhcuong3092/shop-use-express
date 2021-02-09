@@ -4,7 +4,7 @@ const app = express();
 const port = 3000;
 const bodyParser = require('body-parser');
 var mongoose = require('mongoose');
-mongoose.connect(process.env.MONGO_URL);
+mongoose.connect(process.env.MONGO_URL, {useNewUrlParser: true, useUnifiedTopology: true});
 
 //routes decleare
 var contactRoute = require('./routes/contact.route');

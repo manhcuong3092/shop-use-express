@@ -147,41 +147,12 @@ block content
         .col-lg-12
           .blog-details-inner
             .blog-detail-title
-              h2 The Personality Trait That Makes People Happier
-              p
-                | travel 
-                span - May 19, 2019
+              h2= post.title
+              p= post.categoryId
+                span= "- " + post.createdDate
             .blog-large-pic
               img(src='img/blog/blog-detail.jpg' alt='')
-            .blog-detail-desc
-              p
-                | psum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut
-                | labore et dolore magna aliqua.Ut enim ad minim veniam, quis nostrud exercitation ullamco
-                | laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure Lorem ipsum dolor sit
-                | amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore
-                | magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-                | aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate.
-            .blog-quote
-              p
-                | &ldquo; Technology is nothing. What&apos;s important is that you have a faith in people, that
-                | they&apos;re basically good and smart, and if you give them tools, they&apos;ll do wonderful
-                | things with them.&rdquo; 
-                span - Steven Jobs
-            .blog-more
-              .row
-                .col-sm-4
-                  img(src='img/blog/blog-detail-1.jpg' alt='')
-                .col-sm-4
-                  img(src='img/blog/blog-detail-2.jpg' alt='')
-                .col-sm-4
-                  img(src='img/blog/blog-detail-3.jpg' alt='')
-            p
-              | Sum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore
-              | et dolore magna aliqua.Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris
-              | nisi ut aliquip ex ea commodo consequat. Duis aute irure Lorem ipsum dolor sit amet,
-              | consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna
-              | aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
-              | ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate.
+            .blog-detail-desc= post.body
             .tag-share
               .details-tag
                 ul
@@ -206,21 +177,23 @@ block content
             .blog-post
               .row
                 .col-lg-5.col-md-6
-                  a.prev-blog(href='#')
-                    .pb-pic
-                      i.ti-arrow-left
-                      img(src='img/blog/prev-blog.png' alt='')
-                    .pb-text
-                      span Previous Post:
-                      h5 The Personality Trait That Makes People Happier
+                  if prevPost
+                    a.prev-blog(href='#')
+                      .pb-pic
+                        i.ti-arrow-left
+                        img(src= prevPost.avatar, alt='')
+                      .pb-text
+                        span Previous Post:
+                        h5= prevPost.title
                 .col-lg-5.offset-lg-2.col-md-6
-                  a.next-blog(href='#')
-                    .nb-pic
-                      img(src='img/blog/next-blog.png' alt='')
-                      i.ti-arrow-right
-                    .nb-text
-                      span Next Post:
-                      h5 The Personality Trait That Makes People Happier
+                  if nextPost
+                    a.next-blog(href='#')
+                      .nb-pic
+                        img(src= nextPost.avatar, alt='')
+                        i.ti-arrow-right
+                      .nb-text
+                        span Next Post:
+                        h5= nextPost.title
             .posted-by
               .pb-pic
                 img(src='img/blog/post-by.png' alt='')

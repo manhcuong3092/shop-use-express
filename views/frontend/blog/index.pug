@@ -177,38 +177,30 @@ block content
             .recent-post
               h4 Recent Post
               .recent-blog
-                a.rb-item(href='#')
-                  .rb-pic
-                    img(src='img/blog/recent-1.jpg' alt='')
-                  .rb-text
-                    h6 The Personality Trait That Makes...
-                    p
-                      | Fashion 
-                      span - May 19, 2019
-                a.rb-item(href='#')
-                  .rb-pic
-                    img(src='img/blog/recent-2.jpg' alt='')
-                  .rb-text
-                    h6 The Personality Trait That Makes...
-                    p
-                      | Fashion 
-                      span - May 19, 2019
-                a.rb-item(href='#')
-                  .rb-pic
-                    img(src='img/blog/recent-3.jpg' alt='')
-                  .rb-text
-                    h6 The Personality Trait That Makes...
-                    p
-                      | Fashion 
-                      span - May 19, 2019
-                a.rb-item(href='#')
-                  .rb-pic
-                    img(src='img/blog/recent-4.jpg' alt='')
-                  .rb-text
-                    h6 The Personality Trait That Makes...
-                    p
-                      | Fashion 
-                      span - May 19, 2019
+                -var count = 1
+                if posts.length >= 4
+                  while count < 5
+                    a.rb-item(href='#')
+                    .rb-pic
+                      img(src= posts[posts.length - count].avatar, alt='')
+                    .rb-text
+                      h6= posts[posts.length - count].title
+                      p
+                        | Fashion 
+                        span= posts[posts.length - count].createdDate
+                    -count++
+                else 
+                  while count < posts.length
+                    a.rb-item(href='#')
+                    .rb-pic
+                      img(src= posts[posts.length - count].avatar, alt='')
+                    .rb-text
+                      h6= posts[posts.length - count].title
+                      p
+                        | Fashion 
+                        span= posts[posts.length - count].createdDate
+                    -count++
+
             .blog-tags
               h4 Product Tags
               .tag-item
@@ -221,66 +213,16 @@ block content
                 a(href='#') Backpack
         .col-lg-9.order-1.order-lg-2
           .row
-            .col-lg-6.col-sm-6
-              .blog-item
-                .bi-pic
-                  img(src='img/blog/blog-1.jpg' alt='')
-                .bi-text
-                  a(href='./blog-details.html')
-                    h4 The Personality Trait That Makes People Happier
-                  p
-                    | travel 
-                    span - May 19, 2019
-            .col-lg-6.col-sm-6
-              .blog-item
-                .bi-pic
-                  img(src='img/blog/blog-2.jpg' alt='')
-                .bi-text
-                  a(href='./blog-details.html')
-                    h4 This was one of our first days in Hawaii last week.
-                  p
-                    | Fashion 
-                    span - May 19, 2019
-            .col-lg-6.col-sm-6
-              .blog-item
-                .bi-pic
-                  img(src='img/blog/blog-3.jpg' alt='')
-                .bi-text
-                  a(href='./blog-details.html')
-                    h4 Last week I had my first work trip of the year to Sonoma Valley
-                  p
-                    | travel 
-                    span - May 19, 2019
-            .col-lg-6.col-sm-6
-              .blog-item
-                .bi-pic
-                  img(src='img/blog/blog-4.jpg' alt='')
-                .bi-text
-                  a(href='./blog-details.html')
-                    h4 Happppppy New Year! I know I am a little late on this post
-                  p
-                    | Fashion 
-                    span - May 19, 2019
-            .col-lg-6.col-sm-6
-              .blog-item
-                .bi-pic
-                  img(src='img/blog/blog-5.jpg' alt='')
-                .bi-text
-                  a(href='./blog-details.html')
-                    h4 Absolue collection. The Lancome team has been one&mldr;
-                  p
-                    | Model 
-                    span - May 19, 2019
-            .col-lg-6.col-sm-6
-              .blog-item
-                .bi-pic
-                  img(src='img/blog/blog-6.jpg' alt='')
-                .bi-text
-                  a(href='./blog-details.html')
-                    h4 Writing has always been kind of therapeutic for me
-                  p
-                    | Fashion 
-                    span - May 19, 2019
+            each post in posts
+              .col-lg-6.col-sm-6
+                .blog-item
+                  .bi-pic
+                    img(src= post.avatar, alt='')
+                  .bi-text
+                    a(href= "/post/" + post.id)
+                      h4= post.title
+                    p= post.categoryId
+                      span= post.createdDate
             .col-lg-12
               .loading-more
                 i.icon_loading

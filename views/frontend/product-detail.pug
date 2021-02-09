@@ -316,8 +316,9 @@ block content
                     span CATEGORIES
                     | : More Accessories, Wallets &amp; Cases
                   li
-                    span TAGS
-                    | : Clothing, T-shirt, Woman
+                    span TAGS : 
+                      each tag in product.tags
+                        a(href='#')= tag + " "
                 .pd-share
                   .p-code Sku : 00012
                   .pd-social
