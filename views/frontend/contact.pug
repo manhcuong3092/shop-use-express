@@ -196,11 +196,14 @@ block content
               form.comment-form(action='#')
                 .row
                   .col-lg-6
-                    input(type='text' placeholder='Your name')
+                    input#name(type='text' placeholder='Your name')
                   .col-lg-6
-                    input(type='text' placeholder='Your email')
+                    input#email(type='text' placeholder='Your email')
                   .col-lg-12
-                    textarea(placeholder='Your message')
-                    button.site-btn(type='submit') Send message
+                    textarea#content(placeholder='Your message')
+                    button.site-btn(onClick='saveContact();') Send message
   // Contact Section End
+  script(type="text/javascript", src="/js/ajaxContact.js") 
   include ./common/footer
+
+    

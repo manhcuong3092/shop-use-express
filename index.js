@@ -1,8 +1,10 @@
+require('dotenv').config();
 const express = require('express');
 const app = express();
 const port = 3000;
 const bodyParser = require('body-parser');
-const path = require('path');
+var mongoose = require('mongoose');
+mongoose.connect(process.env.MONGO_URL);
 
 //routes decleare
 var contactRoute = require('./routes/contact.route');
@@ -21,8 +23,7 @@ app.set('views', './views');
 
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }));
-// app.use(express.static('public'));
-app.use(express.static(__dirname + '/public'));
+app.use(express.static('public'));
 
 app.get('/', (req, res) => {
   res.render('frontend/index');
@@ -37,8 +38,8 @@ app.use('/login', authRoute);
 app.use('/register', registerRoute);
 app.use('/blog', blogRoute);
 app.use('/post', postRoute);
-app.use('/shop', shopRoute);
 app.use('/product', productRoute);
+app.use('/shop', shopRoute);
 
 app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`)

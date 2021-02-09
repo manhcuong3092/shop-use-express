@@ -251,24 +251,24 @@ block content
           .row
             .col-lg-6
               .product-pic-zoom
-                img.product-big-img(src='img/product-single/product-1.jpg' alt='')
+                img.product-big-img(src= product.images[0], alt='')
                 .zoom-icon
                   i.fa.fa-search-plus
               .product-thumbs
                 .product-thumbs-track.ps-slider.owl-carousel
-                  .pt.active(data-imgbigurl='img/product-single/product-1.jpg')
-                    img(src='img/product-single/product-1.jpg' alt='')
-                  .pt(data-imgbigurl='img/product-single/product-2.jpg')
-                    img(src='img/product-single/product-2.jpg' alt='')
-                  .pt(data-imgbigurl='img/product-single/product-3.jpg')
-                    img(src='img/product-single/product-3.jpg' alt='')
-                  .pt(data-imgbigurl='img/product-single/product-3.jpg')
-                    img(src='img/product-single/product-3.jpg' alt='')
+                  - var i = 0
+                  while i < product.images.length
+                    if i == 0
+                      .pt.active(data-imgbigurl= product.images[i])
+                        img(src= product.images[i++] alt='')
+                    else
+                      .pt.active(data-imgbigurl= product.images[i])
+                        img(src= product.images[i++] alt='')
             .col-lg-6
               .product-details
                 .pd-title
-                  span oranges
-                  h3 Pure Pineapple
+                  span= product.category
+                  h3= product.name
                   a.heart-icon(href='#')
                     i.icon_heart_alt
                 .pd-rating
@@ -279,12 +279,9 @@ block content
                   i.fa.fa-star-o
                   span (5)
                 .pd-desc
-                  p
-                    | Lorem ipsum dolor sit amet, consectetur ing elit, sed do eiusmod tempor sum dolor
-                    | sit amet, consectetur adipisicing elit, sed do mod tempor
-                  h4
-                    | $495.00 
-                    span 629.99
+                  p= product.shortDescription
+                  h4= "$" + product.salePrice
+                    span= product.price
                 .pd-color
                   h6 Color
                   .pd-color-choose
@@ -402,36 +399,25 @@ block content
                           .p-code 00012
                 #tab-3.tab-pane.fade(role='tabpanel')
                   .customer-review-option
-                    h4 2 Comments
+                    h4= product.comments.length + " Comments"
                     .comment-option
-                      .co-item
-                        .avatar-pic
-                          img(src='img/product-single/avatar-1.png' alt='')
-                        .avatar-text
-                          .at-rating
-                            i.fa.fa-star
-                            i.fa.fa-star
-                            i.fa.fa-star
-                            i.fa.fa-star
-                            i.fa.fa-star-o
-                          h5
-                            | Brandon Kelley 
-                            span 27 Aug 2019
-                          .at-reply Nice !
-                      .co-item
-                        .avatar-pic
-                          img(src='img/product-single/avatar-2.png' alt='')
-                        .avatar-text
-                          .at-rating
-                            i.fa.fa-star
-                            i.fa.fa-star
-                            i.fa.fa-star
-                            i.fa.fa-star
-                            i.fa.fa-star-o
-                          h5
-                            | Roy Banks 
-                            span 27 Aug 2019
-                          .at-reply Nice !
+                      each comment in product.comments
+                        .co-item
+                          .avatar-pic
+                            img(src='img/product-single/avatar-1.png' alt='')
+                          .avatar-text
+                            .at-rating
+                              -var n = 0
+                              while n < 5
+                                if n < comment.rate
+                                  i.fa.fa-star
+                                else 
+                                  i.fa.fa-star-o
+                                -n++
+                                
+                            h5= comment.user
+                              span= comment.createdDate
+                            .at-reply= comment.content
                     .personal-rating
                       h6 Your Ratind
                       .rating
