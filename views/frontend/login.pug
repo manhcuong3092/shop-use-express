@@ -151,6 +151,8 @@ block content
               |  Home
             span Login
   // Breadcrumb Form Section Begin
+  if error
+    .alert.alert-danger= error
   // Register Section Begin
   .register-login-section.spad
     .container
@@ -158,18 +160,18 @@ block content
         .col-lg-6.offset-lg-3
           .login-form
             h2 Login
-            form(action='#')
+            form(action='', method='POST')
               .group-input
                 label(for='username') Username or email address *
-                input#username(type='text')
+                input#username(type='text', name="username")
               .group-input
                 label(for='pass') Password *
-                input#pass(type='text')
+                input#pass(type='password', name="password")
               .group-input.gi-check
                 .gi-more
                   label(for='save-pass')
                     | Save Password
-                    input#save-pass(type='checkbox')
+                    input#save-pass(type='checkbox', name='savePassword')
                     span.checkmark
                   a.forget-pass(href='#') Forget your Password
               button.site-btn.login-btn(type='submit') Sign In

@@ -1,5 +1,6 @@
 extends ./common/layout
 block content
+  // Header Section Begin
   header.header-section
     .header-top
       .container
@@ -148,30 +149,33 @@ block content
             a(href='#')
               i.fa.fa-home
               |  Home
-            span Register
+            span User Information
   // Breadcrumb Form Section Begin
   // Register Section Begin
   .register-login-section.spad
     .container
       .row
-        .col-lg-6.offset-lg-3
+        .col-lg-12
           .register-form
-            h2 Register
-            if errors
-              each error in errors
-                .alert.alert-danger= error
-            form(action='', method='POST')
+            h2 User Information
+            form(action='', method='POST', enctype='multipart/form-data')
+              .mb-3
+                label.form-label(for='avatar') Avatar
+                div
+                  img(src= "/" + user.avatar, style="max-width: 250px; max-height: 250px")
+                input#avatar.form-control.mt-3(type='file', name='avatar')
               .group-input
-                label(for='username') Username or email address *
-                input#username(type='text', name='username')
+                label(for='fullname') Full name *
+                input#fullname(type='text', name='fullname', value= user.fullname)
               .group-input
-                label(for='pass') Password *
-                input#pass(type='password', name='password')
+                label(for='email') Email *
+                input#email(type='text', name='email', value= user.email)
               .group-input
-                label(for='con-pass') Confirm Password *
-                input#con-pass(type='password', name='confirmPassword')
-              button.site-btn.register-btn(type='submit') REGISTER
-            .switch-login
-              a.or-login(href='./login') Or Login
+                label(for='phone') Phone number *
+                input#phone(type='text', name='phoneNumber', value= user.phoneNumber)
+              .group-input
+                label(for='address') Address *
+                input#address(type='text', name='address', value= user.address)
+              button.site-btn.register-btn(type='submit') Change
   // Register Form Section End
   include ./common/footer
