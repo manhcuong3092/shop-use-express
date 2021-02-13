@@ -1,145 +1,5 @@
 extends ./common/layout
 block content
-  // Header Section Begin
-  header.header-section
-    .header-top
-      .container
-        .ht-left
-          .mail-service
-            i.fa.fa-envelope
-            |                         hello.colorlib@gmail.com
-          .phone-service
-            i.fa.fa-phone
-            |                         +65 11.188.888
-        .ht-right
-          a.login-panel(href='#')
-            i.fa.fa-user
-            | Login
-          .lan-selector
-            select#countries.language_drop(name='countries' style='width:300px;')
-              option(value='yt' data-image='img/flag-1.jpg' data-imagecss='flag yt' data-title='English') English
-              option(value='yu' data-image='img/flag-2.jpg' data-imagecss='flag yu' data-title='Bangladesh') German 
-          .top-social
-            a(href='#')
-              i.ti-facebook
-            a(href='#')
-              i.ti-twitter-alt
-            a(href='#')
-              i.ti-linkedin
-            a(href='#')
-              i.ti-pinterest
-    .container
-      .inner-header
-        .row
-          .col-lg-2.col-md-2
-            .logo
-              a(href='./index.html')
-                img(src='img/logo.png' alt='')
-          .col-lg-7.col-md-7
-            .advanced-search
-              button.category-btn(type='button') All Categories
-              form.input-group(action='#')
-                input(type='text' placeholder='What do you need?')
-                button(type='button')
-                  i.ti-search
-          .col-lg-3.text-right.col-md-3
-            ul.nav-right
-              li.heart-icon
-                a(href='#')
-                  i.icon_heart_alt
-                  span 1
-              li.cart-icon
-                a(href='#')
-                  i.icon_bag_alt
-                  span 3
-                .cart-hover
-                  .select-items
-                    table
-                      tbody
-                        tr
-                          td.si-pic
-                            img(src='img/select-product-1.jpg' alt='')
-                          td.si-text
-                            .product-selected
-                              p $60.00 x 1
-                              h6 Kabino Bedside Table
-                          td.si-close
-                            i.ti-close
-                        tr
-                          td.si-pic
-                            img(src='img/select-product-2.jpg' alt='')
-                          td.si-text
-                            .product-selected
-                              p $60.00 x 1
-                              h6 Kabino Bedside Table
-                          td.si-close
-                            i.ti-close
-                  .select-total
-                    span total:
-                    h5 $120.00
-                  .select-button
-                    a.primary-btn.view-card(href='#') VIEW CARD
-                    a.primary-btn.checkout-btn(href='#') CHECK OUT
-              li.cart-price $150.00
-    .nav-item
-      .container
-        .nav-depart
-          .depart-btn
-            i.ti-menu
-            span All departments
-            ul.depart-hover
-              li.active
-                a(href='#') Women&rsquo;s Clothing
-              li
-                a(href='#') Men&rsquo;s Clothing
-              li
-                a(href='#') Underwear
-              li
-                a(href='#') Kid&apos;s Clothing
-              li
-                a(href='#') Brand Fashion
-              li
-                a(href='#') Accessories/Shoes
-              li
-                a(href='#') Luxury Brands
-              li
-                a(href='#') Brand Outdoor Apparel
-        nav.nav-menu.mobile-menu
-          ul
-            li
-              a(href='./index.html') Home
-            li
-              a(href='./shop.html') Shop
-            li
-              a(href='#') Collection
-              ul.dropdown
-                li
-                  a(href='#') Men&apos;s
-                li
-                  a(href='#') Women&apos;s
-                li
-                  a(href='#') Kid&apos;s
-            li
-              a(href='./blog.html') Blog
-            li
-              a(href='./contact.html') Contact
-            li
-              a(href='#') Pages
-              ul.dropdown
-                li
-                  a(href='./blog-details.html') Blog Details
-                li
-                  a(href='./shopping-cart.html') Shopping Cart
-                li
-                  a(href='./check-out.html') Checkout
-                li
-                  a(href='./faq.html') Faq
-                li
-                  a(href='./register.html') Register
-                li
-                  a(href='./login.html') Login
-        #mobile-menu-wrap
-  // Header End
   // Breadcrumb Section Begin
   .breacrumb-section
     .container
@@ -267,7 +127,7 @@ block content
             .col-lg-6
               .product-details
                 .pd-title
-                  span= product.category
+                  span= product.category.name
                   h3= product.name
                   a.heart-icon(href='#')
                     i.icon_heart_alt
@@ -281,32 +141,23 @@ block content
                 .pd-desc
                   p= product.shortDescription
                   h4= "$" + product.salePrice
-                    span= product.price
-                .pd-color
-                  h6 Color
-                  .pd-color-choose
-                    .cc-item
-                      input#cc-black(type='radio')
-                      label(for='cc-black')
-                    .cc-item
-                      input#cc-yellow(type='radio')
-                      label.cc-yellow(for='cc-yellow')
-                    .cc-item
-                      input#cc-violet(type='radio')
-                      label.cc-violet(for='cc-violet')
+                    span= " $" +product.price
                 .pd-size-choose
                   .sc-item
-                    input#sm-size(type='radio')
+                    input#sm-size(type='radio', name='size')
                     label(for='sm-size') s
                   .sc-item
-                    input#md-size(type='radio')
+                    input#md-size(type='radio', name='size')
                     label(for='md-size') m
                   .sc-item
-                    input#lg-size(type='radio')
+                    input#lg-size(type='radio', name='size')
                     label(for='lg-size') l
                   .sc-item
-                    input#xl-size(type='radio')
-                    label(for='xl-size') xs
+                    input#xl-size(type='radio', name='size')
+                    label(for='xl-size') xl
+                  .sc-item
+                    input#xl-size(type='radio', name='size')
+                    label(for='xl-size') xxl
                 .quantity
                   .pro-qty
                     input(type='text' value='1')
@@ -318,7 +169,7 @@ block content
                   li
                     span TAGS : 
                       each tag in product.tags
-                        a(href='#')= tag + " "
+                        a(href='#')= tag.name + ", "
                 .pd-share
                   .p-code Sku : 00012
                   .pd-social
@@ -343,20 +194,9 @@ block content
                   .product-content
                     .row
                       .col-lg-7
-                        h5 Introduction
-                        p
-                          | Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
-                          | eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
-                          | ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-                          | aliquip ex ea commodo consequat. Duis aute irure dolor in
-                        h5 Features
-                        p
-                          | Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
-                          | eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
-                          | ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-                          | aliquip ex ea commodo consequat. Duis aute irure dolor in
+                        div= product.detailDescription
                       .col-lg-5
-                        img(src='img/product-single/tab-desc.jpg' alt='')
+                        img(src= product.images[0] alt='')
                 #tab-2.tab-pane.fade(role='tabpanel')
                   .specification-table
                     table
@@ -405,7 +245,7 @@ block content
                       each comment in product.comments
                         .co-item
                           .avatar-pic
-                            img(src='img/product-single/avatar-1.png' alt='')
+                            img(src= "/" + comment.user.avatar, alt='')
                           .avatar-text
                             .at-rating
                               -var n = 0
@@ -415,9 +255,8 @@ block content
                                 else 
                                   i.fa.fa-star-o
                                 -n++
-                                
-                            h5= comment.user
-                              span= comment.createdDate
+                            h5= comment.user.fullname
+                              span= comment.postedDate
                             .at-reply= comment.content
                     .personal-rating
                       h6 Your Ratind
@@ -445,7 +284,7 @@ block content
       .row
         .col-lg-12
           .section-title
-            h2 Related Products
+            h2 New Products
       .row
         .col-lg-3.col-sm-6
           .product-item

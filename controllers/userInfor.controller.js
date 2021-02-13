@@ -10,7 +10,7 @@ module.exports.index = async function(req, res){
 module.exports.postInfor = async function(req, res){
   var user = await User.findById(req.signedCookies.userId);
   if(req.file){
-    req.body.avatar = req.file.path.split('\\').slice(1).join('/');
+    req.body.avatar = '/' + req.file.path.split('\\').slice(1).join('/');
     user.avatar = req.body.avatar;
   }
   user.fullname = req.body.fullname;

@@ -1,8 +1,7 @@
 var mongoose = require('mongoose');
 
-var categorySchema = new mongoose.Schema({
+var blogCategorySchema = new mongoose.Schema({
   name: {type: String, default: ""},
-  childrenId: [String],
   description: {type: String, default: ""},
   createdDate: {type: String, default: ""},
   createdBy: {type: String, default: ""},
@@ -11,6 +10,6 @@ var categorySchema = new mongoose.Schema({
   status: {type: Boolean, default: true},
 });
 
-var Category = mongoose.model('Category', categorySchema, 'categories');
+var BlogCategory = mongoose.model('Blogcategory', blogCategorySchema, 'blogcategories');
 
-module.exports = Category;
+module.exports = BlogCategory;

@@ -31,8 +31,13 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser(process.env.SESSION_SECRET));
 app.use(express.static('public'));
 
-app.get('/', userInforMiddleware.validateInfor,(req, res) => {
-  res.render('frontend/index');
+var User = require('./models/user.model');
+
+app.get('/', userInforMiddleware.validateInfor, async function(req, res){
+  user = await User.findById(req.signedCookies.userId);
+  res.render('frontend/index',{
+    user: user
+  });
 });
 
 //use paths
@@ -45,7 +50,7 @@ app.use('/register', registerRoute);
 app.use('/blog', blogRoute);
 app.use('/post', postRoute);
 app.use('/product', productRoute);
-app.use('/shop', userInforMiddleware.validateInfor, shopRoute);
+app.use('/shop', shopRoute);
 app.use('/user-infor', authMiddleWare.requireAuth, userInforRoute);
 
 app.listen(port, () => {

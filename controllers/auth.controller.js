@@ -2,12 +2,16 @@ var User = require('../models/user.model');
 var md5 = require('md5');
 
 module.exports.login = function(req, res){
-  res.render('frontend/login');
+  res.clearCookie('userId');
+  res.render('frontend/login', {
+    user: null
+  });
 }
 
 module.exports.postLogin = async function(req, res){
   var username = req.body.username;
   var password = req.body.password;
+  var savePassword = req.body.savePassword;
   var user = await User.findOne({username: username});
   if(!user){
     res.render('/frontend/login', {
@@ -22,8 +26,11 @@ module.exports.postLogin = async function(req, res){
     });
     return;
   }
-  res.cookie('userId', user.id, {
-    signed: true
-  });
+  var cookieOptions = {signed: true};
+  if(savePassword){
+    cookieOptions.maxAge = 24*3600*30*1000
+  }
+  
+  res.cookie('userId', user.id, cookieOptions);
   res.redirect('/');
 }
