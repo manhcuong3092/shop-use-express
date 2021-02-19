@@ -99,3 +99,63 @@ script(src='/js/jquery.dd.min.js')
 script(src='/js/jquery.slicknav.js')
 script(src='/js/owl.carousel.min.js')
 script(src='/js/main.js')
+script.
+  $(document).ready(function(){
+
+    //get cart
+    $.ajax({
+      url: '/cart/cart-data',
+      type: "get",
+      contentType: "application/json",
+      dataType: "json",
+      success: function(data) {
+        $('#cart-table').empty();
+        var totalPrice = 0;
+        for(let item of data.items){
+          totalPrice += item.product.salePrice*item.quantity
+          $('#cart-table').append(
+            '<tr name="' + item.product._id + '&&' + item.size + '">' + 
+              '<td class="si-pic">' + 
+                '<img src="' + item.product.images[0] + '"/>' + 
+              '</td>' + 
+              '<td class="si-text">' + 
+                '<div class="product-selected">' + 
+                  '<p>' + item.product.salePrice + '$ x ' + item.quantity + '</p>' + 
+                  '<h6>' + item.product.name + ' - ' + item.size + '</h6>' +
+                '</div>' + 
+              '</td>' + 
+              '<td class="si-close">' + 
+                '<i class="ti-close"></i>' + 
+              '</td>' +
+            '</tr>');
+        }
+        $('#number-of-items').text(data.items.length);
+        $('#cart-total-price').text(totalPrice + ' $');
+      },
+      error: function (jqXhr, textStatus, errorMessage) { // error callback 
+        alert('error');
+        alert(textStatus);
+      }
+    });
+
+    //delete item in cart
+    $(document).on('click', '.si-close', function(){
+      var name = $(this).parent().attr('name');
+      var selector = $(this);
+      $.ajax({
+        url: '/cart/delete-item/' + name,
+        type: 'delete',
+        success: function(jsonData) {
+          data = JSON.parse(jsonData);
+          selector.parent().remove();
+          $('#cart-total-price').text(data.totalPrice + ' $');
+          $('#number-of-items').text(data.numberOfItems);
+        },
+        error: function (jqXhr, textStatus, errorMessage) { // error callback 
+          alert('error');
+          alert(textStatus);
+        }
+      });
+    });
+  });
+  

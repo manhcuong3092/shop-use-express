@@ -578,6 +578,11 @@ ol {
 	padding-bottom: 20px;
 }
 
+.si-pic > img {
+  max-width: 80px;
+  max-height: 80px;
+}
+
 .inner-header .nav-right li.cart-icon .cart-hover .select-items table tr td.si-pic img {
 	border: 1px solid #ebebeb;
 }
@@ -3149,8 +3154,8 @@ ol {
 }
 
 .rb-pic {
-  max-width: 120px; 
-  max-height: 120px;
+  max-width: 80px; 
+  max-height: 80px;
 }
 
 .blog-sidebar .recent-post .recent-blog .rb-item .rb-pic {
@@ -4315,3 +4320,4 @@ ol {
 		padding-right: 15px;
 	}
 }
+

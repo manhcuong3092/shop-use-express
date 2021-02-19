@@ -8,7 +8,6 @@ module.exports.requireAuth = async function(req, res, next){
         return;
     }
     var user = await User.findById(req.signedCookies.userId);
-    console.log(user);
     if(!user){  
         res.redirect('/login');
         return;

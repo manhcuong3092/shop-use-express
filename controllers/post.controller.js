@@ -5,7 +5,7 @@ module.exports.getPost = async function(req, res){
   var postId = req.params.postId;
   var posts = await Post.find();
   for(var post of posts){
-    post.category = await BlogCategory.findById(post.category);
+    post.category = await BlogCategory.findById(post.category.id);
   }
   var postIndex = posts.findIndex(function(post){
     return post.id === postId;

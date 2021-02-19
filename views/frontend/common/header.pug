@@ -54,13 +54,13 @@ block header
                   i.icon_heart_alt
                   span 1
               li.cart-icon
-                a(href='#')
+                a#cart-icon(href='#')
                   i.icon_bag_alt
-                  span 3
+                  span#number-of-items 3
                 .cart-hover
                   .select-items
                     table
-                      tbody
+                      tbody#cart-table
                         tr
                           td.si-pic
                             img(src='img/select-product-1.jpg' alt='')
@@ -81,7 +81,7 @@ block header
                             i.ti-close
                   .select-total
                     span total:
-                    h5 $120.00
+                    h5#cart-total-price $120.00
                   .select-button
                     a.primary-btn.view-card(href='#') VIEW CARD
                     a.primary-btn.checkout-btn(href='#') CHECK OUT

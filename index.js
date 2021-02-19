@@ -22,6 +22,7 @@ var userInforRoute = require('./routes/userInfor.route');
 
 var authMiddleWare = require('./middlewares/auth.middleware');
 var userInforMiddleware = require('./middlewares/userInfor.middeware');
+var cartMiddleware = require('./middlewares/cart.middleware');
 
 app.set('view engine', 'pug');
 app.set('views', './views');
@@ -31,12 +32,24 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser(process.env.SESSION_SECRET));
 app.use(express.static('public'));
 
+var getCart = new Promise(function(resolve, reject){
+  app.use(cartMiddleware.getCart);
+  resolve();
+});
+
+getCart.then(function(){
+  app.use(cartMiddleware.showCart);
+})
+
+
 var User = require('./models/user.model');
 
 app.get('/', userInforMiddleware.validateInfor, async function(req, res){
   user = await User.findById(req.signedCookies.userId);
+  cart = req.signedCookies.cart;
   res.render('frontend/index',{
-    user: user
+    user: user,
+    cart: cart
   });
 });
 

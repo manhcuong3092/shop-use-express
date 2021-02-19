@@ -17,6 +17,7 @@ block content
     .container
       .row
         .col-lg-12
+          #error-message.alert.alert-danger
           .cart-table
             table
               thead
@@ -30,67 +31,142 @@ block content
                   th
                     i.ti-close
               tbody
-                tr
-                  td.cart-pic.first-row
-                    img(src='img/cart-page/product-1.jpg' alt='')
-                  td.cart-title.first-row
-                    h5 Pure Pineapple
-                  td.first-row XL
-                  td.p-price.first-row $60.00
-                  td.qua-col.first-row
-                    .quantity
-                      .pro-qty
-                        input(type='text' value='1')
-                  td.total-price.first-row $60.00
-                  td.close-td.first-row
-                    i.ti-close
-                tr
-                  td.cart-pic
-                    img(src='img/cart-page/product-2.jpg' alt='')
-                  td.cart-title
-                    h5 American lobster
-                  td.first-row XL
-                  td.p-price $60.00
-                  td.qua-col
-                    .quantity
-                      .pro-qty
-                        input(type='text' value='1')
-                  td.total-price $60.00
-                  td.close-td
-                    i.ti-close
-                tr
-                  td.cart-pic
-                    img(src='img/cart-page/product-3.jpg' alt='')
-                  td.cart-title
-                    h5 Guangzhou sweater
-                  td.first-row XL
-                  td.p-price $60.00
-                  td.qua-col
-                    .quantity
-                      .pro-qty
-                        input(type='text' value='1')
-                  td.total-price $60.00
-                  td.close-td
-                    i.ti-close
+                each item in items
+                  tr
+                    td.cart-pic.first-row
+                      img(src= item.product.images[0], alt='')
+                    td.cart-title.first-row
+                      h5= item.product.name
+                    td.first-row= item.size
+                    td.p-price.first-row(name= item.product.id + '&&' + item.size)= item.product.salePrice + ' $'
+                    td.qua-col.first-row
+                      .quantity
+                        .pro-qty(name= item.product.id + '&&' + item.size)
+                          span(class='dec qtybtn')='-'
+                          input(type='text', value= item.quantity)
+                          span(class='inc qtybtn')='+'
+                    td.total-price.first-row(name= item.product.id + '&&' + item.size)= item.product.salePrice*item.quantity + ' $'
+                    td.close-td.first-row 
+                      i.ti-close(name= item.product.id + '&&' + item.size)
           .row
             .col-lg-4
               .cart-buttons
-                a.primary-btn.continue-shop(href='#') Continue shopping
-                a.primary-btn.up-cart(href='#') Update cart
-              .discount-coupon
-                h6 Discount Codes
-                form.coupon-form(action='#')
-                  input(type='text' placeholder='Enter your codes')
-                  button.site-btn.coupon-btn(type='submit') Apply
+                a.primary-btn.continue-shop(href='/shop') Continue shopping
             .col-lg-4.offset-lg-4
               .proceed-checkout
                 ul
-                  li.subtotal
-                    | Subtotal 
-                    span $240.00
                   li.cart-total
                     | Total 
-                    span $240.00
-                a.proceed-btn(href='#') PROCEED TO CHECK OUT
+                    span#total-cart= totalCart + ' $'
+                a.proceed-btn(href='/checkout') PROCEED TO CHECK OUT
   // Shopping Cart Section End
   include ./common/footer
+  script.
+    $(document).ready(function(){
+      $('#error-message').hide();
+      //- $('.inc').click(function(){
+      //-   var data = {};
+      //-   var productInfor = $(this).attr('name');
+      //-   var quantitySelector = 'input[name="' + productInfor + '"]'
+      //-   var quantity = $(quantitySelector).val();
+        //- var productPath = window.location.pathname;
+      //- });
+      $('.pro-qty').click(function () {
+        var quantity = $(this).parent().find('input').val();
+        var productInfor = $(this).attr('name');
+        var productId = productInfor.slice(0, productInfor.indexOf('&&'));
+        var size = productInfor.slice(productInfor.indexOf('&&') + 2, productInfor.length);
+
+        var data = {
+          productId: productId,
+          size: size,
+          quantity: parseInt(quantity)
+        }
+
+        $.ajax({
+          url: '/cart/change-cart',
+          type: "post",
+          contentType: "application/json",
+          data: JSON.stringify(data),
+          dataType: "json",
+          success: function(jsonResult) {
+            let totalPriceItem = $('.total-price[name="' + productInfor + '"]');
+            let price = $('.p-price[name="' + productInfor + '"]').text();
+            totalPriceItem.text(quantity*parseInt(price) + ' $');
+            let totalArray = $('.total-price').text().split(' $');
+            var totalCart = 0;
+            totalArray.forEach(function(item){
+              if(parseInt(item)){
+                totalCart += parseInt(item);
+              }
+            })
+            $('#total-cart').text(totalCart + ' $');
+            setCartIcon();
+            $('#error-message').hide();
+          },
+          error: function (jqXhr, textStatus, errorMessage) { // error callback 
+            $('#error-message').text('Error. Please reload page.');
+            $('#error-message').show();
+          }
+        });
+      });
+
+      $('.ti-close').click(function(){
+        var name = $(this).attr('name');
+        var selector = $(this);
+        $.ajax({
+          url: '/cart/delete-item/' + name,
+          type: 'delete',
+          success: function(jsonData) {
+            data = JSON.parse(jsonData);
+            selector.parent().parent().remove();
+            $('#total-cart').text(data.totalPrice + ' $');
+            $('#number-of-items').text(data.numberOfItems);
+            setCartIcon();
+            $('#error-message').hide();
+          },
+          error: function (jqXhr, textStatus, errorMessage) { // error callback 
+            $('#error-message').text('Error. Please reload page.');
+            $('#error-message').show();
+          }
+        });
+      });
+
+      function setCartIcon() {
+        $.ajax({
+          url: '/cart/cart-data',
+          type: "get",
+          contentType: "application/json",
+          dataType: "json",
+          success: function(data) {
+            $('#cart-table').empty();
+            var totalPrice = 0;
+            for(let item of data.items){
+              totalPrice += item.product.salePrice*item.quantity
+              $('#cart-table').append(
+                '<tr name="' + item.product._id + '&&' + item.size + '">' + 
+                  '<td class="si-pic">' + 
+                    '<img src="' + item.product.images[0] + '"/>' + 
+                  '</td>' + 
+                  '<td class="si-text">' + 
+                    '<div class="product-selected">' + 
+                      '<p>' + item.product.salePrice + '$ x ' + item.quantity + '</p>' + 
+                      '<h6>' + item.product.name + ' - ' + item.size + '</h6>' +
+                    '</div>' + 
+                  '</td>' + 
+                  '<td class="si-close">' + 
+                    '<i class="ti-close"></i>' + 
+                  '</td>' +
+                '</tr>');
+            }
+            $('#number-of-items').text(data.items.length);
+            $('#cart-total-price').text(totalPrice + ' $');
+          },
+          error: function (jqXhr, textStatus, errorMessage) { // error callback 
+            alert('error');
+            alert(textStatus);
+          }
+        });
+      } 
+    });
+    

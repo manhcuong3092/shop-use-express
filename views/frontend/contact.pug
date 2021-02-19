@@ -55,13 +55,14 @@ block content
               p Our staff will call back later and answer your questions.
               form.comment-form(action='#')
                 .row
-                  .col-lg-6
-                    input#name(type='text' placeholder='Your name')
-                  .col-lg-6
-                    input#email(type='text' placeholder='Your email')
+                  if !user
+                    .col-lg-6
+                      input#name(type='text' placeholder='Your name')
+                    .col-lg-6
+                      input#email(type='text' placeholder='Your email')
                   .col-lg-12
                     textarea#content(placeholder='Your message')
-                    button.site-btn(onClick='saveContact();') Send message
+                    button#submitForm.site-btn(onClick='saveContact();') Send message
   // Contact Section End
   script.
     function saveContact() {
