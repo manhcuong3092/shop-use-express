@@ -45,32 +45,30 @@ footer.footer-section
           h5 Information
           ul
             li
-              a(href='#') About Us
+              a(href='/about-us') About Us
             li
-              a(href='#') Checkout
+              a(href='/checkout') Checkout
             li
-              a(href='#') Contact
-            li
-              a(href='#') Serivius
+              a(href='/contact') Contact
       .col-lg-2
         .footer-widget
           h5 My Account
           ul
             li
-              a(href='#') My Account
+              a(href='/user-infor') My Account
             li
-              a(href='#') Contact
+              a(href='/contact') Contact
             li
-              a(href='#') Shopping Cart
+              a(href='/cart') Shopping Cart
             li
-              a(href='#') Shop
+              a(href='/shop') Shop
       .col-lg-4
         .newslatter-item
           h5 Join Our Newsletter Now
           p Get E-mail updates about our latest shop and special offers.
           form.subscribe-form(action='#')
-            input(type='text' placeholder='Enter Your Mail')
-            button(type='button') Subscribe
+            input#subscribeEmail(type='email' placeholder='Enter Your Mail')
+            button#subscribe(type='button') Subscribe
   .copyright-reserved
     .container
       .row
@@ -139,7 +137,7 @@ script.
         $('#cart-total-price').text(totalPrice + ' $');
         $('#outside-cart-total-price').text(totalPrice + ' $');
       },
-      error: function (jqXhr, textStatus, errorMessage) { // error callback 
+      error: function (jqXhr, textStatus, errorMessage) {
       }
     });
 
@@ -157,9 +155,29 @@ script.
           $('#outside-cart-total-price').text(data.totalPrice + ' $');
           $('#number-of-items').text(data.numberOfItems);
         },
-        error: function (jqXhr, textStatus, errorMessage) { // error callback 
+        error: function (jqXhr, textStatus, errorMessage) { 
           alert('error');
           alert(textStatus);
+        }
+      });
+    });
+
+    //subscribe email
+    $('#subscribe').click(function(){
+      var email = $('#subscribeEmail').val();
+      alert(email);
+      var data = {email: email};
+      $.ajax({
+        url: '/subscribe',
+        type: "post",
+        contentType: "application/json",
+        data: JSON.stringify(data),
+        dataType: "json",
+        success: function(data){
+          alert('Subscribe succesfully!');
+        },
+        error: function (jqXhr, textStatus, errorMessage) {
+          alert('error');
         }
       });
     });

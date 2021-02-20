@@ -17,7 +17,9 @@ var registerRoute = require('./routes/register.route');
 var blogRoute = require('./routes/blog.route');
 var postRoute = require('./routes/post.route');
 var shopRoute = require('./routes/shop.route');
+var aboutUsRoute = require('./routes/aboutUs.route');
 var productRoute = require('./routes/product.route');
+var subscribeRoute = require('./routes/subscribe.route');
 var userInforRoute = require('./routes/userInfor.route');
 
 var authMiddleWare = require('./middlewares/auth.middleware');
@@ -56,6 +58,8 @@ app.use('/blog', blogRoute);
 app.use('/post', postRoute);
 app.use('/product', productRoute);
 app.use('/shop', shopRoute);
+app.use('/about-us', aboutUsRoute);
+app.use('/subscribe', subscribeRoute);
 app.use('/user-infor', authMiddleWare.requireAuth, userInforRoute);
 
 app.listen(port, () => {
