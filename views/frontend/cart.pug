@@ -24,6 +24,7 @@ block content
                 tr
                   th Image
                   th.p-name Product Name
+                  th Color
                   th Size
                   th Price
                   th Quantity
@@ -37,17 +38,18 @@ block content
                       img(src= item.product.images[0], alt='')
                     td.cart-title.first-row
                       h5= item.product.name
+                    td.first-row= item.color
                     td.first-row= item.size
-                    td.p-price.first-row(name= item.product.id + '&&' + item.size)= item.product.salePrice + ' $'
+                    td.p-price.first-row(name= item.product.id + '&&' + item.color + '&&' + item.size)= item.product.salePrice + ' $'
                     td.qua-col.first-row
                       .quantity
-                        .pro-qty(name= item.product.id + '&&' + item.size)
+                        .pro-qty(name= item.product.id + '&&' + item.color + '&&' + item.size)
                           span(class='dec qtybtn')='-'
                           input(type='text', value= item.quantity)
                           span(class='inc qtybtn')='+'
-                    td.total-price.first-row(name= item.product.id + '&&' + item.size)= item.product.salePrice*item.quantity + ' $'
+                    td.total-price.first-row(name= item.product.id + '&&' + item.color + '&&' + item.size)= item.product.salePrice*item.quantity + ' $'
                     td.close-td.first-row 
-                      i.ti-close(name= item.product.id + '&&' + item.size)
+                      i.ti-close(name= item.product.id + '&&' + item.color + '&&' + item.size)
           .row
             .col-lg-4
               .cart-buttons
@@ -75,7 +77,8 @@ block content
         var quantity = $(this).parent().find('input').val();
         var productInfor = $(this).attr('name');
         var productId = productInfor.slice(0, productInfor.indexOf('&&'));
-        var size = productInfor.slice(productInfor.indexOf('&&') + 2, productInfor.length);
+        var color = productInfor.slice(productInfor.indexOf('&&') + 2, productInfor.lastIndexOf('&&'));
+        var size = productInfor.slice(productInfor.lastIndexOf('&&') + 2, productInfor.length);
 
         var data = {
           productId: productId,
@@ -161,6 +164,7 @@ block content
             }
             $('#number-of-items').text(data.items.length);
             $('#cart-total-price').text(totalPrice + ' $');
+            $('#outside-cart-total-price').text(totalPrice + ' $');
           },
           error: function (jqXhr, textStatus, errorMessage) { // error callback 
             alert('error');

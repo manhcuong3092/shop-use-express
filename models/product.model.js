@@ -7,6 +7,8 @@ var productSchema = new mongoose.Schema({
   salePrice: {type: Number, default: 0},
   shortDescription: {type: String, default: ""},
   detailDescription: {type: String, default: ""},
+  colors: [{type: String, default: ""}],
+  sizes: [{type: String, default: ""}],
   images: [{type: String, default: ""}],
   tags: [{type: String, default: ""}],
   comments: [Object],

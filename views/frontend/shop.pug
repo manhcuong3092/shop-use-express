@@ -124,7 +124,8 @@ block content
                   .product-item
                     .pi-pic
                       img(src= product.images[0] alt='')
-                      .sale.pp-sale Sale
+                      if product.salePrice !== product.price
+                        .sale.pp-sale Sale
                       .icon
                         i.icon_heart_alt
                       ul
@@ -140,8 +141,9 @@ block content
                       .catagory-name= product.category.name
                       a(href= "/product/" + product.id)
                         h5= product.name
-                      .product-price= product.salePrice
-                        span= product.price
+                      .product-price= product.salePrice + '$ '
+                        if product.salePrice !== product.price
+                          span= '' + product.price + '$'
           .loading-more
             i.icon_loading
             a(href='#')

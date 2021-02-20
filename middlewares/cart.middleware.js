@@ -10,7 +10,7 @@ module.exports.getCart = async function(req, res, next){
     if(!req.signedCookies.cart){
       res.cookie('cart', {id: '', items: []}, {
         signed: true,
-        maxAge: 10*24*3600
+        maxAge: 10*24*3600*1000
       });
     }
   } else {
@@ -25,16 +25,5 @@ module.exports.getCart = async function(req, res, next){
       signed: true
     });
   }
-  next();
-}
-
-//function to show cart of user or customer
-module.exports.showCart = async function(req, res, next){
-  var cart = req.signedCookies.cart;
-  // console.log(cart);
-  for(let item of cart.items){
-    item.product = await Product.findById(item.product);
-  }
-  res.locals.cart = cart;
   next();
 }

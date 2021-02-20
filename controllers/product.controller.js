@@ -30,19 +30,21 @@ module.exports.detail = async function(req, res){
 module.exports.addToCart = async function(req, res){
   var productId = req.params.productId;
   var size = req.body.size;
+  var color = req.body.color;
   var quantity = req.body.quantity;
   var product = {
     product: productId,
     size: size,
+    color: color,
     quantity: quantity
   }
   try {
     var cart = req.signedCookies.cart;
     var productIndex = cart.items.findIndex(function(item){
-      return item.product === product.product && item.size === product.size;
+      return item.product === product.product && item.size === product.size && item.color === product.color;
     });
 
-    //if this product already in cart and size is the same, add quantity, else push to cart
+    //if this product already in cart, color and size is the same, add quantity, else push to cart
     if(productIndex >= 0){
       cart.items[productIndex].quantity = cart.items[productIndex].quantity + product.quantity;
     } else {

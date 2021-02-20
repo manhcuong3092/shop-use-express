@@ -13,7 +13,7 @@ block header
             |                         +65 11.188.888
         .ht-right
           if user
-            a.login-panel(href='/login')
+            a.login-panel#login-panel(href='/')
               i.fa.fa-user
               | Log out
           else 
@@ -52,40 +52,22 @@ block header
               li.heart-icon
                 a(href='#')
                   i.icon_heart_alt
-                  span 1
+                  span 0
               li.cart-icon
                 a#cart-icon(href='#')
                   i.icon_bag_alt
-                  span#number-of-items 3
+                  span#number-of-items 0
                 .cart-hover
                   .select-items
                     table
                       tbody#cart-table
-                        tr
-                          td.si-pic
-                            img(src='img/select-product-1.jpg' alt='')
-                          td.si-text
-                            .product-selected
-                              p $60.00 x 1
-                              h6 Kabino Bedside Table
-                          td.si-close
-                            i.ti-close
-                        tr
-                          td.si-pic
-                            img(src='img/select-product-2.jpg' alt='')
-                          td.si-text
-                            .product-selected
-                              p $60.00 x 1
-                              h6 Kabino Bedside Table
-                          td.si-close
-                            i.ti-close
                   .select-total
                     span total:
-                    h5#cart-total-price $120.00
+                    h5#cart-total-price 0$
                   .select-button
                     a.primary-btn.view-card(href='#') VIEW CARD
                     a.primary-btn.checkout-btn(href='#') CHECK OUT
-              li.cart-price $150.00
+              li.cart-price#outside-cart-total-price 0$
     .nav-item
       .container
         .nav-depart

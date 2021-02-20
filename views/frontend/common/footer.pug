@@ -101,6 +101,12 @@ script(src='/js/owl.carousel.min.js')
 script(src='/js/main.js')
 script.
   $(document).ready(function(){
+    //logout
+    $('#login-panel').click(function(){
+      document.cookie = "userId=''; expires = Thu, 01 Jan 1970 00:00:00 GMT";
+      document.cookie = "cart=''; expires = Thu, 01 Jan 1970 00:00:00 GMT";
+      location.reload();
+    })
 
     //get cart
     $.ajax({
@@ -114,14 +120,14 @@ script.
         for(let item of data.items){
           totalPrice += item.product.salePrice*item.quantity
           $('#cart-table').append(
-            '<tr name="' + item.product._id + '&&' + item.size + '">' + 
+            '<tr name="' + item.product._id + '&&' + item.color + '&&' + item.size + '">' + 
               '<td class="si-pic">' + 
                 '<img src="' + item.product.images[0] + '"/>' + 
               '</td>' + 
               '<td class="si-text">' + 
                 '<div class="product-selected">' + 
                   '<p>' + item.product.salePrice + '$ x ' + item.quantity + '</p>' + 
-                  '<h6>' + item.product.name + ' - ' + item.size + '</h6>' +
+                  '<h6>' + item.product.name + ' - ' + item.color + ' - ' + item.size + '</h6>' +
                 '</div>' + 
               '</td>' + 
               '<td class="si-close">' + 
@@ -131,10 +137,9 @@ script.
         }
         $('#number-of-items').text(data.items.length);
         $('#cart-total-price').text(totalPrice + ' $');
+        $('#outside-cart-total-price').text(totalPrice + ' $');
       },
       error: function (jqXhr, textStatus, errorMessage) { // error callback 
-        alert('error');
-        alert(textStatus);
       }
     });
 
@@ -149,6 +154,7 @@ script.
           data = JSON.parse(jsonData);
           selector.parent().remove();
           $('#cart-total-price').text(data.totalPrice + ' $');
+          $('#outside-cart-total-price').text(data.totalPrice + ' $');
           $('#number-of-items').text(data.numberOfItems);
         },
         error: function (jqXhr, textStatus, errorMessage) { // error callback 

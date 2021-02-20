@@ -32,15 +32,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser(process.env.SESSION_SECRET));
 app.use(express.static('public'));
 
-var getCart = new Promise(function(resolve, reject){
-  app.use(cartMiddleware.getCart);
-  resolve();
-});
-
-getCart.then(function(){
-  app.use(cartMiddleware.showCart);
-})
-
+app.use(cartMiddleware.getCart);
 
 var User = require('./models/user.model');
 

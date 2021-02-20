@@ -143,23 +143,21 @@ block content
                 .pd-desc
                   p= product.shortDescription
                   h4= "$" + product.salePrice
-                    span= " $" +product.price
+                    if product.salePrice !== product.price
+                      span= " $" + product.price
+                h5.mb-2 Size
                 .pd-size-choose
-                  .sc-item
-                    input#sm-size(type='radio', name='size', value='S')
-                    label(for='sm-size') s
-                  .sc-item
-                    input#md-size(type='radio', name='size', value='M')
-                    label(for='md-size') m
-                  .sc-item
-                    input#lg-size(type='radio', name='size', value='L')
-                    label(for='lg-size') l
-                  .sc-item
-                    input#xl-size(type='radio', name='size', value='XL')
-                    label(for='xl-size') xl
-                  .sc-item
-                    input#xxl-size(type='radio', name='size', value='XXL')
-                    label(for='xxl-size') xxl
+                  each size in product.sizes
+                    .sc-item
+                      input(type='radio', name='size', value=size, id= size + '-size')
+                      label(for= size + '-size')= size
+                h5.mb-2 Color
+                .pd-color-buton-choose
+                  each color in product.colors
+                    .sc-item
+                      input(type='radio', name='color', value=color, id= color + '-color')
+                      label(for= color + '-color')= color
+                h5.mb-2 Quantity
                 .quantity
                   .pro-qty
                     span(class='dec qtybtn')='-'
@@ -384,12 +382,19 @@ block content
     $('#add-to-cart').click(function(){
       var data = {};
       var size = $("input[name='size']:checked").val();
+      var color = $("input[name='color']:checked").val();
       if(!size){
         $('#error-message').text('Please choose size.');
         $('#error-message').show();
         return;
       }
+      if(!color){
+        $('#error-message').text('Please choose color.');
+        $('#error-message').show();
+        return;
+      }
       data.size = size;
+      data.color = color;
       var quantity = $("#quantity").val();
       quantity = parseInt(quantity);
       if(!quantity || quantity < 1){
@@ -416,6 +421,7 @@ block content
             totalCart += item.product.salePrice*item.quantity;
           }
           $('#cart-total-price').text(totalCart + ' $');
+          $('#outside-cart-total-price').text(totalCart + ' $');
           $('#number-of-items').text(cart.items.length);
           $('#cart-table').empty();
           for(let item of cart.items){
@@ -427,7 +433,7 @@ block content
                 '<td class="si-text">' + 
                   '<div class="product-selected">' + 
                     '<p>' + item.product.salePrice + '$ x ' + item.quantity + '</p>' + 
-                    '<h6>' + item.product.name + ' - ' + item.size + '</h6>' +
+                    '<h6>' + item.product.name + ' - ' + item.color + ' - ' + item.size + '</h6>' +
                   '</div>' + 
                 '</td>' + 
                 '<td class="si-close">' + 

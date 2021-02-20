@@ -15,98 +15,71 @@ block content
   // Shopping Cart Section Begin
   section.checkout-section.spad
     .container
-      form.checkout-form(action='#')
-        .row
-          .col-lg-6
-            .checkout-content
-              a.content-btn(href='#') Click Here To Login
-            h4 Biiling Details
-            .row
-              .col-lg-6
-                label(for='fir')
-                  | First Name
-                  span *
-                input#fir(type='text')
-              .col-lg-6
-                label(for='last')
-                  | Last Name
-                  span *
-                input#last(type='text')
-              .col-lg-12
-                label(for='cun-name') Company Name
-                input#cun-name(type='text')
-              .col-lg-12
-                label(for='cun')
-                  | Country
-                  span *
-                input#cun(type='text')
-              .col-lg-12
-                label(for='street')
-                  | Street Address
-                  span *
-                input#street.street-first(type='text')
-                input(type='text')
-              .col-lg-12
-                label(for='zip') Postcode / ZIP (optional)
-                input#zip(type='text')
-              .col-lg-12
-                label(for='town')
-                  | Town / City
-                  span *
-                input#town(type='text')
-              .col-lg-6
-                label(for='email')
-                  | Email Address
-                  span *
-                input#email(type='text')
-              .col-lg-6
-                label(for='phone')
-                  | Phone
-                  span *
-                input#phone(type='text')
-              .col-lg-12
-                .create-item
-                  label(for='acc-create')
-                    | Create an account?
-                    input#acc-create(type='checkbox')
-                    span.checkmark
-          .col-lg-6
-            .checkout-content
-              input(type='text' placeholder='Enter Your Coupon Code')
-            .place-order
-              h4 Your Order
-              .order-total
-                ul.order-table
-                  li
-                    | Product 
-                    span Total
-                  li.fw-normal
-                    | Combination x 1 
-                    span $60.00
-                  li.fw-normal
-                    | Combination x 1 
-                    span $60.00
-                  li.fw-normal
-                    | Combination x 1 
-                    span $120.00
-                  li.fw-normal
-                    | Subtotal 
-                    span $240.00
-                  li.total-price
-                    | Total 
-                    span $240.00
-                .payment-check
-                  .pc-item
-                    label(for='pc-check')
-                      | Cheque Payment
-                      input#pc-check(type='checkbox')
-                      span.checkmark
-                  .pc-item
-                    label(for='pc-paypal')
-                      | Paypal
-                      input#pc-paypal(type='checkbox')
-                      span.checkmark
-                .order-btn
-                  button.site-btn.place-btn(type='submit') Place Order
+      if success
+        #checkout-message.alert.alert-success= success
+      if error
+        #checkout-message.alert.alert-danger= error
+      form.checkout-form(action='/checkout', method='post')
+        .row.justify-content-lg-center
+          if !user
+            .col-lg-6
+              h4 Biiling Details
+              .row
+                .col-lg-12
+                  label(for='fullname')
+                    | Full Name
+                    span *
+                  input#fullname(type='text', name='fullname')
+                .col-lg-12
+                  label(for='street')
+                    | Address
+                    span *
+                  input#street.street-first(type='text', name='address')
+                .col-lg-12
+                  label(for='email')
+                    | Email
+                    span *
+                  input#email(type='text', name='email')
+                .col-lg-12
+                  label(for='phone')
+                    | Phone
+                    span *
+                  input#phone(type='text', name='phoneNumber')
+              .checkout-content
+                a.content-btn(href='#') Click Here To Login
+            .col-lg-6
+              .place-order
+                h4 Your Order
+                .order-total
+                  ul.order-table
+                    li
+                      | Product 
+                      span Total
+                    each item in cart.items
+                      li.fw-normal= item.product.name + ' - ' + item.color + ' - ' + item.size + ' x ' + item.quantity
+                        span= item.product.salePrice*item.quantity + ' $'
+                    li.total-price
+                      | Total 
+                      span= totalPrice + ' $'
+                  .order-btn
+                    button.site-btn.place-btn(type='submit') Place Order
+          else
+            .col-lg-8
+              .place-order
+                h4 Your Order
+                .order-total
+                  ul.order-table
+                    li
+                      | Product 
+                      span Total
+                    each item in cart.items
+                      li.fw-normal= item.product.name + ' - ' + item.color + ' - ' + item.size + ' x ' + item.quantity
+                        span= item.product.salePrice*item.quantity + ' $'
+                    li.total-price
+                      | Total 
+                      span= totalPrice + ' $'
+                  .order-btn
+                    button.site-btn.place-btn(type='submit') Place Order
+
   // Shopping Cart Section End
   include ./common/footer

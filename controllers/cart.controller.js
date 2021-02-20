@@ -22,17 +22,19 @@ module.exports.getCart = async function(req, res){
 module.exports.changeCart = async function(req, res){
   var productId = req.body.productId;
   var size = req.body.size;
+  var color = req.body.color;
   var quantity = req.body.quantity;
   var product = {
     product: productId,
     size: size,
+    color: color,
     quantity: quantity
   }
 
   try {
     var cart = req.signedCookies.cart;
     var productIndex = cart.items.findIndex(function(item){
-      return item.product === product.product && item.size === product.size;
+      return item.product === product.product && item.size === product.size && item.color === product.color;
     });
 
     if(productIndex >= 0){
@@ -42,7 +44,6 @@ module.exports.changeCart = async function(req, res){
     }
     if(req.signedCookies.userId){
       await Cart.findByIdAndUpdate(cart._id, {items: cart.items});
-      return;
     }
     res.cookie('cart', cart, {
       signed: true
@@ -58,10 +59,10 @@ module.exports.changeCart = async function(req, res){
 //function to get information of cart
 module.exports.getCartData = async function(req, res){
   var cart = req.signedCookies.cart;
-  for(let item of cart.items){
-    item.product = await Product.findById(item.product);
-  }
   if(cart){
+    for(let item of cart.items){
+      item.product = await Product.findById(item.product);
+    }
     res.status(200).send(JSON.stringify(cart));
   } else {
     res.status(400).send('error');
@@ -73,14 +74,18 @@ module.exports.deleteItem = async function(req, res){
   var cart = req.signedCookies.cart;
   var productInfor = req.params.productInfor
   var productId = productInfor.slice(0, productInfor.indexOf('&&'));
-  var size = productInfor.slice(productInfor.indexOf('&&') + 2, productInfor.length);
+  var color = productInfor.slice(productInfor.indexOf('&&') + 2, productInfor.lastIndexOf('&&'));
+  var size = productInfor.slice(productInfor.lastIndexOf('&&') + 2, productInfor.length);
   var productIndex = cart.items.findIndex(function(item){
-    return item.product === productId && item.size === size;
+    return item.product === productId && item.size === size && item.color === color;
   });
   if(productIndex >= 0){
     cart.items.splice(productIndex, 1);
   } else {
     res.status(400).send('error');
+  }
+  if(req.signedCookies.userId){
+    await Cart.findByIdAndUpdate(cart._id, {items: cart.items});
   }
   var cookieOptions = {signed: true};
   if(!req.signedCookies.userId){
