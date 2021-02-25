@@ -25,6 +25,7 @@ var userInforRoute = require('./routes/userInfor.route');
 var authMiddleWare = require('./middlewares/auth.middleware');
 var userInforMiddleware = require('./middlewares/userInfor.middeware');
 var cartMiddleware = require('./middlewares/cart.middleware');
+var userMiddleware = require('./middlewares/user.middleware');
 
 app.set('view engine', 'pug');
 app.set('views', './views');
@@ -35,6 +36,7 @@ app.use(cookieParser(process.env.SESSION_SECRET));
 app.use(express.static('public'));
 
 app.use(cartMiddleware.getCart);
+app.use(userMiddleware.getUser);
 
 var User = require('./models/user.model');
 
@@ -51,7 +53,7 @@ app.get('/', userInforMiddleware.validateInfor, async function(req, res){
 app.use('/contact', contactRoute);
 app.use('/faq', faqRoute);
 app.use('/checkout', checkoutRoute);
-app.use('/cart', cartRoute);
+app.use('/cart',  cartRoute);
 app.use('/login', authRoute);
 app.use('/register', registerRoute);
 app.use('/blog', blogRoute);

@@ -7,6 +7,8 @@ module.exports.index = async function(req, res){
     post.category = await BlogCategory.findById(post.category.id);
   }
   res.render('frontend/blog/index', {
-    posts: posts
+    posts: posts,
+    user: res.locals.user,
+    cart: res.locals.cart
   });
 }

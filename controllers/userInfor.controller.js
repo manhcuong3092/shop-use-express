@@ -20,6 +20,8 @@ module.exports.postInfor = async function(req, res){
   user.validatedInfor = true;
   await User.findByIdAndUpdate(req.signedCookies.userId, {$set: user});
   res.render('frontend/index', {
-    user: user
+    user: user,
+    user: res.locals.user,
+    cart: res.locals.cart
   });
 }

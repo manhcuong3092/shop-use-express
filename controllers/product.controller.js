@@ -18,6 +18,8 @@ module.exports.detail = async function(req, res){
   //render html
   res.render('frontend/product-detail', {
     product: product,
+    user: res.locals.user,
+    cart: res.locals.cart
   });
 }
 

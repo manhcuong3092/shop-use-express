@@ -16,6 +16,8 @@ module.exports.getPost = async function(req, res){
   res.render('frontend/blog/blog-post', {
       post: posts[postIndex],
       prevPost: prevPost,
-      nextPost: nextPost
+      nextPost: nextPost,
+      user: res.locals.user,
+      cart: res.locals.cart
   });
 }

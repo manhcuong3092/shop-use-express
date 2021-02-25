@@ -17,7 +17,8 @@ module.exports.checkout = async function(req, res){
   }
   res.render('frontend/checkout', {
     cart: cart,
-    totalPrice: totalPrice
+    totalPrice: totalPrice,
+    user: res.locals.user
   });
 }
 

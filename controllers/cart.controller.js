@@ -19,7 +19,9 @@ module.exports.getCart = async function(req, res){
   // console.log(items);
   res.render('frontend/cart', {
     items: items,
-    totalCart: totalCart
+    totalCart: totalCart,
+    user: res.locals.user,
+    cart: res.locals.cart
   });
 }
 

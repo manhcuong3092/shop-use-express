@@ -4,7 +4,10 @@ var Contact = require('../models/contact.model');
 
 //render contact page
 module.exports.contact = function(req, res){
-  res.render('frontend/contact');
+  res.render('frontend/contact', {
+    user: res.locals.user,
+    cart: res.locals.cart
+  });
 }
 
 //get data contact form ajax, store to db

@@ -8,6 +8,8 @@ module.exports.index = async function(req, res){
     product.category = category;
   }
   res.render('frontend/shop', {
-    products: products
+    products: products,
+    user: res.locals.user,
+    cart: res.locals.cart
   });
 }
