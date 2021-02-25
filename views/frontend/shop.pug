@@ -123,8 +123,8 @@ block content
                 .col-lg-4.col-sm-6
                   .product-item
                     .pi-pic
-                      img(src= product.images[0] alt='')
-                      if product.salePrice !== product.price
+                      img(src= product.avatar, alt='')
+                      if product.salePrice
                         .sale.pp-sale Sale
                       .icon
                         i.icon_heart_alt
@@ -141,9 +141,11 @@ block content
                       .catagory-name= product.category.name
                       a(href= "/product/" + product.id)
                         h5= product.name
-                      .product-price= product.salePrice + '$ '
-                        if product.salePrice !== product.price
+                      if product.salePrice
+                        .product-price= product.salePrice + '$ '
                           span= '' + product.price + '$'
+                      else
+                        .product-price= product.price + '$ '
           .loading-more
             i.icon_loading
             a(href='#')

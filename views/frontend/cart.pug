@@ -40,14 +40,20 @@ block content
                       h5= item.product.name
                     td.first-row= item.color
                     td.first-row= item.size
-                    td.p-price.first-row(name= item.product.id + '&&' + item.color + '&&' + item.size)= item.product.salePrice + ' $'
+                    if(item.product.salePrice)
+                      td.p-price.first-row(name= item.product.id + '&&' + item.color + '&&' + item.size)= item.product.salePrice + ' $'
+                    else
+                      td.p-price.first-row(name= item.product.id + '&&' + item.color + '&&' + item.size)= item.product.price + ' $'
                     td.qua-col.first-row
                       .quantity
                         .pro-qty(name= item.product.id + '&&' + item.color + '&&' + item.size)
                           span(class='dec qtybtn')='-'
                           input(type='text', value= item.quantity)
                           span(class='inc qtybtn')='+'
-                    td.total-price.first-row(name= item.product.id + '&&' + item.color + '&&' + item.size)= item.product.salePrice*item.quantity + ' $'
+                    if(item.product.salePrice)      
+                      td.total-price.first-row(name= item.product.id + '&&' + item.color + '&&' + item.size)= item.product.salePrice*item.quantity + ' $'
+                    else
+                      td.total-price.first-row(name= item.product.id + '&&' + item.color + '&&' + item.size)= item.product.price*item.quantity + ' $'
                     td.close-td.first-row 
                       i.ti-close(name= item.product.id + '&&' + item.color + '&&' + item.size)
           .row
@@ -83,7 +89,8 @@ block content
         var data = {
           productId: productId,
           size: size,
-          quantity: parseInt(quantity)
+          quantity: parseInt(quantity),
+          color: color
         }
 
         $.ajax({
@@ -144,8 +151,15 @@ block content
           success: function(data) {
             $('#cart-table').empty();
             var totalPrice = 0;
+            var price;
             for(let item of data.items){
-              totalPrice += item.product.salePrice*item.quantity
+              if(item.product.salePrice) {
+                totalPrice += item.product.salePrice*item.quantity
+                price = item.product.salePrice;
+              } else {
+                totalPrice += item.product.price*item.quantity
+                price = item.product.price;
+              }
               $('#cart-table').append(
                 '<tr name="' + item.product._id + '&&' + item.size + '">' + 
                   '<td class="si-pic">' + 
@@ -153,7 +167,7 @@ block content
                   '</td>' + 
                   '<td class="si-text">' + 
                     '<div class="product-selected">' + 
-                      '<p>' + item.product.salePrice + '$ x ' + item.quantity + '</p>' + 
+                      '<p>' + price + '$ x ' + item.quantity + '</p>' + 
                       '<h6>' + item.product.name + ' - ' + item.size + '</h6>' +
                     '</div>' + 
                   '</td>' + 

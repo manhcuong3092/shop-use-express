@@ -9,8 +9,9 @@ var orderSchema = new mongoose.Schema({
     email: String,
     phoneNumber: String
   },
+  totalPrice: Number,
   createdDate: String,
-  status: {type: Boolean, default: false}
+  status: {type: String, default: 'Pending'}
 });
 
 var Order = mongoose.model('Order', orderSchema, 'orders');

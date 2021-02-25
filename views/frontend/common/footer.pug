@@ -113,10 +113,19 @@ script.
       contentType: "application/json",
       dataType: "json",
       success: function(data) {
+        //show item to cart
         $('#cart-table').empty();
         var totalPrice = 0;
+        //handle sale or no sale
         for(let item of data.items){
-          totalPrice += item.product.salePrice*item.quantity
+          var price;
+          if(item.product.salePrice){
+            totalPrice += item.product.salePrice*item.quantity
+            price = item.product.salePrice;
+          } else {
+            totalPrice += item.product.price*item.quantity
+            price = item.product.price;
+          }
           $('#cart-table').append(
             '<tr name="' + item.product._id + '&&' + item.color + '&&' + item.size + '">' + 
               '<td class="si-pic">' + 
@@ -124,7 +133,7 @@ script.
               '</td>' + 
               '<td class="si-text">' + 
                 '<div class="product-selected">' + 
-                  '<p>' + item.product.salePrice + '$ x ' + item.quantity + '</p>' + 
+                  '<p>' + price + '$ x ' + item.quantity + '</p>' + 
                   '<h6>' + item.product.name + ' - ' + item.color + ' - ' + item.size + '</h6>' +
                 '</div>' + 
               '</td>' + 

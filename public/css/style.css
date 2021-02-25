@@ -1175,7 +1175,8 @@ ol {
 }
 
 .product-item .pi-pic img {
-	min-width: 100%;
+  height: 250px;
+  object-fit: contain;
 }
 
 .product-item .pi-pic .sale {

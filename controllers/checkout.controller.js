@@ -9,7 +9,11 @@ module.exports.checkout = async function(req, res){
   var totalPrice = 0;
   for(let item of cart.items){
     item.product = await Product.findById(item.product);
-    totalPrice += item.product.salePrice*item.quantity;
+    if(item.product.salePrice){
+      totalPrice += item.product.salePrice*item.quantity;
+    } else {
+      totalPrice += item.product.price*item.quantity;
+    }
   }
   res.render('frontend/checkout', {
     cart: cart,
@@ -22,19 +26,25 @@ module.exports.postOrder = async function(req, res){
   var cart = req.signedCookies.cart;
   var now = new Date();
   var createdDate = date.format(now, 'YYYY-MM-DD HH:mm:ss');
+  var totalPrice = 0;
+  //calculate totalPrice
+  for(let item of cart.items){
+    item.product = await Product.findById(item.product);
+    if(item.product.salePrice){
+      totalPrice += item.product.salePrice*item.quantity;
+    } else {
+      totalPrice += item.product.price*item.quantity;
+    }
+  }
   var order = {
     userId: '',
     customer: {},
     items: cart.items,
+    totalPrice: totalPrice,
     createdDate: createdDate
   }
   //if no item in cart, do not store to db
   if(cart.items.length === 0){
-    totalPrice = 0;
-    for(let item of cart.items){
-      item.product = await Product.findById(item.product);
-      totalPrice += item.product.salePrice*item.quantity;
-    }
     res.render('frontend/checkout', {
       cart: cart,
       totalPrice: totalPrice,
@@ -42,6 +52,7 @@ module.exports.postOrder = async function(req, res){
     });
     return;
   }
+
   //handle order of user or guess
   if(req.signedCookies.userId){
     order.userId = req.signedCookies.userId;
@@ -75,11 +86,6 @@ module.exports.postOrder = async function(req, res){
         maxAge: 10*24*3600*1000
       });
     } else {
-      var totalPrice = 0;
-      for(let item of cart.items){
-        item.product = await Product.findById(item.product);
-        totalPrice += item.product.salePrice*item.quantity;
-      }
       res.render('frontend/checkout', {
         cart: cart,
         totalPrice: totalPrice,

@@ -9,7 +9,12 @@ module.exports.getCart = async function(req, res){
   }
   var totalCart = 0;
   for(let item of items){
-    totalCart += item.product.salePrice * item.quantity;
+    if(item.product.salePrice){
+      totalCart += item.product.salePrice * item.quantity;
+    } else {
+      totalCart += item.product.price * item.quantity;
+    }
+    
   }
   // console.log(items);
   res.render('frontend/cart', {
@@ -95,7 +100,11 @@ module.exports.deleteItem = async function(req, res){
   var totalPrice = 0;
   for(let item of cart.items){
     item.product = await Product.findById(item.product);
-    totalPrice += item.product.salePrice;
+    if(item.product.salePrice){
+      totalPrice += item.product.salePrice;
+    } else {
+      totalPrice += item.product.price;
+    }
   }
   var data = {
     numberOfItems: cart.items.length,

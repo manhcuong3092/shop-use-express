@@ -142,9 +142,11 @@ block content
                   span (5)
                 .pd-desc
                   p= product.shortDescription
-                  h4= "$" + product.salePrice
-                    if product.salePrice !== product.price
+                  if product.salePrice
+                    h4= "$" + product.salePrice
                       span= " $" + product.price
+                  else 
+                    h4= "$" + product.price
                 h5.mb-2 Size
                 .pd-size-choose
                   each size in product.sizes
@@ -171,7 +173,7 @@ block content
                   li
                     span TAGS : 
                       each tag in product.tags
-                        a(href='#')= tag.name + ", "
+                        a(href='#')= tag + ", "
                 .pd-share
                   .p-code Sku : 00012
                   .pd-social

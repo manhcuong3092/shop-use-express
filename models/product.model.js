@@ -9,6 +9,7 @@ var productSchema = new mongoose.Schema({
   detailDescription: {type: String, default: ""},
   colors: [{type: String, default: ""}],
   sizes: [{type: String, default: ""}],
+  avatar: {type: String, default: ""},
   images: [{type: String, default: ""}],
   tags: [{type: String, default: ""}],
   comments: [Object],
