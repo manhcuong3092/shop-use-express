@@ -1,0 +1,162 @@
+doctype html
+head
+  meta(charset='utf-8')
+  meta(http-equiv='X-UA-Compatible' content='IE=edge')
+  meta(name='viewport' content='width=device-width, initial-scale=1, shrink-to-fit=no')
+  meta(name='description' content='')
+  meta(name='author' content='')
+  title Static Navigation - SB Admin
+  link(href='css/styles.css' rel='stylesheet')
+  link(href='https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css' rel='stylesheet')
+  script(src='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/js/all.min.js' crossorigin='anonymous')
+nav.sb-topnav.navbar.navbar-expand.navbar-dark.bg-dark
+  a.navbar-brand(href='index.html') Start Bootstrap
+  button#sidebarToggle.btn.btn-link.btn-sm.order-1.order-lg-0(href='#')
+    i.fas.fa-bars
+  // Navbar Search
+  form.d-none.d-md-inline-block.form-inline.ml-auto.mr-0.mr-md-3.my-2.my-md-0
+    .input-group
+      input.form-control(type='text' placeholder='Search for...' aria-label='Search' aria-describedby='basic-addon2')
+      .input-group-append
+        button.btn.btn-primary(type='button')
+          i.fas.fa-search
+  // Navbar
+  ul.navbar-nav.ml-auto.ml-md-0
+    li.nav-item.dropdown
+      a#userDropdown.nav-link.dropdown-toggle(href='#' role='button' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false')
+        i.fas.fa-user.fa-fw
+      .dropdown-menu.dropdown-menu-right(aria-labelledby='userDropdown')
+        a.dropdown-item(href='#') Settings
+        a.dropdown-item(href='#') Activity Log
+        .dropdown-divider
+        a.dropdown-item(href='login.html') Logout
+#layoutSidenav
+  #layoutSidenav_nav
+    nav#sidenavAccordion.sb-sidenav.accordion.sb-sidenav-dark
+      .sb-sidenav-menu
+        .nav
+          .sb-sidenav-menu-heading Core
+          a.nav-link(href='index.html')
+            .sb-nav-link-icon
+              i.fas.fa-tachometer-alt
+            |               Dashboard
+          .sb-sidenav-menu-heading Interface
+          a.nav-link.collapsed(href='#' data-toggle='collapse' data-target='#collapseLayouts' aria-expanded='false' aria-controls='collapseLayouts')
+            .sb-nav-link-icon
+              i.fas.fa-columns
+            |               Layouts
+            .sb-sidenav-collapse-arrow
+              i.fas.fa-angle-down
+          #collapseLayouts.collapse(aria-labelledby='headingOne' data-parent='#sidenavAccordion')
+            nav.sb-sidenav-menu-nested.nav
+              a.nav-link(href='layout-static.html') Static Navigation
+              a.nav-link(href='layout-sidenav-light.html') Light Sidenav
+          a.nav-link.collapsed(href='#' data-toggle='collapse' data-target='#collapsePages' aria-expanded='false' aria-controls='collapsePages')
+            .sb-nav-link-icon
+              i.fas.fa-book-open
+            |               Pages
+            .sb-sidenav-collapse-arrow
+              i.fas.fa-angle-down
+          #collapsePages.collapse(aria-labelledby='headingTwo' data-parent='#sidenavAccordion')
+            nav#sidenavAccordionPages.sb-sidenav-menu-nested.nav.accordion
+              a.nav-link.collapsed(href='#' data-toggle='collapse' data-target='#pagesCollapseAuth' aria-expanded='false' aria-controls='pagesCollapseAuth')
+                | Authentication
+                .sb-sidenav-collapse-arrow
+                  i.fas.fa-angle-down
+              #pagesCollapseAuth.collapse(aria-labelledby='headingOne' data-parent='#sidenavAccordionPages')
+                nav.sb-sidenav-menu-nested.nav
+                  a.nav-link(href='login.html') Login
+                  a.nav-link(href='register.html') Register
+                  a.nav-link(href='password.html') Forgot Password
+              a.nav-link.collapsed(href='#' data-toggle='collapse' data-target='#pagesCollapseError' aria-expanded='false' aria-controls='pagesCollapseError')
+                | Error
+                .sb-sidenav-collapse-arrow
+                  i.fas.fa-angle-down
+              #pagesCollapseError.collapse(aria-labelledby='headingOne' data-parent='#sidenavAccordionPages')
+                nav.sb-sidenav-menu-nested.nav
+                  a.nav-link(href='401.html') 401 Page
+                  a.nav-link(href='404.html') 404 Page
+                  a.nav-link(href='500.html') 500 Page
+          .sb-sidenav-menu-heading Addons
+          a.nav-link(href='charts.html')
+            .sb-nav-link-icon
+              i.fas.fa-chart-area
+            |               Charts
+          a.nav-link(href='tables.html')
+            .sb-nav-link-icon
+              i.fas.fa-table
+            |               Tables
+      .sb-sidenav-footer
+        .small Logged in as:
+        |           Start Bootstrap
+  #layoutSidenav_content
+    main
+      div(style='height: 50px;')
+      .container-fluid
+        h2.mb-4 Add Product
+        form(method='post')
+          .form-group
+            label Category *
+            select#category.form-control.form-control-line(path='categories.id')
+              options(items='${categories}' itemvalue='id' itemlabel='name')
+          .form-group
+            label Title *
+            input#title.form-control(type='text')
+            small#emailHelp.form-text.text-muted
+          .form-group
+            label Price *
+            input#price.form-control(type='text')
+            small#emailHelp.form-text.text-muted  USD 
+          .form-group
+            label Sale Price
+            input#salePrice.form-control(type='text')
+            small#emailHelp.form-text.text-muted  USD 
+          .form-group
+            label Short Description *
+            input#shortDescription.form-control(type='text')
+            small#emailHelp.form-text.text-muted  Show in product 
+          .form-group
+            label Details description *
+            textarea#detailDescription.form-control.summernote(name='editordata')
+          .form-group
+            label Colors *
+            button#add-color.btn.btn-secondary.mb-2.ml-2(type='button') Add color
+            #colors-form-container
+              input.form-control.colors-form.mb-1(type='text')
+            small#emailHelp.form-text.text-muted
+          .form-group
+            label Tags *
+            button#add-tag.btn.btn-secondary.mb-2.ml-2(type='button') Add tag
+            #tags-form-container
+              input.form-control.tags-form.mb-1(type='text')
+            small#emailHelp.form-text.text-muted
+          .form-group
+            label SEO
+            input#seo.form-control(type='text')
+          .form-group
+            label Avatar
+            input(type='file' name='images' multiple='multiple')
+          .form-group
+            label Images
+            input(type='file' name='images' multiple='multiple')
+          button.btn.btn-primary.mt-3(type='submit') Add Product
+    footer.py-4.bg-light.mt-auto
+      .container-fluid
+        .d-flex.align-items-center.justify-content-between.small
+          .text-muted Copyright &copy; Your Website 2020
+          div
+            a(href='#') Privacy Policy
+            |               &middot;
+            a(href='#') Terms &amp; Conditions
+    include ../common/footer
+    script.
+      $(document).ready(function () {
+        $('.summernote').summernote();
+        $('#add-tag').click(function(){
+          $('#tags-form-container').append('<input type="text" class="form-control tags-form mb-1" />')
+        })
+        $('#add-color').click(function(){
+          $('#colors-form-container').append('<input type="text" class="form-control colors-form mb-1" />')
+        })
+      });
+

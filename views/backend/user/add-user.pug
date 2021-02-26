@@ -1,0 +1,45 @@
+extends ../common/layout
+block content
+  #layoutSidenav_content
+    main
+      div(style='height: 50px;')
+      .container-fluid
+        h2.mb-4 Add User
+        form(method='post')
+          .form-group
+            label Username *
+            input#title.form-control(type='text')
+            small#emailHelp.form-text.text-muted
+          .form-group
+            label Password *
+            input#price.form-control(type='text')
+          .form-group
+            label Email *
+            input#salePrice.form-control(type='text')
+          .form-group
+            label Full Name *
+            input#shortDescription.form-control(type='text')
+          .form-group
+            label Address *
+            input#shortDescription.form-control(type='text')
+          .form-group
+            label Avatar
+            input(type='file' name='images' multiple='multiple')
+          .form-group
+            label Role *
+            select#category.form-control.form-control-line(path='categories.id')
+              options(items='${categories}' itemvalue='id' itemlabel='name')
+          .form-check
+            input#flexCheckDefault.form-check-input(type='checkbox' checked='true')
+            label.form-check-label(for='flexCheckDefault')
+              | Available
+          button.btn.btn-primary.mt-3(type='submit') Add User
+    footer.py-4.bg-light.mt-auto
+      .container-fluid
+        .d-flex.align-items-center.justify-content-between.small
+          .text-muted Copyright &copy; Your Website 2020
+          div
+            a(href='#') Privacy Policy
+            |               &middot;
+            a(href='#') Terms &amp; Conditions
+    include ../common/footer

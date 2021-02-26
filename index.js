@@ -21,6 +21,15 @@ var aboutUsRoute = require('./routes/aboutUs.route');
 var productRoute = require('./routes/product.route');
 var subscribeRoute = require('./routes/subscribe.route');
 var userInforRoute = require('./routes/userInfor.route');
+var adminRoute = require('./routes/admin/index.route');
+var adminAuthRoute = require('./routes/admin/auth.route');
+var adminProductRoute = require('./routes/admin/product.route');
+var adminCategoryRoute = require('./routes/admin/category.route');
+var adminBlogCategoryRoute = require('./routes/admin/blogcategory.route');
+var adminOrderRoute = require('./routes/admin/order.route');
+var adminUserRoute = require('./routes/admin/user.route');
+var adminContactRoute = require('./routes/admin/contact.route');
+var adminPostRoute = require('./routes/admin/post.route');
 
 var authMiddleWare = require('./middlewares/auth.middleware');
 var userInforMiddleware = require('./middlewares/userInfor.middeware');
@@ -63,6 +72,16 @@ app.use('/shop', shopRoute);
 app.use('/about-us', aboutUsRoute);
 app.use('/subscribe', subscribeRoute);
 app.use('/user-infor', authMiddleWare.requireAuth, userInforRoute);
+//admin path
+app.use('/admin', authMiddleWare.adminRequireAuth, adminRoute);
+app.use('/login/admin', adminAuthRoute);
+app.use('/admin/product', authMiddleWare.adminRequireAuth, adminProductRoute);
+app.use('/admin/category', authMiddleWare.adminRequireAuth, adminCategoryRoute);
+app.use('/admin/blogcategory', authMiddleWare.adminRequireAuth, adminBlogCategoryRoute);
+app.use('/admin/order', authMiddleWare.adminRequireAuth, adminOrderRoute);
+app.use('/admin/user', authMiddleWare.adminRequireAuth, adminUserRoute);
+app.use('/admin/contact', authMiddleWare.adminRequireAuth, adminContactRoute);
+app.use('/admin/post', authMiddleWare.adminRequireAuth, adminPostRoute);
 
 app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`)

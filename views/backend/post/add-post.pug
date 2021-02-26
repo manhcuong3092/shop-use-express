@@ -1,0 +1,49 @@
+extends ../common/layout
+block content
+  #layoutSidenav_content
+    main
+      div(style='height: 50px;')
+      .container-fluid
+        h2.mb-4 Add Product
+        form(method='post')
+          .form-group
+            label Category *
+            select#category.form-control.form-control-line(path='categories.id')
+              options(items='${categories}' itemvalue='id' itemlabel='name')
+          .form-group
+            label Title *
+            input#title.form-control(type='text')
+            small#emailHelp.form-text.text-muted
+          .form-group
+            label Content *
+            textarea#content.form-control.summernote(name='editordata')
+          .form-group
+            label Slug
+            input.form-control(type='text')
+          .form-group
+            label Avatar
+            input(type='file' name='images' multiple='multiple')
+          .form-check
+            input#flexCheckDefault.form-check-input(type='checkbox' checked='true')
+            label.form-check-label(for='flexCheckDefault')
+              | Available
+          button.btn.btn-primary.mt-3(type='submit') Add Post
+    footer.py-4.bg-light.mt-auto
+      .container-fluid
+        .d-flex.align-items-center.justify-content-between.small
+          .text-muted Copyright &copy; Your Website 2020
+          div
+            a(href='#') Privacy Policy
+            |               &middot;
+            a(href='#') Terms &amp; Conditions
+    include ../common/footer
+    script.
+      $(document).ready(function () {
+        $('.summernote').summernote();
+          $('#add-tag').click(function(){
+        $('#tags-form-container').append('<input type="text" class="form-control tags-form mb-1" />')
+        })
+        $('#add-color').click(function(){
+          $('#colors-form-container').append('<input type="text" class="form-control colors-form mb-1" />')
+        })
+      });
