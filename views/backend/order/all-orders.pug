@@ -3,7 +3,7 @@ block content
   #layoutSidenav_content
     main
       .container-fluid
-        h1.mt-4 Tables
+        h1.mt-4 Orders
         ol.breadcrumb.mb-4
           li.breadcrumb-item
             a(href='index.html') Dashboard
@@ -27,7 +27,7 @@ block content
                     th Order Detail
                     th Total Price
                     th Order Date
-                    th Status
+                    th.text-center Status
                     th Action
                 tfoot
                   tr
@@ -35,49 +35,41 @@ block content
                     th Order Detail
                     th Total Price
                     th Order Date
-                    th Status
+                    th.text-center Status
                     th Action
                 tbody
-                  tr
-                    td Tiger Nixon
-                    td
-                      p Lorem amet
-                      p Lorem ipsum
-                    td 5000000
-                    td 30-12-2020
-                    td
-                      i.fas.fa-minus-circle
-                    td
-                      button.btn.btn-info
-                        i.fas.fa-info-circle
-                      button.btn.btn-warning
-                        i.fas.fa-shipping-fast
-                      button.btn.btn-success
-                        i.fas.fa-clipboard-check
-                      button.btn.btn-danger
-                        i.fas.fa-trash
-                  tr
-                    td Tiger Tran
-                    td Lorem ispum
-                    td 5000000
-                    td 30-12-2020
-                    td
-                      i.fas.fa-check-circle
-                    td
-                      button.btn.btn-info
-                        i.fas.fa-info-circle
-                      button.btn.btn-warning
-                        i.fas.fa-shipping-fast
-                      button.btn.btn-success
-                        i.fas.fa-clipboard-check
-                      button.btn.btn-danger
-                        i.fas.fa-trash
-    footer.py-4.bg-light.mt-auto
-      .container-fluid
-        .d-flex.align-items-center.justify-content-between.small
-          .text-muted Copyright &copy; Your Website 2020
-          div
-            a(href='#') Privacy Policy
-            |               &middot;
-            a(href='#') Terms &amp; Conditions
+                  each order in orders
+                    tr
+                      if(order.user)
+                        td= order.user.fullname
+                      else
+                        td= order.customer.fullname
+                      td
+                        each item in order.items
+                          p= item.product.name + ' - ' + item.color + ' - ' + item.size + ' x ' + item.quantity
+                      td.font-weight-bold= order.totalPrice
+                      td= order.createdDate
+                      td
+                        if order.status === 'delivering'
+                          p.text-center.text-capitalize.text-primary= order.status
+                        else if order.status === 'pending'
+                          p.text-center.text-capitalize.text-warning= order.status
+                        else if order.status === 'success'
+                          p.text-center.text-capitalize.text-success= order.status
+                        else if order.status === 'canceled'
+                          p.text-center.text-capitalize.text-danger= order.status
+                      td(name= order.id)
+                        button.btn.btn-info(data-bs-toggle="tooltip", data-bs-placement="top", title="View Info")
+                          i.fas.fa-info-circle
+                        if (order.status === 'pending')
+                          button.btn.btn-warning.ml-2(data-bs-toggle="tooltip", data-bs-placement="top", title="Deliver Order")
+                            i.fas.fa-shipping-fast
+                        if (order.status === 'delivering')
+                          button.btn.btn-success.ml-2(data-bs-toggle="tooltip", data-bs-placement="top", title="Success")
+                            i.fas.fa-clipboard-check
+                        if order.status !== 'success' && order.status !== 'canceled'
+                          button.btn.btn-danger.ml-2(data-bs-toggle="tooltip", data-bs-placement="top", title="Cancel order")
+                            i.fas.fa-times
+                        button.btn.btn-secondary.ml-2(data-bs-toggle="tooltip", data-bs-placement="top", title="Delete order")
+                            i.fas.fa-trash
     include ../common/footer

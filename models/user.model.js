@@ -8,7 +8,7 @@ var userSchema = new mongoose.Schema({
     phoneNumber: {type: String, default: ""},
     address: {type: String, default: ""},
     avatar: {type: String, default: "/img/default-user-image.png"},
-    roles: {type: String, default: ""},
+    role: {type: String, default: ""},
     accessAdminTool: {type: Boolean, defalut: false},
     permission: Object,
     createdDate: {type: String, default: ""},

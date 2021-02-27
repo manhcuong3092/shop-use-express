@@ -17,11 +17,15 @@ module.exports.postContact = function(req, res){
   var name = req.body.name;
   var email = req.body.email;
   var content = req.body.content
+  
   var contact = {
     customer: {name: name, email: email},
     content: content,
     createdDate: createdDate,
   };
+  if(req.signedCookies.userId){
+    contact.user = {id: req.signedCookies.userId}
+  }
   Contact.create(contact);
   res.status(200).send(JSON.stringify(req.body));
 }

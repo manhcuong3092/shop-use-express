@@ -18,14 +18,14 @@ nav.sb-topnav.navbar.navbar-expand.navbar-dark.bg-dark
         a.dropdown-item(href='#') Settings
         a.dropdown-item(href='#') Activity Log
         .dropdown-divider
-        a.dropdown-item(href='login.html') Logout
+        a.dropdown-item(href='/login/admin') Logout
 #layoutSidenav
   #layoutSidenav_nav
     nav#sidenavAccordion.sb-sidenav.accordion.sb-sidenav-dark
       .sb-sidenav-menu
         .nav
           .sb-sidenav-menu-heading Core
-          a.nav-link(href='index.html')
+          a.nav-link(href='/admin')
             .sb-nav-link-icon
               i.fas.fa-tachometer-alt
             |               Dashboard
@@ -39,7 +39,7 @@ nav.sb-topnav.navbar.navbar-expand.navbar-dark.bg-dark
           #collapseCategories.collapse(aria-labelledby='headingOne' data-parent='#sidenavAccordion')
             nav.sb-sidenav-menu-nested.nav
               a.nav-link(href='/admin/category/all-categories') All Categories
-              a.nav-link(href='/admin/category/add-category') Add New
+              a.nav-link(href='/admin/category/add-category') Add Category
           a.nav-link.collapsed(href='#' data-toggle='collapse' data-target='#collapseProducts' aria-expanded='false' aria-controls='collapseProducts')
             .sb-nav-link-icon
               i.fab.fa-product-hunt
@@ -49,7 +49,7 @@ nav.sb-topnav.navbar.navbar-expand.navbar-dark.bg-dark
           #collapseProducts.collapse(aria-labelledby='headingOne' data-parent='#sidenavAccordion')
             nav.sb-sidenav-menu-nested.nav
               a.nav-link(href='/admin/product/all-products') All Products
-              a.nav-link(href='/admin/product/add-product') Add New
+              a.nav-link(href='/admin/product/add-product') Add Product
           a.nav-link.collapsed(href='#' data-toggle='collapse' data-target='#collapseContacts' aria-expanded='false' aria-controls='collapseContacts')
             .sb-nav-link-icon
               i.fas.fa-envelope
@@ -81,16 +81,16 @@ nav.sb-topnav.navbar.navbar-expand.navbar-dark.bg-dark
           #collapseBlog.collapse(aria-labelledby='headingOne' data-parent='#sidenavAccordion')
             nav.sb-sidenav-menu-nested.nav
               a.nav-link(href='/admin/post/all-posts') All Posts
-              a.nav-link(href='/admin/post/add-post') Add New
+              a.nav-link(href='/admin/post/add-post') Add Post
               a.nav-link(href='layout-sidenav-light.html') Your posts
               a.nav-link.collapsed(href='#' data-toggle='collapse' data-target='#pagesCollapseAuth' aria-expanded='false' aria-controls='pagesCollapseAuth')
-                | Catrgories
+                | Categories
                 .sb-sidenav-collapse-arrow
                   i.fas.fa-angle-down
               #pagesCollapseAuth.collapse(aria-labelledby='headingOne' data-parent='#sidenavAccordionPages')
                 nav.sb-sidenav-menu-nested.nav
                   a.nav-link(href='/admin/blogcategory/all-blogcategories') All Blog Categories
-                  a.nav-link(href='/admin/blogcategory/add-blogcategoriy') Add New
+                  a.nav-link(href='/admin/blogcategory/add-blogcategory') Add Blog Categories
           a.nav-link.collapsed(href='#' data-toggle='collapse' data-target='#collapseUsers' aria-expanded='false' aria-controls='collapseUsers')
             .sb-nav-link-icon
               i.fas.fa-users
@@ -100,7 +100,7 @@ nav.sb-topnav.navbar.navbar-expand.navbar-dark.bg-dark
           #collapseUsers.collapse(aria-labelledby='headingOne' data-parent='#sidenavAccordion')
             nav.sb-sidenav-menu-nested.nav
               a.nav-link(href='/admin/user/all-users') All Users
-              a.nav-link(href='/admin/user/add-user') Add New
+              a.nav-link(href='/admin/user/add-user') Add User
               a.nav-link(href='layout-sidenav-light.html') Your Profile
           a.nav-link.collapsed(href='#' data-toggle='collapse' data-target='#collapsePages' aria-expanded='false' aria-controls='collapsePages')
             .sb-nav-link-icon

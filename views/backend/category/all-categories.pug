@@ -3,11 +3,11 @@ block content
   #layoutSidenav_content
     main
       .container-fluid
-        h1.mt-4 Tables
+        h1.mt-4 Product Categories
         ol.breadcrumb.mb-4
           li.breadcrumb-item
             a(href='index.html') Dashboard
-          li.breadcrumb-item.active Tables
+          li.breadcrumb-item.active Product Categories
         .card.mb-4
           .card-body
             | DataTables is a third party plugin that is used to generate the demo table below. For more information
@@ -25,45 +25,32 @@ block content
                   tr
                     th Name
                     th Description
-                    th Status
+                    th.text-center Status
                     th Edit
-                    th Remove
+                    th Delete
                 tfoot
                   tr
                     th Name
                     th Description
-                    th Status
+                    th.text-center Status
                     th Edit
-                    th Remove
+                    th Delete
                 tbody
-                  tr
-                    td Tiger Nixon
-                    td Lorem ipsum
-                    td
-                      i.fas.fa-minus-circle
-                    td
-                      button.btn.btn-warning
-                        i.fas.fa-edit
-                    td
-                      button.btn.btn-danger
-                        i.fas.fa-trash-alt
-                  tr
-                    td Tiger Tran
-                    td Lorem ispum
-                    td
-                      i.fas.fa-check-circle
-                    td
-                      button.btn.btn-warning
-                        i.fas.fa-edit
-                    td
-                      button.btn.btn-danger
-                        i.fas.fa-trash-alt
-    footer.py-4.bg-light.mt-auto
-      .container-fluid
-        .d-flex.align-items-center.justify-content-between.small
-          .text-muted Copyright &copy; Your Website 2020
-          div
-            a(href='#') Privacy Policy
-            |               &middot;
-            a(href='#') Terms &amp; Conditions
+                  each category in categories
+                    tr
+                      td= category.name
+                      td= category.description
+                      td
+                        if category.status
+                          h5.text-center.text-success
+                            i.fas.fa-check-circle
+                        else 
+                          h5.text-center.text-danger
+                            i.fas.fa-minus-circle
+                      td(name= category.id)
+                        button.btn.btn-warning
+                          i.fas.fa-edit
+                      td(name= category.id)
+                        button.btn.btn-danger
+                          i.fas.fa-trash-alt
     include ../common/footer

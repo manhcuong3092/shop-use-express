@@ -28,6 +28,13 @@ module.exports.postOrder = async function(req, res){
   var now = new Date();
   var createdDate = date.format(now, 'YYYY-MM-DD HH:mm:ss');
   var totalPrice = 0;
+  var order = {
+    user: {id: ''},
+    customer: {},
+    items: cart.items,
+    totalPrice: totalPrice,
+    createdDate: createdDate
+  }
   //calculate totalPrice
   for(let item of cart.items){
     item.product = await Product.findById(item.product);
@@ -36,14 +43,10 @@ module.exports.postOrder = async function(req, res){
     } else {
       totalPrice += item.product.price*item.quantity;
     }
+    item.product = item.product.id; //alias to order.items
   }
-  var order = {
-    userId: '',
-    customer: {},
-    items: cart.items,
-    totalPrice: totalPrice,
-    createdDate: createdDate
-  }
+  order.totalPrice = totalPrice;
+
   //if no item in cart, do not store to db
   if(cart.items.length === 0){
     res.render('frontend/checkout', {
@@ -53,10 +56,11 @@ module.exports.postOrder = async function(req, res){
     });
     return;
   }
+  console.log(order);
 
   //handle order of user or guess
   if(req.signedCookies.userId){
-    order.userId = req.signedCookies.userId;
+    order.user.id = req.signedCookies.userId;
     await Order.create(order);
     await Cart.findByIdAndUpdate(cart._id, {items: []});
     cart = {_id: cart._id, userId: req.signedCookies.userId, items: [], __v: 0}
@@ -80,6 +84,8 @@ module.exports.postOrder = async function(req, res){
     //if all field filled
     if(customer){
       order.customer = customer;
+      console.log(order);
+
       await Order.create(order);
       cart = {id: '', items: []}
       res.cookie('cart', cart, {

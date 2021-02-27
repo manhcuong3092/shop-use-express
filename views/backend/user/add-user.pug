@@ -2,9 +2,12 @@ extends ../common/layout
 block content
   #layoutSidenav_content
     main
-      div(style='height: 50px;')
       .container-fluid
-        h2.mb-4 Add User
+        h1.mt-4 Add User
+        ol.breadcrumb.mb-4
+          li.breadcrumb-item
+            a(href='index.html') Dashboard
+          li.breadcrumb-item.active Add User
         form(method='post')
           .form-group
             label Username *
@@ -34,12 +37,4 @@ block content
             label.form-check-label(for='flexCheckDefault')
               | Available
           button.btn.btn-primary.mt-3(type='submit') Add User
-    footer.py-4.bg-light.mt-auto
-      .container-fluid
-        .d-flex.align-items-center.justify-content-between.small
-          .text-muted Copyright &copy; Your Website 2020
-          div
-            a(href='#') Privacy Policy
-            |               &middot;
-            a(href='#') Terms &amp; Conditions
     include ../common/footer

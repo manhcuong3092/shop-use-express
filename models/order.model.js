@@ -1,7 +1,7 @@
 var mongoose = require('mongoose');
 
 var orderSchema = new mongoose.Schema({
-  userId: String,
+  user: Object,
   items: [Object],
   customer: {
     fullname: String,
@@ -11,7 +11,7 @@ var orderSchema = new mongoose.Schema({
   },
   totalPrice: Number,
   createdDate: String,
-  status: {type: String, default: 'Pending'}
+  status: {type: String, default: 'pending'}
 });
 
 var Order = mongoose.model('Order', orderSchema, 'orders');

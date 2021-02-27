@@ -2,9 +2,12 @@ extends ../common/layout
 block content
   #layoutSidenav_content
     main
-      div(style='height: 50px;')
       .container-fluid
-        h2.mb-4 Add Product
+        h1.mt-4 Add Post
+        ol.breadcrumb.mb-4
+          li.breadcrumb-item
+            a(href='index.html') Dashboard
+          li.breadcrumb-item.active Add Post
         form(method='post')
           .form-group
             label Category *
@@ -28,22 +31,8 @@ block content
             label.form-check-label(for='flexCheckDefault')
               | Available
           button.btn.btn-primary.mt-3(type='submit') Add Post
-    footer.py-4.bg-light.mt-auto
-      .container-fluid
-        .d-flex.align-items-center.justify-content-between.small
-          .text-muted Copyright &copy; Your Website 2020
-          div
-            a(href='#') Privacy Policy
-            |               &middot;
-            a(href='#') Terms &amp; Conditions
     include ../common/footer
     script.
       $(document).ready(function () {
         $('.summernote').summernote();
-          $('#add-tag').click(function(){
-        $('#tags-form-container').append('<input type="text" class="form-control tags-form mb-1" />')
-        })
-        $('#add-color').click(function(){
-          $('#colors-form-container').append('<input type="text" class="form-control colors-form mb-1" />')
-        })
       });
