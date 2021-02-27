@@ -28,3 +28,24 @@ module.exports.getAllOrders = async function(req, res){
     });
   }
 }
+
+module.exports.deleteOrder = async function(req, res){
+  var user = res.locals.user;
+  var havePermission = user.permission.manage_order.find(function(permission){
+    return permission === 'delete';
+  });
+  if(!havePermission){
+    res.render('backend/403');
+  } else {
+    var orderId = req.params.orderId;
+    var order = await Order.findByIdAndRemove(orderId);
+    if(order){
+      if(order.user.id){
+        order.user = await User.findById(order.user.id);
+      }
+      res.status(200).send(JSON.stringify(order));
+    } else {
+      res.status(400).send('error');
+    }
+  }
+}

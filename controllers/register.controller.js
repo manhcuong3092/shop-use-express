@@ -16,8 +16,19 @@ module.exports.postRegister = async function(req, res){
   }
   user = {
     username: req.body.username,
-    password: md5(req.body.password)
+    password: md5(req.body.password),
+    permission: {
+      "manage_product" : [],
+      "manage_category" : [],
+      "manage_contact" : [],
+      "manage_post" : [],
+      "manage_blogcategory" : [],
+      "manage_order" : [],
+      "manage_user" : []
+  },
+    accessAdminTool: false
   }
+  console.log(user)
   User.create(user);
   res.redirect('/login'); 
 }

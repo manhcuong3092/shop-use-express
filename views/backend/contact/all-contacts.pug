@@ -8,12 +8,8 @@ block content
           li.breadcrumb-item
             a(href='index.html') Dashboard
           li.breadcrumb-item.active Tables
-        .card.mb-4
-          .card-body
-            | DataTables is a third party plugin that is used to generate the demo table below. For more information
-            | about DataTables, please visit the
-            a(target='_blank' href='https://datatables.net/') official DataTables documentation
-            |               .
+        #error-message.alert.alert-danger
+        #success-message.alert.alert-success         .
         .card.mb-4
           .card-header
             i.fas.fa-table.mr-1
@@ -28,7 +24,7 @@ block content
                     th Content
                     th Created Date
                     th.text-center Status
-                    th Delete
+                    th Action
                 tfoot
                   tr
                     th Full Name
@@ -36,15 +32,15 @@ block content
                     th Content
                     th Created Date
                     th.text-center Status
-                    th Delete
+                    th Action
                 tbody
                   each contact in contacts
                     tr
-                      if contact.user
+                      if contact.user.id
                         td= contact.user.fullname
                       else 
                         td= contact.customer.name
-                      if contact.user
+                      if contact.user.id
                         td= contact.user.email
                       else 
                         td= contact.customer.email
@@ -56,6 +52,39 @@ block content
                         else 
                           p.text-center.text-primary received
                       td(name= contact.id)
-                        button.btn.btn-danger
+                        if !contact.status
+                          button.btn.btn-success.m-1.response-contact(data-bs-toggle="tooltip", data-bs-placement="top", title="Response")
+                            i.fas.fa-check-circle
+                        button.btn.btn-secondary.m-1.delete-contact(data-bs-toggle="tooltip", data-bs-placement="top", title="Delete")
                           i.fas.fa-trash-alt
     include ../common/footer
+    script.
+      $('#error-message').hide();
+      $('#success-message').hide();
+      
+      $(document).ready(function(){
+        $('.delete-contact').click(function(){
+          var answer = confirm("Are you want to delete " + $(this).parent().parent().children().first().text() + "'s contact?");
+          if (answer === false) {
+            return;
+          }
+          var name = $(this).parent().attr('name');
+          var selector = $(this);
+          $.ajax({
+            url: '/admin/contact/' + name,
+            type: 'delete',
+            contentType: "application/json",
+            dataType: "json",
+            success: function(data) {
+              selector.parent().parent().remove();
+              $('#success-message').text('Delete ' + (data.user.id ? data.user.fullname : data.customer.name) + "'s contact successfully!");
+              $('#success-message').show();
+              $('#error-message').hide();
+            },
+            error: function (jqXhr, textStatus, errorMessage) { // error callback 
+              $('#error-message').text('Error.');
+              $('#error-message').show();
+            }
+          });
+        });
+      });

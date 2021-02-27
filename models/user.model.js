@@ -10,7 +10,7 @@ var userSchema = new mongoose.Schema({
     avatar: {type: String, default: "/img/default-user-image.png"},
     role: {type: String, default: ""},
     accessAdminTool: {type: Boolean, defalut: false},
-    permission: Object,
+    permission: {type: Object, default: {}},
     createdDate: {type: String, default: ""},
     createdBy: {type: String, default: ""},
     updatedDate: {type: String, default: ""},

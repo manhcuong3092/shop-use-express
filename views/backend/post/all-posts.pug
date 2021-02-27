@@ -8,6 +8,8 @@ block content
           li.breadcrumb-item
             a(href='index.html') Dashboard
           li.breadcrumb-item.active Tables
+        #error-message.alert.alert-danger
+        #success-message.alert.alert-success
         .card.mb-4
           .card-body
             | DataTables is a third party plugin that is used to generate the demo table below. For more information
@@ -51,9 +53,39 @@ block content
                           h5.text-center.text-danger
                             i.fas.fa-minus-circle
                       td(name= post.id)
-                        button.btn.btn-warning
+                        button.btn.btn-warning.edit-post
                           i.fas.fa-edit
                       td(name= post.id)
-                        button.btn.btn-danger
+                        button.btn.btn-secondary.delete-post
                           i.fas.fa-trash-alt
     include ../common/footer
+    script.
+      $('#error-message').hide();
+      $('#success-message').hide();
+      
+      $(document).ready(function(){
+        $('.delete-post').click(function(){
+          var answer = confirm("Are you want to delete " + $(this).parent().parent().children().first().text() + '?');
+          if (answer === false) {
+            return;
+          }
+          var name = $(this).parent().attr('name');
+          var selector = $(this);
+          $.ajax({
+            url: '/admin/post/' + name,
+            type: 'delete',
+            contentType: "application/json",
+            dataType: "json",
+            success: function(data) {
+              selector.parent().parent().remove();
+              $('#success-message').text('Delete ' + data.title + ' successfully!');
+              $('#success-message').show();
+              $('#error-message').hide();
+            },
+            error: function (jqXhr, textStatus, errorMessage) { // error callback 
+              $('#error-message').text('Error.');
+              $('#error-message').show();
+            }
+          });
+        });
+      });

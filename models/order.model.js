@@ -1,7 +1,7 @@
 var mongoose = require('mongoose');
 
 var orderSchema = new mongoose.Schema({
-  user: Object,
+  user: {type: Object, default: {id: ''}},
   items: [Object],
   customer: {
     fullname: String,

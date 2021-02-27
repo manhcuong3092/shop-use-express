@@ -27,3 +27,21 @@ module.exports.getAddUser = function(req, res){
     res.render('backend/403');
   }
 }
+
+module.exports.deleteUser = async function(req, res){
+  var user = res.locals.user;
+  var havePermission = user.permission.manage_user.find(function(permission){
+    return permission === 'delete';
+  });
+  if(!havePermission){
+    res.render('backend/403');
+  } else {
+    var userId = req.params.userId;
+    var user = await User.findByIdAndRemove(userId);
+    if(user){
+      res.status(200).send(JSON.stringify(user));
+    } else {
+      res.status(400).send('error');
+    }
+  }
+}

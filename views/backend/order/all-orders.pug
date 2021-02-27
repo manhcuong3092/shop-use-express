@@ -8,12 +8,8 @@ block content
           li.breadcrumb-item
             a(href='index.html') Dashboard
           li.breadcrumb-item.active Tables
-        .card.mb-4
-          .card-body
-            | DataTables is a third party plugin that is used to generate the demo table below. For more information
-            | about DataTables, please visit the
-            a(target='_blank' href='https://datatables.net/') official DataTables documentation
-            |               .
+        #error-message.alert.alert-danger
+        #success-message.alert.alert-success           .
         .card.mb-4
           .card-header
             i.fas.fa-table.mr-1
@@ -59,17 +55,47 @@ block content
                         else if order.status === 'canceled'
                           p.text-center.text-capitalize.text-danger= order.status
                       td(name= order.id)
-                        button.btn.btn-info(data-bs-toggle="tooltip", data-bs-placement="top", title="View Info")
+                        button.btn.btn-info.m-1(data-bs-toggle="tooltip", data-bs-placement="top", title="View Info")
                           i.fas.fa-info-circle
                         if (order.status === 'pending')
-                          button.btn.btn-warning.ml-2(data-bs-toggle="tooltip", data-bs-placement="top", title="Deliver Order")
+                          button.btn.btn-warning.m-1(data-bs-toggle="tooltip", data-bs-placement="top", title="Deliver Order")
                             i.fas.fa-shipping-fast
                         if (order.status === 'delivering')
-                          button.btn.btn-success.ml-2(data-bs-toggle="tooltip", data-bs-placement="top", title="Success")
+                          button.btn.btn-success.m-1(data-bs-toggle="tooltip", data-bs-placement="top", title="Success")
                             i.fas.fa-clipboard-check
                         if order.status !== 'success' && order.status !== 'canceled'
-                          button.btn.btn-danger.ml-2(data-bs-toggle="tooltip", data-bs-placement="top", title="Cancel order")
+                          button.btn.btn-danger.m-1(data-bs-toggle="tooltip", data-bs-placement="top", title="Cancel order")
                             i.fas.fa-times
-                        button.btn.btn-secondary.ml-2(data-bs-toggle="tooltip", data-bs-placement="top", title="Delete order")
+                        button.btn.btn-secondary.delete-order.m-1(data-bs-toggle="tooltip", data-bs-placement="top", title="Delete order")
                             i.fas.fa-trash
     include ../common/footer
+    script.
+      $('#error-message').hide();
+      $('#success-message').hide();
+      
+      $(document).ready(function(){
+        $('.delete-order').click(function(){
+          var answer = confirm("Are you want to delete " + $(this).parent().parent().children().first().text() + "'s order?");
+          if (answer === false) {
+            return;
+          }
+          var name = $(this).parent().attr('name');
+          var selector = $(this);
+          $.ajax({
+            url: '/admin/order/' + name,
+            type: 'delete',
+            contentType: "application/json",
+            dataType: "json",
+            success: function(data) {
+              selector.parent().parent().remove();
+              $('#success-message').text('Delete ' + (data.user.id ? data.user.fullname : data.customer.fullname) + "'s order successfully!");
+              $('#success-message').show();
+              $('#error-message').hide();
+            },
+            error: function (jqXhr, textStatus, errorMessage) { // error callback 
+              $('#error-message').text('Error.');
+              $('#error-message').show();
+            }
+          });
+        });
+      });
