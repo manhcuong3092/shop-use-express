@@ -2,21 +2,18 @@ const express = require('express');
 const router = express.Router();
 
 var multer  = require('multer')
-var upload = multer({ 
-  dest: './public/uploads/',
-  filename: (req, file, cb) => {
-    const fileName = file.originalname.toLowerCase().split(' ').join('-');
-    cb(null, fileName)
+var storage = multer.diskStorage({
+  destination: function (req,file,cb) {
+    cb(null, './public/uploads/');
   },
-  fileFilter: (req, file, cb) => {
-    if (file.mimetype == "image/png" || file.mimetype == "image/jpg" || file.mimetype == "image/jpeg") {
-      cb(null, true);
-    } else {
-      cb(null, false);
-      return cb(new Error('Only .png, .jpg and .jpeg format allowed!'));
-    }
+  filename: function (req, file, cb) {
+      let ext = file.originalname.substring(file.originalname.lastIndexOf('.'), file.originalname.length);
+      cb(null, Date.now() + ext)
   }
 });
+const upload = multer({
+  storage: storage
+})
 
 var validate = require('../../validate/product.validate')
 var controller = require('../../controllers/admin/product.controller.js');
