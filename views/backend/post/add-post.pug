@@ -8,28 +8,33 @@ block content
           li.breadcrumb-item
             a(href='index.html') Dashboard
           li.breadcrumb-item.active Add Post
-        form(method='post')
+        if error
+          #error-message.alert.alert-danger= error
+        if success
+          #success-message.alert.alert-success= success
+        form(method='post' action='', enctype='multipart/form-data')
           .form-group
             label Category *
-            select#category.form-control.form-control-line(path='categories.id')
-              options(items='${categories}' itemvalue='id' itemlabel='name')
+            select#category.form-control.form-control-line(name='category')
+              each category in categories
+                option(value= category.id)= category.name
           .form-group
             label Title *
-            input#title.form-control(type='text')
+            input#title.form-control(type='text', name='title', value= (values ? values.title : ''))
             small#emailHelp.form-text.text-muted
           .form-group
             label Content *
-            textarea#content.form-control.summernote(name='editordata')
+            textarea#content.form-control.summernote(name='content')= (values ? values.content : '')
           .form-group
             label Slug
-            input.form-control(type='text')
+            input.form-control(type='text', name='slug', value= (values ? values.slug : ''))
           .form-group
             label Avatar
-            input(type='file' name='images' multiple='multiple')
+            input(type='file', name='avatar')
           .form-check
-            input#flexCheckDefault.form-check-input(type='checkbox' checked='true')
+            input#flexCheckDefault.form-check-input(type='checkbox' checked='true', name='status')
             label.form-check-label(for='flexCheckDefault')
-              | Available
+              | Active
           button.btn.btn-primary.mt-3(type='submit') Add Post
     include ../common/footer
     script.

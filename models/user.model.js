@@ -12,9 +12,9 @@ var userSchema = new mongoose.Schema({
     accessAdminTool: {type: Boolean, defalut: false},
     permission: {type: Object, default: {}},
     createdDate: {type: String, default: ""},
-    createdBy: {type: String, default: ""},
+    createdBy: {type: Object, default: {id: ''}},
     updatedDate: {type: String, default: ""},
-    updatedBy: {type: String, default: ""},
+    updatedBy: {type: Object, default: {id: ''}},
     validatedInfor: {type: Boolean, default: false},
     status: {type: Boolean, default: true}
 });

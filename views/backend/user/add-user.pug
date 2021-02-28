@@ -8,33 +8,43 @@ block content
           li.breadcrumb-item
             a(href='index.html') Dashboard
           li.breadcrumb-item.active Add User
-        form(method='post')
+        if error
+          #error-message.alert.alert-danger= error
+        if success
+          #success-message.alert.alert-success= success
+        form(method='post', action='', enctype='multipart/form-data')
           .form-group
             label Username *
-            input#title.form-control(type='text')
-            small#emailHelp.form-text.text-muted
+            input#title.form-control(type='text', name='username', value= (values ? values.username : ''))
           .form-group
             label Password *
-            input#price.form-control(type='text')
+            input#price.form-control(type='text', name='password', value= (values ? values.password : ''))
           .form-group
             label Email *
-            input#salePrice.form-control(type='text')
+            input#salePrice.form-control(type='email', name='email', value= (values ? values.email : ''))
           .form-group
             label Full Name *
-            input#shortDescription.form-control(type='text')
+            input#shortDescription.form-control(type='text', name='fullname', value= (values ? values.fullname : ''))
           .form-group
             label Address *
-            input#shortDescription.form-control(type='text')
+            input#shortDescription.form-control(type='text', name='address', value= (values ? values.address : ''))
+          .form-group
+            label Phone number *
+            input#shortDescription.form-control(type='text', name='phoneNumber', value= (values ? values.phoneNumber : ''))
           .form-group
             label Avatar
-            input(type='file' name='images' multiple='multiple')
+            input(type='file' name='avatar')
           .form-group
             label Role *
-            select#category.form-control.form-control-line(path='categories.id')
-              options(items='${categories}' itemvalue='id' itemlabel='name')
+            select#category.form-control.form-control-line(name='role')
+              option.selected(value= 'no role') No role
+              option(value= 'author') Author
+              option(value= 'editor') Editor
+              option(value= 'manager') Manager
+              option(value= 'administrator') Administrator
           .form-check
-            input#flexCheckDefault.form-check-input(type='checkbox' checked='true')
+            input#flexCheckDefault.form-check-input(type='checkbox', checked='true', name='accessAdminTool')
             label.form-check-label(for='flexCheckDefault')
-              | Available
+              | Access Admin Tool
           button.btn.btn-primary.mt-3(type='submit') Add User
     include ../common/footer

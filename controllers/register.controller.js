@@ -25,7 +25,7 @@ module.exports.postRegister = async function(req, res){
       "manage_blogcategory" : [],
       "manage_order" : [],
       "manage_user" : []
-  },
+    },
     accessAdminTool: false
   }
   console.log(user)
