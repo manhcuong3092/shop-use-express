@@ -8,61 +8,72 @@ block content
           li.breadcrumb-item
             a(href='index.html') Dashboard
           li.breadcrumb-item.active Add Products
-        form(method='post')
+        if error
+          #error-message.alert.alert-danger= error
+        if success
+          #success-message.alert.alert-success= success
+        form(method='post', action='', enctype='multipart/form-data')
           .form-group
             label Category *
-            select#category.form-control.form-control-line(path='categories.id')
-              options(items='${categories}' itemvalue='id' itemlabel='name')
+            select#category.form-control.form-control-line(name='category')
+              each category in categories
+                option(value= category.id)= category.name
           .form-group
-            label Title *
-            input#title.form-control(type='text')
+            label Name *
+            input#title.form-control(type='text', name='name', value= (values ? values.name : ''))
             small#emailHelp.form-text.text-muted
           .form-group
             label Price *
-            input#price.form-control(type='text')
+            input#price.form-control(type='text', name='price', value= (values ? values.price : ''))
             small#emailHelp.form-text.text-muted  USD 
           .form-group
             label Sale Price
-            input#salePrice.form-control(type='text')
+            input#salePrice.form-control(type='text', name='salePrice', value= (values ? values.salePrice : ''))
             small#emailHelp.form-text.text-muted  USD 
           .form-group
             label Short Description *
-            input#shortDescription.form-control(type='text')
+            input#shortDescription.form-control(type='text', name='shortDescription', value= (values ? values.shortDescription : ''))
             small#emailHelp.form-text.text-muted  Show in product 
           .form-group
-            label Details description *
-            textarea#detailDescription.form-control.summernote(name='editordata')
+            label Detail description *
+            textarea#detailDescription.form-control.summernote(name='detailDescription')= (values ? values.detailDescription : '')
+          .form-group
+            label Sizes *
+            button#add-size.btn.btn-secondary.mb-2.ml-2(type='button') Add Size
+            #sizes-form-container
+              input.form-control.sizes-form.mb-1(type='text', name='sizes[]')
           .form-group
             label Colors *
             button#add-color.btn.btn-secondary.mb-2.ml-2(type='button') Add color
             #colors-form-container
-              input.form-control.colors-form.mb-1(type='text')
-            small#emailHelp.form-text.text-muted
+              input.form-control.colors-form.mb-1(type='text', name='colors[]')
           .form-group
             label Tags *
             button#add-tag.btn.btn-secondary.mb-2.ml-2(type='button') Add tag
             #tags-form-container
-              input.form-control.tags-form.mb-1(type='text')
-            small#emailHelp.form-text.text-muted
+              input.form-control.tags-form.mb-1(type='text', name='tags[]')
           .form-group
             label SEO
-            input#seo.form-control(type='text')
+            input#seo.form-control(type='text', name='seo')
           .form-group
             label Avatar
-            input(type='file' name='images' multiple='multiple')
+            input(type='file' name='avatar')
           .form-group
             label Images
-            input(type='file' name='images' multiple='multiple')
+            input(type='file' name='images' multiple)
           button.btn.btn-primary.mt-3(type='submit') Add Product
     include ../common/footer
     script.
       $(document).ready(function () {
         $('.summernote').summernote();
         $('#add-tag').click(function(){
-          $('#tags-form-container').append('<input type="text" class="form-control tags-form mb-1" />')
-        })
+          $('#tags-form-container').append('<input type="text" class="form-control tags-form mb-1" name="tags[]" />')
+        });
         $('#add-color').click(function(){
-          $('#colors-form-container').append('<input type="text" class="form-control colors-form mb-1" />')
-        })
+          $('#colors-form-container').append('<input type="text" class="form-control colors-form mb-1" name="colors[]" />')
+        });
+        $('#add-size').click(function(){
+          $('#sizes-form-container').append('<input type="text" class="form-control sizes-form mb-1" name="sizes[]" />')
+        });
       });
 

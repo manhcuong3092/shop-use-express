@@ -5,9 +5,9 @@ var categorySchema = new mongoose.Schema({
   childrenId: [String],
   description: {type: String, default: ""},
   createdDate: {type: String, default: ""},
-  createdBy: {type: String, default: ""},
+  createdBy: {type: Object, default: {}},
   updatedDate: {type: String, default: ""},
-  updatedBy: {type: String, default: ""},
+  updatedBy: {type: Object, default: {}},
   status: {type: Boolean, default: true},
 });
 

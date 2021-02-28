@@ -4,7 +4,7 @@ var productSchema = new mongoose.Schema({
   name: {type: String, default: ""},
   category: {type: Object, default: {id: ''}},
   price: {type: Number, default: 0},
-  salePrice: {type: Number, default: NaN},
+  salePrice: {type: Number, default: 0},
   shortDescription: {type: String, default: ""},
   detailDescription: {type: String, default: ""},
   colors: [{type: String, default: ""}],
@@ -14,9 +14,9 @@ var productSchema = new mongoose.Schema({
   tags: [{type: String, default: ""}],
   comments: [Object],
   createdDate: {type: String, default: ""},
-  createdBy: {type: String, default: ""},
+  createdBy: {type: Object, default: {}},
   updatedDate: {type: String, default: ""},
-  updatedBy: {type: String, default: ""},
+  updatedBy: {type: Object, default: {}},
   status: {type: String, default: true},
   seo: {type: String, default: ""}
 });

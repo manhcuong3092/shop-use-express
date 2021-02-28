@@ -8,18 +8,20 @@ block content
           li.breadcrumb-item
             a(href='index.html') Dashboard
           li.breadcrumb-item.active Add Blog Category
+        if success 
+          #success-message.alert.alert-success= success
+        if error 
+          #success-message.alert.alert-danger= error
         form(method='post')
           .form-group
             label Name *
-            input#title.form-control(type='text')
-            small#emailHelp.form-text.text-muted  
+            input#title.form-control(type='text', name='name')
             .form-group
               label Description *
-              input#description.form-control(type='text')
-              small#emailHelp.form-text.text-muted  Show in product 
+              input#description.form-control(type='text', name='description')
             .form-check
-              input#flexCheckDefault.form-check-input(type='checkbox' checked='true')
+              input#flexCheckDefault.form-check-input(type='checkbox' checked='true', name='status')
               label.form-check-label(for='flexCheckDefault')
-                | Available
-            button.btn.btn-primary.mt-3(type='submit') Add Category
+                | Active
+            button.btn.btn-primary.mt-3(type='submit') Add Blog Category
     include ../common/footer

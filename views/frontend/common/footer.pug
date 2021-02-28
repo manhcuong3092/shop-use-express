@@ -119,7 +119,7 @@ script.
         //handle sale or no sale
         for(let item of data.items){
           var price;
-          if(item.product.salePrice){
+          if(item.product.salePrice != 0){
             totalPrice += item.product.salePrice*item.quantity
             price = item.product.salePrice;
           } else {
