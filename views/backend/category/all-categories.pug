@@ -44,7 +44,7 @@ block content
                           h5.text-center.text-danger
                             i.fas.fa-minus-circle
                       td(name= category.id)
-                        button.btn.btn-warning.edit-category
+                        a.btn.btn-warning.edit-category(href='/admin/categories/edit/' + category.id)
                           i.fas.fa-edit
                       td(name= category.id)
                         button.btn.btn-danger.delete-category
@@ -68,7 +68,7 @@ block content
           var name = $(this).parent().attr('name');
           var selector = $(this);
           $.ajax({
-            url: '/admin/category/' + name,
+            url: '/admin/categories/delete/' + name,
             type: 'delete',
             contentType: "application/json",
             dataType: "json",

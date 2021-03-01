@@ -18,10 +18,10 @@ const upload = multer({
 var controller = require('../../controllers/admin/post.controller.js');
 var validate = require('../../validate/post.validate')
 
-router.get('/all-posts', controller.getAllPosts);
-router.get('/add-post', controller.getAddPost);
+router.get('/', controller.getAllPosts);
+router.get('/create', controller.getAddPost);
 
-router.post('/add-post', 
+router.post('/create', 
   upload.single('avatar'), 
   validate.validatePost, 
   controller.postAddPost

@@ -64,7 +64,7 @@ block content
       
       $(document).ready(function(){
         $('.delete-contact').click(function(){
-          var answer = confirm("Are you want to delete " + $(this).parent().parent().children().first().text() + "'s contact?");
+          var answer = confirm("Are you sure you want to delete " + $(this).parent().parent().children().first().text() + "'s contact?");
           if (answer === false) {
             return;
           }

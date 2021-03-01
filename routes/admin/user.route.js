@@ -17,10 +17,10 @@ const upload = multer({
 var validate = require('../../validate/user.validate')
 var controller = require('../../controllers/admin/user.controller.js');
 
-router.get('/all-users', controller.getAllUsers);
-router.get('/add-user', controller.getAddUser);
+router.get('/', controller.getAllUsers);
+router.get('/create', controller.getAddUser);
 router.delete('/:userId', controller.deleteUser);
-router.post('/add-user', 
+router.post('/create', 
   upload.single('avatar'), 
   validate.validateUser, 
   controller.postAddUser

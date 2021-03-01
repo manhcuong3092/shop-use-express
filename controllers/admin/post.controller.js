@@ -24,7 +24,7 @@ module.exports.getAllPosts = async function(req, res){
 module.exports.getAddPost = async function(req, res){
   var user = res.locals.user;
   var havePermission = user.permission.manage_post.find(function(permission){
-    return permission === 'add';
+    return permission === 'create';
   });
   if(!havePermission){
     res.render('backend/403');
@@ -38,8 +38,16 @@ module.exports.getAddPost = async function(req, res){
 
 module.exports.postAddPost = async function(req, res){
   var user = res.locals.user;
+  var havePermission = user.permission.manage_post.find(function(permission){
+    return permission === 'create';
+  });
+  if(!havePermission){
+    res.render('backend/403');
+    return;
+  } 
+  var user = res.locals.user;
   var now = new Date();
-  var createdDate = date.format(now, 'YYYY-MM-DD HH-mm-ss');
+  var createdDate = date.format(now, 'YYYY-MM-DD HH:mm:ss');
 
   var post = {
     title: req.body.title,

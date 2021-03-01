@@ -1,0 +1,135 @@
+extends ../common/layout
+block content
+  #layoutSidenav_content
+    main
+      .container-fluid
+        h1.mt-4 Edit Product
+        ol.breadcrumb.mb-4
+          li.breadcrumb-item
+            a(href='index.html') Dashboard
+          li.breadcrumb-item.active Edit Products
+        if error
+          #error-message.alert.alert-danger= error
+        if success
+          #success-message.alert.alert-success= success
+        form(method='post', action='', enctype='multipart/form-data')
+          .form-group
+            label Category *
+            select#category.form-control.form-control-line(name='category')
+              each category in categories
+                if category.id === product.category.id
+                  option(value= category.id, selected)= category.name
+                else 
+                  option(value= category.id)= category.name
+          .form-group
+            label Name *
+            input#title.form-control(type='text', name='name', value= product.name)
+            small#emailHelp.form-text.text-muted
+          .form-group
+            label Price *
+            input#price.form-control(type='text', name='price', value= product.price)
+            small#emailHelp.form-text.text-muted  USD 
+          .form-group
+            label Sale Price
+            input#salePrice.form-control(type='text', name='salePrice', value= product.salePrice)
+            small#emailHelp.form-text.text-muted  USD 
+          .form-group
+            label Short Description *
+            input#shortDescription.form-control(type='text', name='shortDescription', value= product.shortDescription)
+            small#emailHelp.form-text.text-muted  Show in product 
+          .form-group
+            label Detail description *
+            textarea#detailDescription.form-control.summernote(name='detailDescription')= product.detailDescription
+          .form-group
+            label Sizes *
+            button#add-size.btn.btn-secondary.mb-2.ml-2(type='button') Add Size
+            #sizes-form-container
+              each size in product.sizes
+                input.form-control.sizes-form.mb-1(type='text', name='sizes[]', value= size)
+          .form-group
+            label Colors *
+            button#add-color.btn.btn-secondary.mb-2.ml-2(type='button') Add color
+            #colors-form-container
+              each color in product.colors
+                input.form-control.colors-form.mb-1(type='text', name='colors[]', value= color)
+          .form-group
+            label Tags *
+            button#add-tag.btn.btn-secondary.mb-2.ml-2(type='button') Add tag
+            #tags-form-container
+              each tag in product.tags
+                input.form-control.tags-form.mb-1(type='text', name='tags[]', value= tag)
+          .form-group
+            label SEO
+            input#seo.form-control(type='text', name='seo', value= product.seo)
+          .form-group
+            label Avatar
+            div
+              img(src= product.avatar, style='width:200px; height:200px; object-fit: center')
+            h6 Change avatar
+            input.mt-2(type='file' name='avatar')
+          .form-group
+            label Images
+            .row
+              each image in product.images
+                div.m-2
+                  img(src= image, style='width:200px; height:200px; object-fit: center')
+                  br
+                  .d-flex.justify-content-center
+                    button.btn.btn-danger.mx-auto.delete-images(type='button')
+                      i.fas.fa-times
+            h6 Add product images
+            input.mt-2(type='file' name='images' multiple)
+          div 
+            p.mt-3 Created Date:
+              span= ' ' + product.createdDate
+            if product.createdBy.id  
+              p Created By:
+                span= ' ' + product.createdBy.fullname 
+            if product.updatedDate
+              p Updated Date:
+                span= ' ' + product.updatedDate
+            if product.updatedBy.id
+              p Updated By:
+                span= ' ' + product.updatedBy.fullname 
+          .float-left.mt-3
+            button.btn.btn-warning(type='submit') Edit
+          .float-right.mt-3  
+            button.btn.btn-danger#delete-category(type='button') Delete
+          
+    include ../common/footer
+    script.
+      $(document).ready(function () {
+        $('.summernote').summernote();
+        $('#add-tag').click(function(){
+          $('#tags-form-container').append('<input type="text" class="form-control tags-form mb-1" name="tags[]" />')
+        });
+        $('#add-color').click(function(){
+          $('#colors-form-container').append('<input type="text" class="form-control colors-form mb-1" name="colors[]" />')
+        });
+        $('#add-size').click(function(){
+          $('#sizes-form-container').append('<input type="text" class="form-control sizes-form mb-1" name="sizes[]" />')
+        });
+
+        $('.delete-images').click(function(){
+          //get img src
+          var imgSrc = $(this).parent().parent().children().first().attr('src');
+          var imgId = imgSrc.slice(imgSrc.lastIndexOf('/') + 1, imgSrc.length);
+          var path = window.location.pathname;
+          var productId = path.slice(path.lastIndexOf('/') + 1, path.length);
+          var selector = $(this);
+          $.ajax({
+            url: '/admin/products/delete-image/' + productId + '&' + imgId,
+            type: 'delete',
+            contentType: "application/json",
+            dataType: "json",
+            success: function(data) {
+              selector.parent().parent().remove();
+              alert('Delete image successfully!')
+            },
+            error: function (jqXhr, textStatus, errorMessage) { // error callback 
+              alert('Error')
+            }
+          })
+        });
+      });
+

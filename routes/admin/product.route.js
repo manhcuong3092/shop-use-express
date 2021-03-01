@@ -18,15 +18,23 @@ const upload = multer({
 var validate = require('../../validate/product.validate')
 var controller = require('../../controllers/admin/product.controller.js');
 
-router.get('/all-products', controller.getAllProducts);
-router.get('/add-product', controller.getAddProduct);
+router.get('/', controller.getAllProducts);
+router.get('/create', controller.getAddProduct);
 
-router.post('/add-product', 
+router.post('/create', 
   upload.fields([{name: 'avatar', maxCount: 1}, {name: 'images', maxCount: 10}]), 
-  validate.validateProduct, 
+  validate.validateAddProduct, 
   controller.postAddProduct
 );
 
-router.delete('/:productId', controller.deleteProduct);
+router.get('/edit/:productId', controller.getEditProduct);
 
+router.post('/edit/:productId', 
+  upload.fields([{name: 'avatar', maxCount: 1}, {name: 'images', maxCount: 10}]), 
+  validate.validateEditProduct, 
+  controller.postEditProduct
+);
+
+router.delete('/delete/:productId', controller.deleteProduct);
+router.delete('/delete-image/:productId&:imageId', controller.deleteImageProduct);
 module.exports = router;

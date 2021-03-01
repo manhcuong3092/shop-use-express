@@ -1,0 +1,74 @@
+extends ../common/layout
+block content
+  #layoutSidenav_content
+    main
+      .container-fluid
+        h1.mt-4 Edit Blog Category
+        ol.breadcrumb.mb-4
+          li.breadcrumb-item
+            a(href='/admin') Dashboard
+          li.breadcrumb-item.active Edit Blog Category
+        if success 
+          #success-message.alert.alert-success= success
+        if error 
+          #success-message.alert.alert-danger= error
+        form(method='post')
+          .form-group
+            label Name *
+            input#title.form-control(type='text', name='name', value= category.name)
+            .form-group
+              label Description *
+              input#description.form-control(type='text', name='description', value= category.description)
+            .form-check
+              if category.status
+                input#flexCheckDefault.form-check-input(type='checkbox', checked, name='status')
+              else 
+                input#flexCheckDefault.form-check-input(type='checkbox', name='status')
+              label.form-check-label(for='flexCheckDefault')
+                | Active
+            p.mt-3 Created Date:
+              span= ' ' + category.createdDate
+            if category.createdBy.id  
+              p Created By:
+                span= ' ' + category.createdBy.fullname 
+            if category.updatedDate
+              p Updated Date:
+                span= ' ' + category.updatedDate
+            if category.updatedBy.id
+              p Updated By:
+                span= ' ' + category.updatedBy.fullname 
+            .float-left.mt-3
+              button.btn.btn-warning(type='submit') Edit
+            .float-right.mt-3  
+              button.btn.btn-danger#delete-category(type='button') Delete
+    include ../common/footer
+    script.
+      $(document).ready(function(){
+        $('#delete-category').click(function(){
+          var answer = confirm("Are you want to delete this category?");
+          if (answer === false) {
+            return;
+          }
+          answer = confirm("Delete this category also delete all product of this category?");
+          if (answer === false) {
+            return;
+          }
+          var name = $(this).parent().attr('name');
+          var selector = $(this);
+          var path = window.location.pathname;
+          var id = path.slice(path.lastIndexOf('/') + 1, path.length);
+          $.ajax({
+            url: '/admin/blogcategories/delete/' + id,
+            type: 'delete',
+            contentType: "application/json",
+            dataType: "json",
+            success: function(data) {
+              window.location.replace("/admin/blogcategory/all-blogcategories");
+            },
+            error: function (jqXhr, textStatus, errorMessage) { // error callback 
+              $('#error-message').text('Error.');
+              $('#error-message').show();
+            }
+          });
+        });
+      });

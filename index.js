@@ -75,13 +75,13 @@ app.use('/user-infor', authMiddleWare.requireAuth, userInforRoute);
 //admin path
 app.use('/admin', authMiddleWare.adminRequireAuth, adminRoute);
 app.use('/login/admin', adminAuthRoute);
-app.use('/admin/product', authMiddleWare.adminRequireAuth, adminProductRoute);
-app.use('/admin/category', authMiddleWare.adminRequireAuth, adminCategoryRoute);
-app.use('/admin/blogcategory', authMiddleWare.adminRequireAuth, adminBlogCategoryRoute);
-app.use('/admin/order', authMiddleWare.adminRequireAuth, adminOrderRoute);
-app.use('/admin/user', authMiddleWare.adminRequireAuth, adminUserRoute);
-app.use('/admin/contact', authMiddleWare.adminRequireAuth, adminContactRoute);
-app.use('/admin/post', authMiddleWare.adminRequireAuth, adminPostRoute);
+app.use('/admin/products', authMiddleWare.adminRequireAuth, adminProductRoute);
+app.use('/admin/categories', authMiddleWare.adminRequireAuth, adminCategoryRoute);
+app.use('/admin/blogcategories', authMiddleWare.adminRequireAuth, adminBlogCategoryRoute);
+app.use('/admin/orders', authMiddleWare.adminRequireAuth, adminOrderRoute);
+app.use('/admin/users', authMiddleWare.adminRequireAuth, adminUserRoute);
+app.use('/admin/contacts', authMiddleWare.adminRequireAuth, adminContactRoute);
+app.use('/admin/posts', authMiddleWare.adminRequireAuth, adminPostRoute);
 
 app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`)

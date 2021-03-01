@@ -2,7 +2,7 @@
 module.exports.validateUser = async function (req, res, next) {
   var user = res.locals.user;
   var havePermission = user.permission.manage_user.find(function(permission){
-    return permission === 'add';
+    return permission === 'create';
   });
   if(!havePermission){
     res.render('backend/403');
