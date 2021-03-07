@@ -48,10 +48,14 @@ app.use(cartMiddleware.getCart);
 app.use(userMiddleware.getUser);
 
 var User = require('./models/user.model');
+var Cart = require('./models/cart.model');
 
 app.get('/', userInforMiddleware.validateInfor, async function(req, res){
   user = await User.findById(req.signedCookies.userId);
   cart = req.signedCookies.cart;
+  if(user){
+    cart = await Cart.findById(req.signedCookies.cart.id).populate('product')
+  }
   res.render('frontend/index',{
     user: user,
     cart: cart

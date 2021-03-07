@@ -3,7 +3,7 @@ const Category = require('../models/category.model');
 //validate required field of add product form
 module.exports.validateAddProduct = async function (req, res, next) {
   var user = res.locals.user;
-  var havePermission = user.permission.manage_product.find(function(permission){
+  var havePermission = user.permissions.manage_product.find(function(permission){
     return permission === 'create';
   });
   if(!havePermission){
@@ -46,7 +46,7 @@ module.exports.validateAddProduct = async function (req, res, next) {
 //validate required field of edit product form
 module.exports.validateEditProduct = async function (req, res, next) {
   var user = res.locals.user;
-  var havePermission = user.permission.manage_product.find(function(permission){
+  var havePermission = user.permissions.manage_product.find(function(permission){
     return permission === 'edit';
   });
   if(!havePermission){

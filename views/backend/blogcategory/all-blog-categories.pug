@@ -68,7 +68,7 @@ block content
           var name = $(this).parent().attr('name');
           var selector = $(this);
           $.ajax({
-            url: '/admin/blogcategories/' + name,
+            url: '/admin/blogcategories/delete/' + name,
             type: 'delete',
             contentType: "application/json",
             dataType: "json",

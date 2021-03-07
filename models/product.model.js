@@ -1,8 +1,9 @@
 var mongoose = require('mongoose');
+const Schema = mongoose.Schema;
 
 var productSchema = new mongoose.Schema({
   name: {type: String, default: ""},
-  category: {type: Object, default: {id: ''}},
+  category: {type: Schema.Types.ObjectId, ref: 'Category', defaulut: null},
   price: {type: Number, default: 0},
   salePrice: {type: Number, default: 0},
   shortDescription: {type: String, default: ""},
@@ -14,9 +15,9 @@ var productSchema = new mongoose.Schema({
   tags: [{type: String, default: ""}],
   comments: [Object],
   createdDate: {type: String, default: ""},
-  createdBy: {type: Object, default: {}},
+  createdBy: {type: Schema.Types.ObjectId, ref: 'User', defaulut: null},
   updatedDate: {type: String, default: ""},
-  updatedBy: {type: Object, default: {}},
+  updatedBy: {type: Schema.Types.ObjectId, ref: 'User', defaulut: null},
   status: {type: String, default: true},
   seo: {type: String, default: ""}
 });

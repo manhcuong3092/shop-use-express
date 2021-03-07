@@ -47,7 +47,7 @@ block content
                           h5.text-center.text-danger
                             i.fas.fa-minus-circle
                       td(name= post.id)
-                        button.btn.btn-warning.edit-post
+                        a.btn.btn-warning.edit-post(name= post.id, href='/admin/posts/edit/' + post.id)
                           i.fas.fa-edit
                       td(name= post.id)
                         button.btn.btn-secondary.delete-post

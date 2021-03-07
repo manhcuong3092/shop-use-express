@@ -19,11 +19,18 @@ var controller = require('../../controllers/admin/user.controller.js');
 
 router.get('/', controller.getAllUsers);
 router.get('/create', controller.getAddUser);
-router.delete('/:userId', controller.deleteUser);
+router.delete('/delete/:userId', controller.deleteUser);
 router.post('/create', 
   upload.single('avatar'), 
   validate.validateUser, 
   controller.postAddUser
+);
+
+router.get('/edit/:userEditId', controller.getEditUser);
+router.post('/edit/:userId', 
+  upload.single('avatar'), 
+  validate.validateEditUser, 
+  controller.postEditUser
 );
 
 module.exports = router;

@@ -56,7 +56,7 @@ block content
                           h5.text-center.text-danger
                             i.fas.fa-minus-circle
                       td(name= user.id)
-                        button.btn.btn-warning
+                        a.btn.btn-warning.edit-user(name= user.id, href='/admin/users/edit/' + user.id)
                           i.fas.fa-edit
                       td(name= user.id)
                         button.btn.btn-secondary.delete-user

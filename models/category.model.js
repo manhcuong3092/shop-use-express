@@ -1,13 +1,14 @@
 var mongoose = require('mongoose');
+const Schema = mongoose.Schema;
 
 var categorySchema = new mongoose.Schema({
   name: {type: String, default: ""},
-  childrenId: [String],
+  childrenId: [{type: Schema.Types.ObjectId, ref: 'Category'}],
   description: {type: String, default: ""},
   createdDate: {type: String, default: ""},
-  createdBy: {type: Object, default: {}},
+  createdBy: {type: Schema.Types.ObjectId, ref: 'User'},
   updatedDate: {type: String, default: ""},
-  updatedBy: {type: Object, default: {}},
+  updatedBy: {type: Schema.Types.ObjectId, ref: 'User'},
   status: {type: Boolean, default: true},
 });
 

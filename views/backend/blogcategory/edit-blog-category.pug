@@ -28,13 +28,13 @@ block content
                 | Active
             p.mt-3 Created Date:
               span= ' ' + category.createdDate
-            if category.createdBy.id  
+            if category.createdBy
               p Created By:
                 span= ' ' + category.createdBy.fullname 
             if category.updatedDate
               p Updated Date:
                 span= ' ' + category.updatedDate
-            if category.updatedBy.id
+            if category.updatedBy
               p Updated By:
                 span= ' ' + category.updatedBy.fullname 
             .float-left.mt-3

@@ -17,7 +17,7 @@ module.exports.postRegister = async function(req, res){
   user = {
     username: req.body.username,
     password: md5(req.body.password),
-    permission: {
+    permissions: {
       "manage_product" : [],
       "manage_category" : [],
       "manage_contact" : [],

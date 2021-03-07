@@ -1,0 +1,152 @@
+extends ../common/layout
+block content
+  #layoutSidenav_content
+    main
+      .container-fluid
+        h1.mt-4 Edit User
+        ol.breadcrumb.mb-4
+          li.breadcrumb-item
+            a(href='index.html') Dashboard
+          li.breadcrumb-item.active Edit User
+        if error
+          #error-message.alert.alert-danger= error
+        if success
+          #success-message.alert.alert-success= success
+        form(method='post', action='', enctype='multipart/form-data')
+          .form-group
+            label Username *
+            input#title.form-control(type='text', name='username', value= userEdit.username)
+          .form-group
+            label Password *
+            input#price.form-control(type='text', name='password', value= userEdit.password)
+          .form-group
+            label Email *
+            input#salePrice.form-control(type='email', name='email', value= userEdit.email)
+          .form-group
+            label Full Name *
+            input#shortDescription.form-control(type='text', name='fullname', value= userEdit.fullname)
+          .form-group
+            label Address *
+            input#shortDescription.form-control(type='text', name='address', value= userEdit.address)
+          .form-group
+            label Phone number *
+            input#shortDescription.form-control(type='text', name='phoneNumber', value= userEdit.phoneNumber)
+          .form-group
+            label Avatar
+            div
+              img(src= userEdit.avatar, style='width:200px; height:200px; object-fit: center')
+            h6 Change avatar
+            input(type='file' name='avatar')
+          .form-group
+            label Role *
+            select#category.form-control.form-control-line(name='role')
+              option(value= 'no role', selected= (userEdit.role === 'no role' ? true : undefined)) No role
+              option(value= 'author', selected= (userEdit.role === 'author' ? true : undefined)) Author
+              option(value= 'editor', selected= (userEdit.role === 'editor' ? true : undefined)) Editor
+              option(value= 'manager', selected= (userEdit.role === 'manager' ? true : undefined)) Manager
+              option(value= 'administrator', selected= (userEdit.role === 'administrator' ? true : undefined)) Administrator  
+          .form-check
+            input#flexCheckDefault.form-check-input(type='checkbox', checked= userEdit.accessAdminTool, name='accessAdminTool')
+            label.form-check-label(for='flexCheckDefault')
+              | Access Admin Tool
+          .form-group.mt-3
+            p Permissions *
+            table.table
+              thead(style="text-align:center")
+                tr 
+                  th(style="text-align:left")(scope='col') Permission 
+                  th(scope='col') View 
+                  th(scope='col') Create 
+                  th(scope='col') Edit 
+                  th(scope='col') Delete 
+                  th(scope='col') Handle 
+              tbody(style="text-align:center")
+                tr 
+                  td(style="text-align:left") Manage Contact 
+                  td 
+                    input(type="checkbox", name= 'manage_contact.view' checked= userEdit.permissions.manage_contact.includes('view')) 
+                  td 
+                  td 
+                  td 
+                    input(type="checkbox", name= 'manage_contact.delete' checked= userEdit.permissions.manage_contact.includes('delete')) 
+                  td 
+                    input(type="checkbox", name= 'manage_contact.handle' checked= userEdit.permissions.manage_contact.includes('handle')) 
+                  tr 
+                tr
+                  td(style="text-align:left") Manage Order 
+                  td 
+                    input(type="checkbox", name= 'manage_order.view' checked= userEdit.permissions.manage_order.includes('view')) 
+                  td 
+                  td 
+                  td 
+                    input(type="checkbox", name= 'manage_order.delete' checked= userEdit.permissions.manage_order.includes('delete')) 
+                  td 
+                    input(type="checkbox", name= 'manage_order.handle' checked= userEdit.permissions.manage_order.includes('handle')) 
+                tr
+                  td(style="text-align:left") Manage Product Category 
+                  td
+                    input(type="checkbox", name= 'manage_category.view' checked= userEdit.permissions.manage_category.includes('view')) 
+                  td 
+                    input(type="checkbox", name= 'manage_category.create' checked= userEdit.permissions.manage_category.includes('create')) 
+                  td 
+                    input(type="checkbox", name= 'manage_category.edit' checked= userEdit.permissions.manage_category.includes('edit')) 
+                  td 
+                    input(type="checkbox", name= 'manage_category.delete' checked= userEdit.permissions.manage_category.includes('delete')) 
+                  td 
+                tr
+                  td(style="text-align:left") Manage Product 
+                  td
+                    input(type="checkbox", name= 'manage_product.view' checked= userEdit.permissions.manage_product.includes('view')) 
+                  td 
+                    input(type="checkbox", name= 'manage_product.create' checked= userEdit.permissions.manage_product.includes('create')) 
+                  td 
+                    input(type="checkbox", name= 'manage_product.edit' checked= userEdit.permissions.manage_product.includes('edit')) 
+                  td 
+                    input(type="checkbox", name= 'manage_product.delete' checked= userEdit.permissions.manage_product.includes('delete')) 
+                  td 
+                tr
+                  td(style="text-align:left") Manage Blog Category 
+                  td
+                    input(type="checkbox", name= 'manage_blogcategory.view' checked= userEdit.permissions.manage_blogcategory.includes('view')) 
+                  td 
+                    input(type="checkbox", name= 'manage_blogcategory.create' checked= userEdit.permissions.manage_blogcategory.includes('create')) 
+                  td 
+                    input(type="checkbox", name= 'manage_blogcategory.edit' checked= userEdit.permissions.manage_blogcategory.includes('edit')) 
+                  td 
+                    input(type="checkbox", name= 'manage_blogcategory.delete' checked= userEdit.permissions.manage_blogcategory.includes('delete')) 
+                  td 
+                tr
+                  td(style="text-align:left") Manage Post 
+                  td
+                    input(type="checkbox", name= 'manage_post.view' checked= userEdit.permissions.manage_post.includes('view')) 
+                  td 
+                    input(type="checkbox", name= 'manage_post.create' checked= userEdit.permissions.manage_post.includes('create')) 
+                  td 
+                    input(type="checkbox", name= 'manage_post.edit' checked= userEdit.permissions.manage_post.includes('edit')) 
+                  td 
+                    input(type="checkbox", name= 'manage_post.delete' checked= userEdit.permissions.manage_post.includes('delete')) 
+                  td 
+                tr
+                  td(style="text-align:left") Manage User 
+                  td
+                    input(type="checkbox", name= 'manage_user.view' checked= userEdit.permissions.manage_user.includes('view')) 
+                  td 
+                    input(type="checkbox", name= 'manage_user.create' checked= userEdit.permissions.manage_user.includes('create')) 
+                  td 
+                    input(type="checkbox", name= 'manage_user.edit' checked= userEdit.permissions.manage_user.includes('edit')) 
+                  td 
+                    input(type="checkbox", name= 'manage_user.delete' checked= userEdit.permissions.manage_user.includes('delete')) 
+                  td 
+          p.mt-3 Created Date:
+            span= ' ' + userEdit.createdDate
+          if userEdit.createdBy.id  
+            p Created By:
+              span= ' ' + userEdit.createdBy.fullname 
+          if userEdit.updatedDate
+            p Updated Date:
+              span= ' ' + userEdit.updatedDate
+          if userEdit.updatedBy.id
+            p Updated By:
+              span= ' ' + userEdit.updatedBy.fullname 
+          button.btn.btn-primary.mt-3(type='submit') Edit User
+    include ../common/footer

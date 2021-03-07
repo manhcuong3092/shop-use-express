@@ -2,6 +2,7 @@ var Product = require('../models/product.model');
 var Order = require('../models/order.model');
 var Cart = require('../models/cart.model');
 const date = require('date-and-time');
+const mongoose = require('mongoose');
 
 //function get checkout
 module.exports.checkout = async function(req, res){
@@ -29,23 +30,12 @@ module.exports.postOrder = async function(req, res){
   var createdDate = date.format(now, 'YYYY-MM-DD HH:mm:ss');
   var totalPrice = 0;
   var order = {
-    user: {id: ''},
+    user: null,
     customer: {},
     items: cart.items,
     totalPrice: totalPrice,
     createdDate: createdDate
   }
-  //calculate totalPrice
-  for(let item of cart.items){
-    item.product = await Product.findById(item.product);
-    if(item.product.salePrice){
-      totalPrice += item.product.salePrice*item.quantity;
-    } else {
-      totalPrice += item.product.price*item.quantity;
-    }
-    item.product = item.product.id; //alias to order.items
-  }
-  order.totalPrice = totalPrice;
 
   //if no item in cart, do not store to db
   if(cart.items.length === 0){
@@ -56,11 +46,22 @@ module.exports.postOrder = async function(req, res){
     });
     return;
   }
-  console.log(order);
+  
+  //calculate totalPrice
+  for(let item of cart.items){
+    item.product = await Product.findById(item.product);
+    if(item.product.salePrice){
+      totalPrice += item.product.salePrice*item.quantity;
+    } else {
+      totalPrice += item.product.price*item.quantity;
+    }
+    item.product = mongoose.Types.ObjectId(item.product.id); //alias to order.items
+  }
+  order.totalPrice = totalPrice;
 
   //handle order of user or guess
   if(req.signedCookies.userId){
-    order.user.id = req.signedCookies.userId;
+    order.user = mongoose.Types.ObjectId(req.signedCookies.userId);
     await Order.create(order);
     await Cart.findByIdAndUpdate(cart._id, {items: []});
     cart = {_id: cart._id, userId: req.signedCookies.userId, items: [], __v: 0}

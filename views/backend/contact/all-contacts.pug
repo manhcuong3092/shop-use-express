@@ -36,11 +36,11 @@ block content
                 tbody
                   each contact in contacts
                     tr
-                      if contact.user.id
+                      if contact.user
                         td= contact.user.fullname
                       else 
                         td= contact.customer.name
-                      if contact.user.id
+                      if contact.user
                         td= contact.user.email
                       else 
                         td= contact.customer.email
@@ -71,13 +71,13 @@ block content
           var name = $(this).parent().attr('name');
           var selector = $(this);
           $.ajax({
-            url: '/admin/contact/' + name,
+            url: '/admin/contacts/delete/' + name,
             type: 'delete',
             contentType: "application/json",
             dataType: "json",
             success: function(data) {
               selector.parent().parent().remove();
-              $('#success-message').text('Delete ' + (data.user.id ? data.user.fullname : data.customer.name) + "'s contact successfully!");
+              $('#success-message').text('Delete ' + (data.use ? data.user.fullname : data.customer.name) + "'s contact successfully!");
               $('#success-message').show();
               $('#error-message').hide();
             },

@@ -82,13 +82,13 @@ block content
           var name = $(this).parent().attr('name');
           var selector = $(this);
           $.ajax({
-            url: '/admin/order/' + name,
+            url: '/admin/orders/delete/' + name,
             type: 'delete',
             contentType: "application/json",
             dataType: "json",
             success: function(data) {
               selector.parent().parent().remove();
-              $('#success-message').text('Delete ' + (data.user.id ? data.user.fullname : data.customer.fullname) + "'s order successfully!");
+              $('#success-message').text('Delete ' + (data.user ? data.user.fullname : data.customer.fullname) + "'s order successfully!");
               $('#success-message').show();
               $('#error-message').hide();
             },

@@ -1,4 +1,5 @@
 var mongoose = require('mongoose');
+const Schema = mongoose.Schema;
 
 var userSchema = new mongoose.Schema({
     username: {type: String, default: ""},
@@ -10,11 +11,11 @@ var userSchema = new mongoose.Schema({
     avatar: {type: String, default: "/img/default-user-image.png"},
     role: {type: String, default: ""},
     accessAdminTool: {type: Boolean, defalut: false},
-    permission: {type: Object, default: {}},
+    permissions: {type: Object, default: {}},
     createdDate: {type: String, default: ""},
-    createdBy: {type: Object, default: {id: ''}},
+    createdBy: {type: Schema.Types.ObjectId, ref: 'User', defaulut: null},
     updatedDate: {type: String, default: ""},
-    updatedBy: {type: Object, default: {id: ''}},
+    updatedBy: {type: Schema.Types.ObjectId, ref: 'User', defaulut: null},
     validatedInfor: {type: Boolean, default: false},
     status: {type: Boolean, default: true}
 });

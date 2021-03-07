@@ -4,7 +4,7 @@ const md5 = require('md5');
 
 module.exports.getAllUsers = async function(req, res){
   var user = res.locals.user;
-  var havePermission = user.permission.manage_user.find(function(permission){
+  var havePermission = user.permissions.manage_user.find(function(permission){
     return permission === 'view';
   });
   if(!havePermission){
@@ -20,7 +20,7 @@ module.exports.getAllUsers = async function(req, res){
 
 module.exports.getAddUser = function(req, res){
   var user = res.locals.user;
-  var havePermission = user.permission.manage_user.find(function(permission){
+  var havePermission = user.permissions.manage_user.find(function(permission){
     return permission === 'create';
   });
   if(havePermission){
@@ -45,7 +45,7 @@ module.exports.postAddUser = async function(req, res){
     role: req.body.role,
     avatar: "",
     accessAdminTool: false,
-    permission: {
+    permissions: {
       manage_product : [],
       manage_category : [],
       manage_contact : [],
@@ -64,31 +64,31 @@ module.exports.postAddUser = async function(req, res){
 
   //set permissions of role
   if(req.body.role === 'author'){
-    user.permission.manage_post = ['create'];
+    user.permissions.manage_post = ['create'];
   } else if (req.body.role === 'editor') {
-    user.permission.manage_product = ['view', 'create', 'edit'];
-    user.permission.manage_product = ['view', 'create', 'edit'];
-    user.permission.manage_category = ['view', 'create', 'edit'];
-    user.permission.manage_post = ['view', 'create', 'edit'];
-    user.permission.manage_blogcategory = ['view', 'create', 'edit'];
+    user.permissions.manage_product = ['view', 'create', 'edit'];
+    user.permissions.manage_product = ['view', 'create', 'edit'];
+    user.permissions.manage_category = ['view', 'create', 'edit'];
+    user.permissions.manage_post = ['view', 'create', 'edit'];
+    user.permissions.manage_blogcategory = ['view', 'create', 'edit'];
   } else if (req.body.role === 'manager') {
-    user.permission.manage_product = ['view', 'create', 'edit', 'delete'];
-    user.permission.manage_product = ['view', 'create', 'edit', 'delete'];
-    user.permission.manage_category = ['view', 'create', 'edit', 'delete'];
-    user.permission.manage_post = ['view', 'create', 'edit', 'delete'];
-    user.permission.manage_blogcategory = ['view', 'create', 'edit', 'delete'];
-    user.permission.manage_contact = ['view', 'delete', 'handle'],
-    user.permission.manage_order = ['view', 'delete', 'handle'],
-    user.permission.manage_user = ['view', 'create']
+    user.permissions.manage_product = ['view', 'create', 'edit', 'delete'];
+    user.permissions.manage_product = ['view', 'create', 'edit', 'delete'];
+    user.permissions.manage_category = ['view', 'create', 'edit', 'delete'];
+    user.permissions.manage_post = ['view', 'create', 'edit', 'delete'];
+    user.permissions.manage_blogcategory = ['view', 'create', 'edit', 'delete'];
+    user.permissions.manage_contact = ['view', 'delete', 'handle'],
+    user.permissions.manage_order = ['view', 'delete', 'handle'],
+    user.permissions.manage_user = ['view', 'create']
   } else if (req.body.role === 'administrator') {
-    user.permission.manage_product = ['view', 'create', 'edit', 'delete'];
-    user.permission.manage_product = ['view', 'create', 'edit', 'delete'];
-    user.permission.manage_category = ['view', 'create', 'edit', 'delete'];
-    user.permission.manage_post = ['view', 'create', 'edit', 'delete'];
-    user.permission.manage_blogcategory = ['view', 'create', 'edit', 'delete'];
-    user.permission.manage_contact = ['view', 'delete', 'handle'],
-    user.permission.manage_order = ['view', 'delete', 'handle'],
-    user.permission.manage_user = ['view', 'create', 'edit', 'delete']
+    user.permissions.manage_product = ['view', 'create', 'edit', 'delete'];
+    user.permissions.manage_product = ['view', 'create', 'edit', 'delete'];
+    user.permissions.manage_category = ['view', 'create', 'edit', 'delete'];
+    user.permissions.manage_post = ['view', 'create', 'edit', 'delete'];
+    user.permissions.manage_blogcategory = ['view', 'create', 'edit', 'delete'];
+    user.permissions.manage_contact = ['view', 'delete', 'handle'],
+    user.permissions.manage_order = ['view', 'delete', 'handle'],
+    user.permissions.manage_user = ['view', 'create', 'edit', 'delete']
   }
   user.avatar = '/' + req.file.path.split('\\').slice(1).join('/');
   await User.create(user);
@@ -97,10 +97,46 @@ module.exports.postAddUser = async function(req, res){
   });
 }
 
+module.exports.getEditUser = async function(req, res){
+  var user = res.locals.user;
+  var havePermission = user.permissions.manage_user.find(function(permission){
+    return permission === 'edit';
+  });
+  if(!havePermission){
+    res.render('backend/403');
+    return;
+  } else {
+    var userEditId = req.params.userEditId;
+    userEdit = await User.findById(userEditId);
+    if(userEdit.createdBy.id){
+      userEdit.createdBy = await User.findById(userEdit.createdBy.id);
+    }
+    if(userEdit.updatedBy.id){
+      userEdit.updatedBy = await User.findById(userEdit.updatedBy.id);
+    }
+    res.render('backend/user/edit-user', {
+      userEdit: userEdit
+    });
+  }
+}
+
+module.exports.postEditUser = function(req, res){
+  var user = res.locals.user;
+  var havePermission = user.permissions.manage_user.find(function(permission){
+    return permission === 'edit';
+  });
+  if(!havePermission){
+    res.render('backend/403');
+    return;
+  } else {
+    res.render('backend/user/edit-user');
+  }
+}
+
 
 module.exports.deleteUser = async function(req, res){
   var user = res.locals.user;
-  var havePermission = user.permission.manage_user.find(function(permission){
+  var havePermission = user.permissions.manage_user.find(function(permission){
     return permission === 'delete';
   });
   if(!havePermission){

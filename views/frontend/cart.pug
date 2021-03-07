@@ -40,7 +40,7 @@ block content
                       h5= item.product.name
                     td.first-row= item.color
                     td.first-row= item.size
-                    if(item.product.salePrice)
+                    if item.product.salePrice != 0
                       td.p-price.first-row(name= item.product.id + '&&' + item.color + '&&' + item.size)= item.product.salePrice + ' $'
                     else
                       td.p-price.first-row(name= item.product.id + '&&' + item.color + '&&' + item.size)= item.product.price + ' $'

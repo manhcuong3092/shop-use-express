@@ -1,29 +1,30 @@
 const Post = require('../../models/post.model');
 const BlogCategory = require('../../models/blogCategory.model');
+const User = require('../../models/user.model');
 const date = require('date-and-time');
+const mongoose = require('mongoose');
 
+//render posts tabledata
 module.exports.getAllPosts = async function(req, res){
   var user = res.locals.user;
-  var havePermission = user.permission.manage_post.find(function(permission){
+  var havePermission = user.permissions.manage_post.find(function(permission){
     return permission === 'view';
   });
   if(!havePermission){
     res.render('backend/403');
     return;
   } else {
-    var posts = await Post.find();
-    for(let post of posts){
-      post.category = await BlogCategory.findById(post.category.id);
-    }
+    var posts = await Post.find().populate('category');
     res.render('backend/post/all-posts', {
       posts: posts
     });
   }
 }
 
+//render add post form
 module.exports.getAddPost = async function(req, res){
   var user = res.locals.user;
-  var havePermission = user.permission.manage_post.find(function(permission){
+  var havePermission = user.permissions.manage_post.find(function(permission){
     return permission === 'create';
   });
   if(!havePermission){
@@ -36,9 +37,10 @@ module.exports.getAddPost = async function(req, res){
   }); 
 }
 
+//get form and store to db
 module.exports.postAddPost = async function(req, res){
   var user = res.locals.user;
-  var havePermission = user.permission.manage_post.find(function(permission){
+  var havePermission = user.permissions.manage_post.find(function(permission){
     return permission === 'create';
   });
   if(!havePermission){
@@ -51,15 +53,13 @@ module.exports.postAddPost = async function(req, res){
 
   var post = {
     title: req.body.title,
-    category: {id: req.body.category},
+    category: mongoose.Types.ObjectId(req.body.category),
     content: req.body.content,
     avatar: "",
-    createdBy: {id: user.id},
-    createdDate: createdDate
+    createdBy: mongoose.Types.ObjectId(user.id),
+    createdDate: createdDate,
+    slug: req.body.slug
   };
-  if(req.body.slug){
-    post.slug = req.body.slug;
-  }
   if(!req.body.status){
     post.status = false;
   }
@@ -72,9 +72,57 @@ module.exports.postAddPost = async function(req, res){
   });
 }
 
+//show edit form
+module.exports.getEditPost = async function(req, res){
+  var user = res.locals.user;
+  var havePermission = user.permissions.manage_post.find(function(permission){
+    return permission === 'edit';
+  });
+  if(!havePermission){
+    res.render('backend/403');
+    return;
+  } 
+  var categories = await BlogCategory.find();
+  var postId = req.params.postId;
+  var post = await Post.findById(postId).populate('category createdBy updatedBy');
+  res.render('backend/post/edit-post', {
+    post: post,
+    categories: categories,
+  }); 
+}
+
+//update post
+module.exports.postEditPost = async function(req, res){
+  var user = res.locals.user;
+  var now = new Date();
+  var updatedDate = date.format(now, 'YYYY-MM-DD HH:mm:ss');
+  var postId = req.params.postId;
+  var post = await Post.findById(postId);
+  
+  post.title = req.body.title;
+  post.category = mongoose.Types.ObjectId(req.body.category),
+  post.content = req.body.content;
+  post.slug = req.body.slug;
+  post.updatedDate = updatedDate;
+  post.updatedBy = mongoose.Types.ObjectId(user.id);
+  post.slug = req.body.slug;
+  if(req.file){
+    post.avatar = '/' + req.file.path.split('\\').slice(1).join('/');
+  }
+
+  var categories = await BlogCategory.find();
+  post = await Post.findByIdAndUpdate(postId, {$set: post}).populate('category createdBy updatedBy');
+  res.render('backend/post/edit-post', {
+    post: post,
+    categories: categories,
+    success: "Edit Product Successfully"
+  }); 
+}
+
+//delete post
 module.exports.deletePost = async function(req, res){
   var user = res.locals.user;
-  var havePermission = user.permission.manage_post.find(function(permission){
+  var havePermission = user.permissions.manage_post.find(function(permission){
     return permission === 'delete';
   });
   if(!havePermission){

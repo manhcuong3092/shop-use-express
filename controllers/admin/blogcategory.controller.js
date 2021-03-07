@@ -1,12 +1,12 @@
 const BlogCategory = require('../../models/blogCategory.model')
 const Post = require('../../models/post.model')
-const User = require('../../models/user.model')
 const date = require('date-and-time');
+const mongoose = require('mongoose');
 
 //Render product detail
 module.exports.getAllCategories = async function(req, res){
   var user = res.locals.user;
-  var havePermission = user.permission.manage_blogcategory.find(function(permission){
+  var havePermission = user.permissions.manage_blogcategory.find(function(permission){
     return permission === 'view';
   });
   if(!havePermission){
@@ -21,7 +21,7 @@ module.exports.getAllCategories = async function(req, res){
 
 module.exports.getAddCategory = function(req, res){
   var user = res.locals.user;
-  var havePermission = user.permission.manage_blogcategory.find(function(permission){
+  var havePermission = user.permissions.manage_blogcategory.find(function(permission){
     return permission === 'create';
   });
   if(!havePermission){
@@ -33,7 +33,7 @@ module.exports.getAddCategory = function(req, res){
 
 module.exports.postAddCategory = async function(req, res){
   var user = res.locals.user;
-  var havePermission = user.permission.manage_blogcategory.find(function(permission){
+  var havePermission = user.permissions.manage_blogcategory.find(function(permission){
     return permission === 'create';
   });
   if(!havePermission){
@@ -50,13 +50,12 @@ module.exports.postAddCategory = async function(req, res){
     var status = (req.body.status ? true : false)
     var now = new Date();
     var createdDate = date.format(now, 'YYYY-MM-DD HH:mm:ss');
-    var createdBy = {id: user.id};
     var category = {
       name: name,
       description: description,
       status: status,
       createdDate: createdDate,
-      createdBy: createdBy
+      createdBy: mongoose.Types.ObjectId(user.id)
     }
     await BlogCategory.create(category);
     success = 'Added successfully!';
@@ -70,31 +69,25 @@ module.exports.postAddCategory = async function(req, res){
 //get form edit blog category
 module.exports.getEditBlogCategory = async function(req, res){
   var user = res.locals.user;
-  var havePermission = user.permission.manage_blogcategory.find(function(permission){
+  var havePermission = user.permissions.manage_blogcategory.find(function(permission){
     return permission === 'edit';
   });
   if(!havePermission){
     res.render('backend/403');
     return;
-  } else {
-    var categoryId = req.params.categoryId;
-    var category = await BlogCategory.findById(categoryId);
-    if(category.createdBy.id){
-      category.createdBy = await User.findById(category.createdBy.id);
-    }
-    if(category.updatedBy.id){
-      category.updatedBy = await User.findById(category.updatedBy.id);
-    }
-    res.render('backend/blogcategories/edit-blog-category', {
-      category: category
-    });
   }
+
+  var categoryId = req.params.categoryId;
+  var category = await BlogCategory.findById(categoryId).populate('createdBy updatedBy');
+  res.render('backend/blogcategory/edit-blog-category', {
+    category: category
+  });
 }
 
 //update blog category
 module.exports.postEditBlogCategory = async function(req, res){
   var user = res.locals.user;
-  var havePermission = user.permission.manage_blogcategory.find(function(permission){
+  var havePermission = user.permissions.manage_blogcategory.find(function(permission){
     return permission === 'edit';
   });
   if(!havePermission){
@@ -111,25 +104,18 @@ module.exports.postEditBlogCategory = async function(req, res){
     var status = (req.body.status ? true : false)
     var now = new Date();
     var updatedDate = date.format(now, 'YYYY-MM-DD HH:mm:ss');
-    var updatedBy = {id: user.id};
     var category = {
       name: name,
       description: description,
       status: status,
       updatedDate: updatedDate,
-      updatedBy: updatedBy
+      updatedBy: mongoose.Types.ObjectId(user.id)
     }
     await BlogCategory.findByIdAndUpdate(categoryId, {$set: category});
     success = 'Edit successfully!'
   }
-  var category = await BlogCategory.findById(categoryId);
-  if(category.createdBy.id){
-    category.createdBy = await User.findById(category.createdBy.id);
-  }
-  if(category.updatedBy.id){
-    category.updatedBy = await User.findById(category.updatedBy.id);
-  }
-  res.render('backend/blogcategories/edit-blog-category', {
+  var category = await BlogCategory.findById(categoryId).populate('createdBy updatedBy');
+  res.render('backend/blogcategory/edit-blog-category', {
     category: category,
     success: success,
     error: error
@@ -139,7 +125,7 @@ module.exports.postEditBlogCategory = async function(req, res){
 //delete blog category
 module.exports.deleteBlogCategory = async function(req, res){
   var user = res.locals.user;
-  var havePermission = user.permission.manage_blogcategory.find(function(permission){
+  var havePermission = user.permissions.manage_blogcategory.find(function(permission){
     return permission === 'delete';
   });
   if(!havePermission){

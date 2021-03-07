@@ -1,0 +1,64 @@
+extends ../common/layout
+block content
+  #layoutSidenav_content
+    main
+      .container-fluid
+        h1.mt-4 Edit Post
+        ol.breadcrumb.mb-4
+          li.breadcrumb-item
+            a(href='index.html') Dashboard
+          li.breadcrumb-item.active Edit Post
+        if error
+          #error-message.alert.alert-danger= error
+        if success
+          #success-message.alert.alert-success= success
+        form(method='post' action='', enctype='multipart/form-data')
+          .form-group
+            label Category *
+            select#category.form-control.form-control-line(name='category')
+              each category in categories
+                if category.id === post.category.id
+                  option(value= category.id, selected)= category.name
+                else 
+                  option(value= category.id)= category.name
+          .form-group
+            label Title *
+            input#title.form-control(type='text', name='title', value= post.title)
+            small#emailHelp.form-text.text-muted
+          .form-group
+            label Content *
+            textarea#content.form-control.summernote(name='content')= post.content
+          .form-group
+            label Slug
+            input.form-control(type='text', name='slug', value= post.slug)
+          .form-group
+            label Avatar
+            div
+              img(src= post.avatar, style='width:200px; height:200px; object-fit: center')
+            h6 Change avatar
+            input(type='file', name='avatar')
+          .form-check
+            input#flexCheckDefault.form-check-input(type='checkbox' checked='true', name='status')
+            label.form-check-label(for='flexCheckDefault')
+              | Active
+          div 
+            p.mt-3 Created Date:
+              span= ' ' + post.createdDate
+            if post.createdBy  
+              p Created By:
+                span= ' ' + post.createdBy.fullname 
+            if post.updatedDate
+              p Updated Date:
+                span= ' ' + post.updatedDate
+            if post.updatedBy
+              p Updated By:
+                span= ' ' + post.updatedBy.fullname 
+          .float-left.mt-3
+            button.btn.btn-warning(type='submit') Edit
+          .float-right.mt-3  
+            button.btn.btn-danger#delete-post(type='button') Delete
+    include ../common/footer
+    script.
+      $(document).ready(function () {
+        $('.summernote').summernote();
+      });

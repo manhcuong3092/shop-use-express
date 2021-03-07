@@ -82,19 +82,19 @@ block content
           div 
             p.mt-3 Created Date:
               span= ' ' + product.createdDate
-            if product.createdBy.id  
+            if product.createdBy
               p Created By:
                 span= ' ' + product.createdBy.fullname 
             if product.updatedDate
               p Updated Date:
                 span= ' ' + product.updatedDate
-            if product.updatedBy.id
+            if product.updatedBy
               p Updated By:
                 span= ' ' + product.updatedBy.fullname 
           .float-left.mt-3
             button.btn.btn-warning(type='submit') Edit
           .float-right.mt-3  
-            button.btn.btn-danger#delete-category(type='button') Delete
+            button.btn.btn-danger#delete-product(type='button') Delete
           
     include ../common/footer
     script.

@@ -420,7 +420,11 @@ block content
           var cart = jsonResult;
           var totalCart = 0;
           for(let item of cart.items){
-            totalCart += item.product.salePrice*item.quantity;
+            if(item.product.salePrice){
+              totalCart += item.product.salePrice*item.quantity;
+            } else {
+              totalCart += item.product.price*item.quantity;
+            }
           }
           $('#cart-total-price').text(totalCart + ' $');
           $('#outside-cart-total-price').text(totalCart + ' $');
@@ -428,13 +432,13 @@ block content
           $('#cart-table').empty();
           for(let item of cart.items){
             $('#cart-table').append(
-              '<tr name="' + item.product._id + '&&' + item.size + '">' + 
+              '<tr name="' + item.product._id + '&&' + item.color + '&&' + item.size + '">' + 
                 '<td class="si-pic">' + 
                   '<img src="' + item.product.images[0] + '"/>' + 
                 '</td>' + 
                 '<td class="si-text">' + 
                   '<div class="product-selected">' + 
-                    '<p>' + item.product.salePrice + '$ x ' + item.quantity + '</p>' + 
+                    '<p>' + (item.product.salePrice ? item.product.salePrice : item.product.price) + '$ x ' + item.quantity + '</p>' + 
                     '<h6>' + item.product.name + ' - ' + item.color + ' - ' + item.size + '</h6>' +
                   '</div>' + 
                 '</td>' + 
