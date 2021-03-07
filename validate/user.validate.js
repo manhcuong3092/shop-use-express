@@ -1,10 +1,9 @@
+const permission = require('../permission/permission');
+
 //validate required field of add post form
 module.exports.validateUser = async function (req, res, next) {
   var user = res.locals.user;
-  var havePermission = user.permissions.manage_user.find(function(permission){
-    return permission === 'create';
-  });
-  if(!havePermission){
+    if(!permission.checkPermission(user.permissions.user, 'create')){
     res.render('backend/403');
     return;
   }
@@ -39,10 +38,7 @@ module.exports.validateUser = async function (req, res, next) {
 //validate required field of edit post form
 module.exports.validateEditUser = async function (req, res, next) {
   var user = res.locals.user;
-  var havePermission = user.permissions.manage_user.find(function(permission){
-    return permission === 'create';
-  });
-  if(!havePermission){
+  if(!permission.checkPermission(user.permissions.user, 'edit')){
     res.render('backend/403');
     return;
   }

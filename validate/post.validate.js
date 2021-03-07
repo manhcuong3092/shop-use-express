@@ -1,12 +1,10 @@
 const BlogCategory = require('../models/blogCategory.model');
+var permission = require('../permission/permission')
 
 //validate required field of add post form
 module.exports.validatePost = async function (req, res, next) {
   var user = res.locals.user;
-  var havePermission = user.permissions.manage_post.find(function(permission){
-    return permission === 'create';
-  });
-  if(!havePermission){
+  if(!permission.checkPermission(user.permissions.manage_post, 'create')){
     res.render('backend/403');
     return;
   }
@@ -35,10 +33,7 @@ module.exports.validatePost = async function (req, res, next) {
 //validate required field of edit post form
 module.exports.validateEditPost = async function (req, res, next) {
   var user = res.locals.user;
-  var havePermission = user.permissions.manage_post.find(function(permission){
-    return permission === 'edit';
-  });
-  if(!havePermission){
+  if(!permission.checkPermission(user.permissions.manage_post, 'edit')){
     res.render('backend/403');
     return;
   }

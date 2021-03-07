@@ -3,14 +3,12 @@ const Category = require('../../models/category.model');
 const User = require('../../models/user.model');
 const date = require('date-and-time');
 const mongoose = require('mongoose');
+const permission = require('../../permission/permission');
 
 //Render all product
 module.exports.getAllProducts = async function(req, res){
   var user = res.locals.user;
-  var havePermission = user.permissions.manage_product.find(function(permission){
-    return permission === 'view';
-  });
-  if(!havePermission){
+  if(!permission.checkPermission(user.permissions.manage_product, 'view')){
     res.render('backend/403');
     return;
   }
@@ -23,10 +21,7 @@ module.exports.getAllProducts = async function(req, res){
 //render add product page
 module.exports.getAddProduct = async function(req, res){
   var user = res.locals.user;
-  var havePermission = user.permissions.manage_product.find(function(permission){
-    return permission === 'create';
-  });
-  if(!havePermission){
+  if(!permission.checkPermission(user.permissions.manage_product, 'add')){
     res.render('backend/403');
     return;
     
@@ -77,10 +72,7 @@ module.exports.postAddProduct = async function(req, res){
 //Render edit product page
 module.exports.getEditProduct = async function(req, res){
   var user = res.locals.user;
-  var havePermission = user.permissions.manage_product.find(function(permission){
-    return permission === 'edit';
-  });
-  if(!havePermission){
+  if(!permission.checkPermission(user.permissions.manage_product, 'edit')){
     res.render('backend/403');
     return;
     
@@ -141,10 +133,7 @@ module.exports.postEditProduct = async function(req, res){
 //deleta a product
 module.exports.deleteProduct = async function(req, res){
   var user = res.locals.user;
-  var havePermission = user.permissions.manage_product.find(function(permission){
-    return permission === 'delete';
-  });
-  if(!havePermission){
+  if(!permission.checkPermission(user.permissions.manage_product, 'delete')){
     res.render('backend/403');
   } else {
     var productId = req.params.productId;

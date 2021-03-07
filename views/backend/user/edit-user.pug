@@ -139,13 +139,13 @@ block content
                   td 
           p.mt-3 Created Date:
             span= ' ' + userEdit.createdDate
-          if userEdit.createdBy.id  
+          if userEdit.createdBy
             p Created By:
               span= ' ' + userEdit.createdBy.fullname 
           if userEdit.updatedDate
             p Updated Date:
               span= ' ' + userEdit.updatedDate
-          if userEdit.updatedBy.id
+          if userEdit.updatedBy
             p Updated By:
               span= ' ' + userEdit.updatedBy.fullname 
           button.btn.btn-primary.mt-3(type='submit') Edit User

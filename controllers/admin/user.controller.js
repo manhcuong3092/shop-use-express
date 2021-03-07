@@ -1,13 +1,11 @@
 const User = require('../../models//user.model');
 const date = require('date-and-time');
 const md5 = require('md5');
+const permission = require('../../permission/permission');
 
 module.exports.getAllUsers = async function(req, res){
   var user = res.locals.user;
-  var havePermission = user.permissions.manage_user.find(function(permission){
-    return permission === 'view';
-  });
-  if(!havePermission){
+  if(!permission.checkPermission(user.permissions.manage_user, 'view')){
     res.render('backend/403');
     return;
   } else {
@@ -20,10 +18,7 @@ module.exports.getAllUsers = async function(req, res){
 
 module.exports.getAddUser = function(req, res){
   var user = res.locals.user;
-  var havePermission = user.permissions.manage_user.find(function(permission){
-    return permission === 'create';
-  });
-  if(havePermission){
+  if(!permission.checkPermission(user.permissions.manage_user, 'add')){
     res.render('backend/user/add-user');
   } else {
     res.render('backend/403');
@@ -99,21 +94,12 @@ module.exports.postAddUser = async function(req, res){
 
 module.exports.getEditUser = async function(req, res){
   var user = res.locals.user;
-  var havePermission = user.permissions.manage_user.find(function(permission){
-    return permission === 'edit';
-  });
-  if(!havePermission){
+  if(!permission.checkPermission(user.permissions.manage_user, 'edit')){
     res.render('backend/403');
     return;
   } else {
     var userEditId = req.params.userEditId;
-    userEdit = await User.findById(userEditId);
-    if(userEdit.createdBy.id){
-      userEdit.createdBy = await User.findById(userEdit.createdBy.id);
-    }
-    if(userEdit.updatedBy.id){
-      userEdit.updatedBy = await User.findById(userEdit.updatedBy.id);
-    }
+    userEdit = await User.findById(userEditId).populate('createdBy updatedBy');
     res.render('backend/user/edit-user', {
       userEdit: userEdit
     });
@@ -136,10 +122,7 @@ module.exports.postEditUser = function(req, res){
 
 module.exports.deleteUser = async function(req, res){
   var user = res.locals.user;
-  var havePermission = user.permissions.manage_user.find(function(permission){
-    return permission === 'delete';
-  });
-  if(!havePermission){
+  if(!permission.checkPermission(user.permissions.manage_user, 'delete')){
     res.render('backend/403');
   } else {
     var userId = req.params.userId;

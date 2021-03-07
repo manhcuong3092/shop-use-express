@@ -3,14 +3,12 @@ const BlogCategory = require('../../models/blogCategory.model');
 const User = require('../../models/user.model');
 const date = require('date-and-time');
 const mongoose = require('mongoose');
+const permission = require('../../permission/permission');
 
 //render posts tabledata
 module.exports.getAllPosts = async function(req, res){
   var user = res.locals.user;
-  var havePermission = user.permissions.manage_post.find(function(permission){
-    return permission === 'view';
-  });
-  if(!havePermission){
+  if(!permission.checkPermission(user.permissions.manage_post, 'view')){
     res.render('backend/403');
     return;
   } else {
@@ -24,10 +22,7 @@ module.exports.getAllPosts = async function(req, res){
 //render add post form
 module.exports.getAddPost = async function(req, res){
   var user = res.locals.user;
-  var havePermission = user.permissions.manage_post.find(function(permission){
-    return permission === 'create';
-  });
-  if(!havePermission){
+  if(!permission.checkPermission(user.permissions.manage_post, 'create')){
     res.render('backend/403');
     return;
   } 
@@ -40,10 +35,7 @@ module.exports.getAddPost = async function(req, res){
 //get form and store to db
 module.exports.postAddPost = async function(req, res){
   var user = res.locals.user;
-  var havePermission = user.permissions.manage_post.find(function(permission){
-    return permission === 'create';
-  });
-  if(!havePermission){
+  if(!permission.checkPermission(user.permissions.manage_post, 'create')){
     res.render('backend/403');
     return;
   } 
@@ -75,10 +67,7 @@ module.exports.postAddPost = async function(req, res){
 //show edit form
 module.exports.getEditPost = async function(req, res){
   var user = res.locals.user;
-  var havePermission = user.permissions.manage_post.find(function(permission){
-    return permission === 'edit';
-  });
-  if(!havePermission){
+  if(!permission.checkPermission(user.permissions.manage_post, 'edit')){
     res.render('backend/403');
     return;
   } 
@@ -94,6 +83,10 @@ module.exports.getEditPost = async function(req, res){
 //update post
 module.exports.postEditPost = async function(req, res){
   var user = res.locals.user;
+  if(!permission.checkPermission(user.permissions.manage_post, 'edit')){
+    res.render('backend/403');
+    return;
+  } 
   var now = new Date();
   var updatedDate = date.format(now, 'YYYY-MM-DD HH:mm:ss');
   var postId = req.params.postId;
@@ -121,11 +114,7 @@ module.exports.postEditPost = async function(req, res){
 
 //delete post
 module.exports.deletePost = async function(req, res){
-  var user = res.locals.user;
-  var havePermission = user.permissions.manage_post.find(function(permission){
-    return permission === 'delete';
-  });
-  if(!havePermission){
+  if(!permission.checkPermission(user.permissions.manage_post, 'delete')){
     res.render('backend/403');
   } else {
     var postId = req.params.postId;

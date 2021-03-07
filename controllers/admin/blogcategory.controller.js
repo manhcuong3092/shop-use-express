@@ -2,14 +2,12 @@ const BlogCategory = require('../../models/blogCategory.model')
 const Post = require('../../models/post.model')
 const date = require('date-and-time');
 const mongoose = require('mongoose');
+const permission = require('../../permission/permission');
 
 //Render product detail
 module.exports.getAllCategories = async function(req, res){
   var user = res.locals.user;
-  var havePermission = user.permissions.manage_blogcategory.find(function(permission){
-    return permission === 'view';
-  });
-  if(!havePermission){
+  if(!permission.checkPermission(user.permissions.manage_blogcategory, 'view')){
     res.render('backend/403');
   } else {
     var blogcategories = await BlogCategory.find()
@@ -21,10 +19,7 @@ module.exports.getAllCategories = async function(req, res){
 
 module.exports.getAddCategory = function(req, res){
   var user = res.locals.user;
-  var havePermission = user.permissions.manage_blogcategory.find(function(permission){
-    return permission === 'create';
-  });
-  if(!havePermission){
+  if(!permission.checkPermission(user.permissions.manage_blogcategory, 'create')){
     res.render('backend/403');
     return;
   } 
@@ -33,10 +28,7 @@ module.exports.getAddCategory = function(req, res){
 
 module.exports.postAddCategory = async function(req, res){
   var user = res.locals.user;
-  var havePermission = user.permissions.manage_blogcategory.find(function(permission){
-    return permission === 'create';
-  });
-  if(!havePermission){
+  if((!permission.checkPermission(user.permissions.manage_blogcategory, 'create'))){
     res.render('backend/403');
     return;
   } 
@@ -69,10 +61,7 @@ module.exports.postAddCategory = async function(req, res){
 //get form edit blog category
 module.exports.getEditBlogCategory = async function(req, res){
   var user = res.locals.user;
-  var havePermission = user.permissions.manage_blogcategory.find(function(permission){
-    return permission === 'edit';
-  });
-  if(!havePermission){
+  if(!permission.checkPermission(user.permissions.manage_blogcategory, 'edit')){
     res.render('backend/403');
     return;
   }
@@ -87,10 +76,7 @@ module.exports.getEditBlogCategory = async function(req, res){
 //update blog category
 module.exports.postEditBlogCategory = async function(req, res){
   var user = res.locals.user;
-  var havePermission = user.permissions.manage_blogcategory.find(function(permission){
-    return permission === 'edit';
-  });
-  if(!havePermission){
+  if(!permission.checkPermission(user.permissions.manage_blogcategory, 'edit')){
     res.render('backend/403');
     return;
   } 
@@ -125,10 +111,7 @@ module.exports.postEditBlogCategory = async function(req, res){
 //delete blog category
 module.exports.deleteBlogCategory = async function(req, res){
   var user = res.locals.user;
-  var havePermission = user.permissions.manage_blogcategory.find(function(permission){
-    return permission === 'delete';
-  });
-  if(!havePermission){
+  if(!permission.checkPermission(user.permissions.manage_blogcategory, 'delete')){
     res.render('backend/403');
   } else {
     var blogCategoryId = req.params.blogCategoryId;

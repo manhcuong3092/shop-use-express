@@ -1,11 +1,9 @@
 const Contact = require('../../models/contact.model');
+const permission = require('../../permission/permission');
 
 module.exports.getAllContacts = async function(req, res){
   var user = res.locals.user;
-  var havePermission = user.permissions.manage_contact.find(function(permission){
-    return permission === 'view';
-  });
-  if(!havePermission){
+  if(!permission.checkPermission(user.permissions.manage_contact, 'view')){
     res.render('backend/403');
     return;
   }
@@ -17,10 +15,7 @@ module.exports.getAllContacts = async function(req, res){
 
 module.exports.deleteContact = async function(req, res){
   var user = res.locals.user;
-  var havePermission = user.permissions.manage_post.find(function(permission){
-    return permission === 'delete';
-  });
-  if(!havePermission){
+  if(!permission.checkPermission(user.permissions.manage_contact, 'delete')){
     res.render('backend/403');
   } else {
     var contactId = req.params.contactId;

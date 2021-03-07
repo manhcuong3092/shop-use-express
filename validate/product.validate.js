@@ -1,12 +1,10 @@
 const Category = require('../models/category.model');
+const permission = require('../permission/permission');
 
 //validate required field of add product form
 module.exports.validateAddProduct = async function (req, res, next) {
   var user = res.locals.user;
-  var havePermission = user.permissions.manage_product.find(function(permission){
-    return permission === 'create';
-  });
-  if(!havePermission){
+  if(!permission.checkPermission(user.permissions.manage_product, 'create')){
     res.render('backend/403');
     return;
   }
@@ -46,10 +44,7 @@ module.exports.validateAddProduct = async function (req, res, next) {
 //validate required field of edit product form
 module.exports.validateEditProduct = async function (req, res, next) {
   var user = res.locals.user;
-  var havePermission = user.permissions.manage_product.find(function(permission){
-    return permission === 'edit';
-  });
-  if(!havePermission){
+    if(!permission.checkPermission(user.permissions.manage_product, 'edit')){
     res.render('backend/403');
     return;
   }

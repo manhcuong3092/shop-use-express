@@ -1,11 +1,9 @@
 const Order = require('../../models/order.model');
+const permission = require('../../permission/permission');
 
 module.exports.getAllOrders = async function(req, res){
   var user = res.locals.user;
-  var havePermission = user.permissions.manage_order.find(function(permission){
-    return permission === 'view';
-  });
-  if(!havePermission){
+  if(!permission.checkPermission(user.permissions.manage_order, 'view')){
     res.render('backend/403');
     return;
   } else {
@@ -20,10 +18,7 @@ module.exports.getAllOrders = async function(req, res){
 
 module.exports.deleteOrder = async function(req, res){
   var user = res.locals.user;
-  var havePermission = user.permissions.manage_order.find(function(permission){
-    return permission === 'delete';
-  });
-  if(!havePermission){
+  if(!permission.checkPermission(user.permissions.manage_order, 'delete')){
     res.render('backend/403');
   } else {
     var orderId = req.params.orderId;

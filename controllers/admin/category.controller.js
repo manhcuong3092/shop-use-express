@@ -2,14 +2,12 @@ const Category = require('../../models/category.model');
 const Product = require('../../models/product.model');
 const date = require('date-and-time');
 const mongoose = require('mongoose');
+const permission = require('../../permission/permission');
 
 //Render product detail
 module.exports.getAllCategories = async function(req, res){
   var user = res.locals.user;
-  var havePermission = user.permissions.manage_category.find(function(permission){
-    return permission === 'view';
-  });
-  if(!havePermission){
+  if(!permission.checkPermission(user.permissions.manage_category, 'view')){
     res.render('backend/403');
   } else {
     var categories = await Category.find()
@@ -22,10 +20,7 @@ module.exports.getAllCategories = async function(req, res){
 //get page add category
 module.exports.getAddCategory = function(req, res){
   var user = res.locals.user;
-  var havePermission = user.permissions.manage_category.find(function(permission){
-    return permission === 'create';
-  });
-  if(!havePermission){
+  if(!permission.checkPermission(user.permissions.manage_category, 'create')){
     res.render('backend/403');
     return;
   } else {
@@ -36,10 +31,7 @@ module.exports.getAddCategory = function(req, res){
 //post form add category
 module.exports.postAddCategory = async function(req, res){
   var user = res.locals.user;
-  var havePermission = user.permissions.manage_category.find(function(permission){
-    return permission === 'create';
-  });
-  if(!havePermission){
+  if(!permission.checkPermission(user.permissions.manage_category, 'create')){
     res.render('backend/403');
     return;
   } 
@@ -72,10 +64,7 @@ module.exports.postAddCategory = async function(req, res){
 //get form edit category
 module.exports.getEditCategory = async function(req, res){
   var user = res.locals.user;
-  var havePermission = user.permissions.manage_category.find(function(permission){
-    return permission === 'edit';
-  });
-  if(!havePermission){
+  if(!permission.checkPermission(user.permissions.manage_category, 'edit')){
     res.render('backend/403');
     return;
   } else {
@@ -90,10 +79,7 @@ module.exports.getEditCategory = async function(req, res){
 //update category
 module.exports.postEditCategory = async function(req, res){
   var user = res.locals.user;
-  var havePermission = user.permissions.manage_category.find(function(permission){
-    return permission === 'edit';
-  });
-  if(!havePermission){
+  if(!permission.checkPermission(user.permissions.manage_category, 'edit')){
     res.render('backend/403');
     return;
   } 
@@ -128,10 +114,7 @@ module.exports.postEditCategory = async function(req, res){
 //delete category
 module.exports.deleteCategory = async function(req, res){
   var user = res.locals.user;
-  var havePermission = user.permissions.manage_category.find(function(permission){
-    return permission === 'delete';
-  });
-  if(!havePermission){
+  if(!permission.checkPermission(user.permissions.manage_category, 'delete')){
     res.render('backend/403');
   } else {
     var categoryId = req.params.categoryId;
