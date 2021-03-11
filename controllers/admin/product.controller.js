@@ -9,11 +9,12 @@ const permission = require('../../permission/permission');
 module.exports.getAllProducts = async function(req, res){
   var user = res.locals.user;
   if(!permission.checkPermission(user.permissions.manage_product, 'view')){
-    res.render('backend/403');
+    res.status(403).render('backend/403');
     return;
   }
   var products = await Product.find().populate('category');
   res.render('backend/product/all-products', {
+    user: res.locals.user,
     products: products
   });
 }
@@ -21,13 +22,14 @@ module.exports.getAllProducts = async function(req, res){
 //render add product page
 module.exports.getAddProduct = async function(req, res){
   var user = res.locals.user;
-  if(!permission.checkPermission(user.permissions.manage_product, 'add')){
-    res.render('backend/403');
+  if(!permission.checkPermission(user.permissions.manage_product, 'create')){
+    res.status(403).render('backend/403');
     return;
     
   }
   var categories = await Category.find();
   res.render('backend/product/add-product', {
+    user: res.locals.user,
     categories: categories
   });
 }
@@ -64,6 +66,7 @@ module.exports.postAddProduct = async function(req, res){
   await Product.create(product);
   var categories = await Category.find();
   res.render('backend/product/add-product', {
+    user: res.locals.user,
     categories: categories,
     success: "Added Successfully"
   });
@@ -73,7 +76,7 @@ module.exports.postAddProduct = async function(req, res){
 module.exports.getEditProduct = async function(req, res){
   var user = res.locals.user;
   if(!permission.checkPermission(user.permissions.manage_product, 'edit')){
-    res.render('backend/403');
+    res.status(403).render('backend/403');
     return;
     
   }
@@ -81,6 +84,7 @@ module.exports.getEditProduct = async function(req, res){
   var product = await Product.findById(productId).populate('category createdBy updatedBy');
   var categories = await Category.find();
   res.render('backend/product/edit-product', {
+    user: res.locals.user,
     product: product,
     categories: categories
   });
@@ -124,6 +128,7 @@ module.exports.postEditProduct = async function(req, res){
 
   var categories = await Category.find();
   res.render('backend/product/edit-product', {
+    user: res.locals.user,
     product: product,
     categories: categories,
     success: "Edit Product Successfully"
@@ -134,7 +139,7 @@ module.exports.postEditProduct = async function(req, res){
 module.exports.deleteProduct = async function(req, res){
   var user = res.locals.user;
   if(!permission.checkPermission(user.permissions.manage_product, 'delete')){
-    res.render('backend/403');
+    res.status(403).render('backend/403');
   } else {
     var productId = req.params.productId;
     var product = await Product.findByIdAndRemove(productId);
@@ -149,11 +154,8 @@ module.exports.deleteProduct = async function(req, res){
 //delete an image of product
 module.exports.deleteImageProduct = async function(req, res){
   var user = res.locals.user;
-  var havePermission = user.permissions.manage_product.find(function(permission){
-    return permission === 'delete';
-  });
-  if(!havePermission){
-    res.render('backend/403');
+  if(!permission.checkPermission(user.permissions.manage_product, 'delete')){
+    res.status(403).render('backend/403');
   } else {
     var productId = req.params.productId;
     var imageId = req.params.imageId;

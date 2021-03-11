@@ -12,6 +12,7 @@ module.exports.getAllCategories = async function(req, res){
   } else {
     var categories = await Category.find()
     res.render('backend/category/all-categories', {
+      user: res.locals.user,
       categories: categories
     });
   }
@@ -24,7 +25,9 @@ module.exports.getAddCategory = function(req, res){
     res.render('backend/403');
     return;
   } else {
-    res.render('backend/category/add-category');
+    res.render('backend/category/add-category',{
+      user: res.locals.user,
+    });
   }
 }
 
@@ -56,6 +59,7 @@ module.exports.postAddCategory = async function(req, res){
     success = 'Added successfully!'
   }
   res.render('backend/category/add-category', {
+    user: res.locals.user,
     success: success,
     error: error
   });
@@ -71,6 +75,7 @@ module.exports.getEditCategory = async function(req, res){
     var categoryId = req.params.categoryId;
     var category = await Category.findById(categoryId).populate('createdBy updatedBy');
     res.render('backend/category/edit-category', {
+      user: res.locals.user,
       category: category
     });
   }
@@ -105,6 +110,7 @@ module.exports.postEditCategory = async function(req, res){
   }
   var category = await Category.findById(categoryId).populate('createdBy updatedBy');
   res.render('backend/category/edit-category', {
+    user: res.locals.user,
     category: category,
     success: success,
     error: error

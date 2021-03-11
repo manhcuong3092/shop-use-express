@@ -34,24 +34,25 @@ block content
                     th Edit
                     th Delete
                 tbody
-                  each post in posts
-                    tr
-                      td= post.title
-                      td= post.category.name
-                      td= post.createdDate
-                      td
-                        if post.status 
-                          h5.text-center.text-success
-                            i.fas.fa-check-circle
-                        else 
-                          h5.text-center.text-danger
-                            i.fas.fa-minus-circle
-                      td(name= post.id)
-                        a.btn.btn-warning.edit-post(name= post.id, href='/admin/posts/edit/' + post.id)
-                          i.fas.fa-edit
-                      td(name= post.id)
-                        button.btn.btn-secondary.delete-post
-                          i.fas.fa-trash-alt
+                  if posts
+                    each post in posts
+                      tr
+                        td= post.title
+                        td= post.category.name
+                        td= post.createdDate
+                        td
+                          if post.status 
+                            h5.text-center.text-success
+                              i.fas.fa-check-circle
+                          else 
+                            h5.text-center.text-danger
+                              i.fas.fa-minus-circle
+                        td(name= post.id)
+                          a.btn.btn-warning.edit-post(name= post.id, href='/admin/posts/edit/' + post.id)
+                            i.fas.fa-edit
+                        td(name= post.id)
+                          button.btn.btn-secondary.delete-post
+                            i.fas.fa-trash-alt
     include ../common/footer
     script.
       $('#error-message').hide();

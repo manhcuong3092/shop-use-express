@@ -82,7 +82,7 @@ nav.sb-topnav.navbar.navbar-expand.navbar-dark.bg-dark
             nav.sb-sidenav-menu-nested.nav
               a.nav-link(href='/admin/posts') All Posts
               a.nav-link(href='/admin/posts/create') Add Post
-              a.nav-link(href='layout-sidenav-light.html') Your posts
+              a.nav-link(href='/admin/posts/' + user.id) Your posts
               a.nav-link.collapsed(href='#' data-toggle='collapse' data-target='#pagesCollapseAuth' aria-expanded='false' aria-controls='pagesCollapseAuth')
                 | Categories
                 .sb-sidenav-collapse-arrow
@@ -101,7 +101,7 @@ nav.sb-topnav.navbar.navbar-expand.navbar-dark.bg-dark
             nav.sb-sidenav-menu-nested.nav
               a.nav-link(href='/admin/users') All Users
               a.nav-link(href='/admin/users/create') Add User
-              a.nav-link(href='layout-sidenav-light.html') Your Profile
+              a.nav-link(href='/admin/users/edit/' + user.id) Your Profile
           a.nav-link.collapsed(href='#' data-toggle='collapse' data-target='#collapsePages' aria-expanded='false' aria-controls='collapsePages')
             .sb-nav-link-icon
               i.fas.fa-book-open
@@ -116,8 +116,8 @@ nav.sb-topnav.navbar.navbar-expand.navbar-dark.bg-dark
                   i.fas.fa-angle-down
               #pagesCollapseAuth.collapse(aria-labelledby='headingOne' data-parent='#sidenavAccordionPages')
                 nav.sb-sidenav-menu-nested.nav
-                  a.nav-link(href='login.html') Login
-                  a.nav-link(href='register.html') Register
+                  a.nav-link(href='/login/admin') Logout
+                  a.nav-link(href='/admin/register') Register
                   a.nav-link(href='password.html') Forgot Password
               a.nav-link.collapsed(href='#' data-toggle='collapse' data-target='#pagesCollapseError' aria-expanded='false' aria-controls='pagesCollapseError')
                 | Error
@@ -129,6 +129,6 @@ nav.sb-topnav.navbar.navbar-expand.navbar-dark.bg-dark
                   a.nav-link(href='404.html') 404 Page
                   a.nav-link(href='500.html') 500 Page
       .sb-sidenav-footer
-        .small Logged in as:
-        |           Start Bootstrap
+        .small.text-captialize Logged in as:
+        |           #{user.username}
   block content 

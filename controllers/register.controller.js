@@ -30,5 +30,8 @@ module.exports.postRegister = async function(req, res){
   }
   console.log(user)
   User.create(user);
-  res.redirect('/login'); 
+  res.render('frontend/register', {
+    categories: res.locals.categories,
+    success: "Register successfully!"
+  })
 }

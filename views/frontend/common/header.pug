@@ -44,9 +44,10 @@ block header
             .advanced-search
               button.category-btn(type='button') All Categories
               .input-group
-                input(type='text' placeholder='What do you need?')
-                button(type='button')
-                  i.ti-search
+                form(action="/shop/search", method='get')
+                  input(type='text' style="color:#000000" name='q' placeholder='What do you need?')
+                  button(type='button')
+                    i.ti-search
           .col-lg-3.text-right.col-md-3
             ul.nav-right
               li.heart-icon
@@ -75,22 +76,9 @@ block header
             i.ti-menu
             span All departments
             ul.depart-hover
-              li.active
-                a(href='#') Women&rsquo;s Clothing
-              li
-                a(href='#') Men&rsquo;s Clothing
-              li
-                a(href='#') Underwear
-              li
-                a(href='#') Kid&apos;s Clothing
-              li
-                a(href='#') Brand Fashion
-              li
-                a(href='#') Accessories/Shoes
-              li
-                a(href='#') Luxury Brands
-              li
-                a(href='#') Brand Outdoor Apparel
+              each category in categories
+                li
+                  a(href='/shop/category/' + category.name)= category.name
         nav.nav-menu.mobile-menu
           ul
             li.active

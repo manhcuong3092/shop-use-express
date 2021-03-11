@@ -8,12 +8,19 @@ const permission = require('../../permission/permission');
 //render posts tabledata
 module.exports.getAllPosts = async function(req, res){
   var user = res.locals.user;
+  var posts;
   if(!permission.checkPermission(user.permissions.manage_post, 'view')){
-    res.render('backend/403');
+    res.status(403).render('backend/403');
     return;
   } else {
-    var posts = await Post.find().populate('category');
+    if(req.params.userId){
+      posts = await Post.find({createdBy: req.params.userId}).populate('category');
+    } else {
+      posts = await Post.find().populate('category');
+    }
+    console.log(posts);
     res.render('backend/post/all-posts', {
+      user: res.locals.user,
       posts: posts
     });
   }
@@ -23,11 +30,12 @@ module.exports.getAllPosts = async function(req, res){
 module.exports.getAddPost = async function(req, res){
   var user = res.locals.user;
   if(!permission.checkPermission(user.permissions.manage_post, 'create')){
-    res.render('backend/403');
+    res.status(403).render('backend/403');
     return;
   } 
   var categories = await BlogCategory.find();
   res.render('backend/post/add-post', {
+    user: res.locals.user,
     categories: categories,
   }); 
 }
@@ -36,7 +44,7 @@ module.exports.getAddPost = async function(req, res){
 module.exports.postAddPost = async function(req, res){
   var user = res.locals.user;
   if(!permission.checkPermission(user.permissions.manage_post, 'create')){
-    res.render('backend/403');
+    res.status(403).render('backend/403');
     return;
   } 
   var user = res.locals.user;
@@ -59,6 +67,7 @@ module.exports.postAddPost = async function(req, res){
   await Post.create(post);
   var categories = await BlogCategory.find();
   res.render('backend/post/add-post', {
+    user: res.locals.user,
     categories: categories,
     success: "Added Successfully"
   });
@@ -68,13 +77,14 @@ module.exports.postAddPost = async function(req, res){
 module.exports.getEditPost = async function(req, res){
   var user = res.locals.user;
   if(!permission.checkPermission(user.permissions.manage_post, 'edit')){
-    res.render('backend/403');
+    res.status(403).render('backend/403');
     return;
   } 
   var categories = await BlogCategory.find();
   var postId = req.params.postId;
   var post = await Post.findById(postId).populate('category createdBy updatedBy');
   res.render('backend/post/edit-post', {
+    user: res.locals.user,
     post: post,
     categories: categories,
   }); 
@@ -84,7 +94,7 @@ module.exports.getEditPost = async function(req, res){
 module.exports.postEditPost = async function(req, res){
   var user = res.locals.user;
   if(!permission.checkPermission(user.permissions.manage_post, 'edit')){
-    res.render('backend/403');
+    res.status(403).render('backend/403');
     return;
   } 
   var now = new Date();
@@ -106,6 +116,7 @@ module.exports.postEditPost = async function(req, res){
   var categories = await BlogCategory.find();
   post = await Post.findByIdAndUpdate(postId, {$set: post}).populate('category createdBy updatedBy');
   res.render('backend/post/edit-post', {
+    user: res.locals.user,
     post: post,
     categories: categories,
     success: "Edit Product Successfully"
@@ -115,7 +126,7 @@ module.exports.postEditPost = async function(req, res){
 //delete post
 module.exports.deletePost = async function(req, res){
   if(!permission.checkPermission(user.permissions.manage_post, 'delete')){
-    res.render('backend/403');
+    res.status(403).render('backend/403');
   } else {
     var postId = req.params.postId;
     var post = await Post.findByIdAndRemove(postId);

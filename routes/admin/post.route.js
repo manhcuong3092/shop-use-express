@@ -19,6 +19,7 @@ var controller = require('../../controllers/admin/post.controller.js');
 var validate = require('../../validate/post.validate')
 
 router.get('/', controller.getAllPosts);
+router.get('/:userId', controller.getAllPosts);
 router.get('/create', controller.getAddPost);
 
 router.post('/create', 

@@ -35,6 +35,7 @@ var authMiddleWare = require('./middlewares/auth.middleware');
 var userInforMiddleware = require('./middlewares/userInfor.middeware');
 var cartMiddleware = require('./middlewares/cart.middleware');
 var userMiddleware = require('./middlewares/user.middleware');
+var categoryMiddleware = require('./middlewares/category.middleware');
 
 app.set('view engine', 'pug');
 app.set('views', './views');
@@ -46,6 +47,7 @@ app.use(express.static('public'));
 
 app.use(cartMiddleware.getCart);
 app.use(userMiddleware.getUser);
+app.use(categoryMiddleware.getCategory);
 
 var User = require('./models/user.model');
 var Cart = require('./models/cart.model');
@@ -65,7 +67,7 @@ app.get('/', userInforMiddleware.validateInfor, async function(req, res){
 //use paths
 app.use('/contact', contactRoute);
 app.use('/faq', faqRoute);
-app.use('/checkout', checkoutRoute);
+app.use('/checkout', userInforMiddleware.validateInfor, checkoutRoute);
 app.use('/cart',  cartRoute);
 app.use('/login', authRoute);
 app.use('/register', registerRoute);
@@ -86,6 +88,10 @@ app.use('/admin/orders', authMiddleWare.adminRequireAuth, adminOrderRoute);
 app.use('/admin/users', authMiddleWare.adminRequireAuth, adminUserRoute);
 app.use('/admin/contacts', authMiddleWare.adminRequireAuth, adminContactRoute);
 app.use('/admin/posts', authMiddleWare.adminRequireAuth, adminPostRoute);
+
+app.use(function (req, res, next) {
+  res.status(404).render('backend/404');
+})
 
 app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`)

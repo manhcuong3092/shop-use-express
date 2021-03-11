@@ -17,6 +17,7 @@ module.exports.checkout = async function(req, res){
     }
   }
   res.render('frontend/checkout', {
+    categories: res.locals.categories,
     cart: cart,
     totalPrice: totalPrice,
     user: res.locals.user
@@ -40,6 +41,7 @@ module.exports.postOrder = async function(req, res){
   //if no item in cart, do not store to db
   if(cart.items.length === 0){
     res.render('frontend/checkout', {
+      categories: categories,
       cart: cart,
       totalPrice: totalPrice,
       error: 'You must have at least 1 product in cart.'
@@ -95,6 +97,7 @@ module.exports.postOrder = async function(req, res){
       });
     } else {
       res.render('frontend/checkout', {
+        categories: categories,
         cart: cart,
         totalPrice: totalPrice,
         error: 'You must fill all your information.'
@@ -103,6 +106,7 @@ module.exports.postOrder = async function(req, res){
     }
   }
   res.render('frontend/checkout', {
+    categories: categories,
     cart: cart,
     totalPrice: 0,
     success: 'Your order has been received.'

@@ -5,6 +5,7 @@ var Contact = require('../models/contact.model');
 //render contact page
 module.exports.contact = function(req, res){
   res.render('frontend/contact', {
+    categories: res.locals.categories,
     user: res.locals.user,
     cart: res.locals.cart
   });

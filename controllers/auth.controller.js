@@ -4,6 +4,7 @@ var md5 = require('md5');
 module.exports.login = function(req, res){
   res.clearCookie('userId');
   res.render('frontend/login', {
+    categories: res.locals.categories,
     user: null
   });
 }

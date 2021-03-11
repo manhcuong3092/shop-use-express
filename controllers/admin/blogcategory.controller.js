@@ -12,7 +12,8 @@ module.exports.getAllCategories = async function(req, res){
   } else {
     var blogcategories = await BlogCategory.find()
     res.render('backend/blogcategory/all-blog-categories', {
-      blogcategories: blogcategories
+      blogcategories: blogcategories,
+      user: res.locals.user,
     });
   }
 }
@@ -23,7 +24,9 @@ module.exports.getAddCategory = function(req, res){
     res.render('backend/403');
     return;
   } 
-  res.render('backend/blogcategory/add-blog-category');
+  res.render('backend/blogcategory/add-blog-category',{
+    user: res.locals.user
+  });
 }
 
 module.exports.postAddCategory = async function(req, res){
@@ -53,6 +56,7 @@ module.exports.postAddCategory = async function(req, res){
     success = 'Added successfully!';
   }
   res.render('backend/blogcategory/add-blog-category', {
+    user: res.locals.user,
     success: success,
     error: error
   });
@@ -69,6 +73,7 @@ module.exports.getEditBlogCategory = async function(req, res){
   var categoryId = req.params.categoryId;
   var category = await BlogCategory.findById(categoryId).populate('createdBy updatedBy');
   res.render('backend/blogcategory/edit-blog-category', {
+    user: res.locals.user,
     category: category
   });
 }
@@ -102,6 +107,7 @@ module.exports.postEditBlogCategory = async function(req, res){
   }
   var category = await BlogCategory.findById(categoryId).populate('createdBy updatedBy');
   res.render('backend/blogcategory/edit-blog-category', {
+    user: res.locals.user,
     category: category,
     success: success,
     error: error

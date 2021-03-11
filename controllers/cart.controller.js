@@ -18,6 +18,7 @@ module.exports.getCart = async function(req, res){
   }
   // console.log(items);
   res.render('frontend/cart', {
+    categories: res.locals.categories,
     items: items,
     totalCart: totalCart,
     user: res.locals.user,

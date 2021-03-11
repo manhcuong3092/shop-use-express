@@ -19,12 +19,15 @@ block content
           .filter-widget
             h4.fw-title Categories
             ul.filter-catagories
-              li
-                a(href='#') Men
-              li
-                a(href='#') Women
-              li
-                a(href='#') Kids
+              each category in categories
+                li
+                  if queryParams
+                    if !queryParams.includes('&category')
+                      a(href='/shop/search' + queryParams + '&category=' + category.name)= category.name
+                    else 
+                      a(href='/shop/search' + queryParams.substring(0, queryParams.indexOf('&category=')) + '&category=' + category.name)= category.name
+                  else
+                    a(href='/shop/category/' + category.name)= category.name
           .filter-widget
             h4.fw-title Brand
             .fw-brand-check
@@ -55,47 +58,45 @@ block content
                 .price-input
                   input#minamount(type='text')
                   input#maxamount(type='text')
-              .price-range.ui-slider.ui-corner-all.ui-slider-horizontal.ui-widget.ui-widget-content(data-min='33' data-max='98')
+              .price-range.ui-slider.ui-corner-all.ui-slider-horizontal.ui-widget.ui-widget-content(data-min='0' data-max='10000')
                 .ui-slider-range.ui-corner-all.ui-widget-header
                 span.ui-slider-handle.ui-corner-all.ui-state-default(tabindex='0')
                 span.ui-slider-handle.ui-corner-all.ui-state-default(tabindex='0')
-            a.filter-btn(href='#') Filter
+            if queryParams
+              if !queryParams.includes('&min') || !queryParams.includes('&max')
+                button.filter-btn(href='/shop/search' + queryParams) Filter
+              else 
+                button.filter-btn(href='/shop/search' + queryParams.substring(0, queryParams.indexOf('&min='))) Filter
+            else
+              button.filter-btn(href='/shop/search?') Filter
           .filter-widget
             h4.fw-title Color
             .fw-color-choose
-              .cs-item
-                input#cs-black(type='radio')
-                label.cs-black(for='cs-black') Black
-              .cs-item
-                input#cs-violet(type='radio')
-                label.cs-violet(for='cs-violet') Violet
-              .cs-item
-                input#cs-blue(type='radio')
-                label.cs-blue(for='cs-blue') Blue
-              .cs-item
-                input#cs-yellow(type='radio')
-                label.cs-yellow(for='cs-yellow') Yellow
-              .cs-item
-                input#cs-red(type='radio')
-                label.cs-red(for='cs-red') Red
-              .cs-item
-                input#cs-green(type='radio')
-                label.cs-green(for='cs-green') Green
+              -var colors = ['red', 'blue', 'black', 'white', 'green', 'yellow', 'pink', 'purple', 'brown', 'orange'] 
+              each color in colors
+                .cs-item.mt-1
+                  input(type='radio', id='cs-' + color)
+                  if queryParams
+                    if !queryParams.includes('&color')
+                      a.pt-1.text-capitalize(class='cs-'+ color, href='/shop/search' + queryParams + '&color=' + color)= color
+                    else 
+                      a.pt-1.text-capitalize(class='cs-'+ color, href='/shop/search' + queryParams.substring(0, queryParams.indexOf('&color=')) + '&color=' + color)=color
+                  else
+                    a.pt-1.text-capitalize(class='cs-'+ color, href='/shop/search?color=' + color)=color
           .filter-widget
             h4.fw-title Size
             .fw-size-choose
-              .sc-item
-                input#s-size(type='radio')
-                label(for='s-size') s
-              .sc-item
-                input#m-size(type='radio')
-                label(for='m-size') m
-              .sc-item
-                input#l-size(type='radio')
-                label(for='l-size') l
-              .sc-item
-                input#xs-size(type='radio')
-                label(for='xs-size') xs
+              -var sizes = ['s', 'm', 'l', 'xl', 'xxl']
+              each size in sizes
+                .sc-item
+                  input(type='radio')
+                  if queryParams
+                    if !queryParams.includes('&size')
+                      a.p-2.text-uppercase(href='/shop/search' + queryParams + '&size=' + size)= size
+                    else 
+                      a.p-2.text-uppercase(href='/shop/search' + queryParams.substring(0, queryParams.indexOf('&size=')) + '&size=' + size)=size
+                  else
+                    a.p-2.text-uppercase(href='/shop/search?size=' + size)=size
           .filter-widget
             h4.fw-title Tags
             .fw-tags
@@ -152,3 +153,13 @@ block content
               | Loading More
   // Product Shop Section End
   include ./common/footer
+  script. 
+    $(document).ready(function(){
+      $('.filter-btn').click(function(){
+        var min = $('#minamount').val();
+        var max = $('#maxamount').val();
+        var url = $(this).attr('href');
+        url = url + '&min=' + min.slice(1, min.length) + '&max=' + max.slice(1, max.length);
+        window.location.href = url;
+      });
+    });

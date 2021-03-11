@@ -4,13 +4,14 @@ const permission = require('../../permission/permission');
 module.exports.getAllOrders = async function(req, res){
   var user = res.locals.user;
   if(!permission.checkPermission(user.permissions.manage_order, 'view')){
-    res.render('backend/403');
+    res.status(403).render('backend/403');
     return;
   } else {
     var orders = await Order.find()
       .populate('user')
       .populate('items.product')
     res.render('backend/order/all-orders', {
+      user: res.locals.user,
       orders: orders
     });
   }
@@ -19,7 +20,7 @@ module.exports.getAllOrders = async function(req, res){
 module.exports.deleteOrder = async function(req, res){
   var user = res.locals.user;
   if(!permission.checkPermission(user.permissions.manage_order, 'delete')){
-    res.render('backend/403');
+    res.status(403).render('backend/403');
   } else {
     var orderId = req.params.orderId;
     var order = await Order.findByIdAndRemove(orderId).populate('user');

@@ -40,26 +40,26 @@ block content
                 -var count = 1
                 if posts.length >= 4
                   while count < 5
-                    a.rb-item(href='#')
-                    .rb-pic
-                      img(src= posts[posts.length - count].avatar, alt='')
-                    .rb-text
-                      h6= posts[posts.length - count].title
-                      p
-                        | #{posts[posts.length - count].category.name} 
-                        span= posts[posts.length - count].createdDate
-                    -count++
+                    a.rb-item(href= "/post/" + posts[posts.length - count].id)
+                      .rb-pic
+                        img(src= posts[posts.length - count].avatar, alt='')
+                      .rb-text
+                        h6= posts[posts.length - count].title
+                        p
+                          | #{posts[posts.length - count].category.name} 
+                          span= posts[posts.length - count].createdDate
+                      -count++
                 else 
                   while count <= posts.length
-                    a.rb-item(href='#')
-                    .rb-pic
-                      img(src= posts[posts.length - count].avatar, alt='')
-                    .rb-text
-                      h6= posts[posts.length - count].title
-                      p
-                        | #{posts[posts.length - count].category.name} 
-                        span= posts[posts.length - count].createdDate
-                    -count++
+                    a.rb-item(href= "/post/" + posts[posts.length - count].id)
+                      .rb-pic
+                        img(src= posts[posts.length - count].avatar, alt='')
+                      .rb-text
+                        h6= posts[posts.length - count].title
+                        p
+                          | #{posts[posts.length - count].category.name} 
+                          span= posts[posts.length - count].createdDate
+                      -count++
 
             .blog-tags
               h4 Product Tags
@@ -77,7 +77,7 @@ block content
               .col-lg-6.col-sm-6
                 .blog-item
                   .bi-pic
-                    img(src= post.avatar, alt='')
+                    img(style="object-fit: contain;", src= post.avatar, alt='')
                   .bi-text
                     a(href= "/post/" + post.id)
                       h4= post.title
