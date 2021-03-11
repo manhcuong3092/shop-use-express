@@ -147,10 +147,31 @@ block content
                           span= '' + product.price + '$'
                       else
                         .product-price= product.price + '$ '
-          .loading-more
-            i.icon_loading
-            a(href='#')
-              | Loading More
+          -var url
+          if queryParams
+            if !queryParams.includes('&page=')
+              -url= '/shop/search' + queryParams
+            else 
+              -url= href='/shop/search' + queryParams.substring(0, queryParams.indexOf('&page='))
+          else
+            if categoryName
+              -url= '/shop/category/' + categoryName + '?'
+            else 
+              -url= '/shop?'
+          nav(aria-label='Page navigation example')
+            ul.pagination.justify-content-center
+                li.page-item(class=(pageNum === 1 ? 'disabled' : ''))
+                    a.page-link(href= url + 'page=' + (pageNum === 1 ? 1 : pageNum - 1), tabindex='-1', aria-disabled='true') Previous
+                li.page-item
+                    a.page-link(href= url + 'page=' + (pageNum === 1 ? 1 : pageNum - 1))= pageNum === 1 ? 1 : pageNum - 1
+                if maxPage !== 1
+                  li.page-item
+                      a.page-link(href= url + 'page=' + (pageNum === 1 ? 2 : pageNum))= pageNum === 1 ? 2 : pageNum
+                if pageNum < maxPage && pageNum !== 1
+                  li.page-item    
+                      a.page-link(href= url + 'page=' + (pageNum === 1 ? 3 : pageNum + 1))= pageNum === 1 ? 3 : pageNum + 1
+                li.page-item(class=(pageNum === maxPage ? 'disabled' : ''))
+                    a.page-link(href= url + 'page=' + (pageNum + 1)) Next
   // Product Shop Section End
   include ./common/footer
   script. 
